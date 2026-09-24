@@ -117,7 +117,12 @@ h1 em{font-style:normal; color:var(--teal)}
 .btn-a:hover{background:#1fd6c0; transform:translateY(-2px); box-shadow:0 8px 24px rgba(20,184,166,.35)}
 .btn-b{border:1px solid var(--line); color:var(--text)}
 .btn-b:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px)}
-.cv-label{font-size:.66rem; color:var(--gold); letter-spacing:.2em; font-weight:700; align-self:center}
+.cv-drop{position:relative}
+.cv-menu{position:absolute; top:calc(100% + 8px); inset-inline-start:0; min-width:215px; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; z-index:30; box-shadow:0 16px 40px rgba(0,0,0,.5); opacity:0; transform:translateY(-8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease}
+.cv-drop.open .cv-menu{opacity:1; transform:none; pointer-events:auto}
+.cv-menu a{display:block; padding:.8rem 1.2rem; font-size:.8rem; font-weight:700; color:var(--text); border-bottom:1px solid var(--line); transition:background .2s, color .2s}
+.cv-menu a:last-child{border-bottom:none}
+.cv-menu a:hover{background:var(--panel2); color:var(--teal)}
 .scroll-hint{position:absolute; bottom:1.2rem; left:50%; transform:translateX(-50%); color:var(--muted); font-size:.65rem; letter-spacing:.3em; animation:bob 2s ease-in-out infinite}
 @keyframes bob{50%{transform:translate(-50%,8px)}}
 
@@ -167,7 +172,8 @@ h1 em{font-style:normal; color:var(--teal)}
 .eq-wrap:hover .lang-row i{animation-duration:.5s}
 
 /* ---------- portfolio / designs ---------- */
-.portfolio-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.3rem}
+.portfolio-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1.3rem; align-items:start}
+@media(max-width:880px){.portfolio-grid{grid-template-columns:1fr}}
 .design{
   position:relative; background:var(--panel); border:1px solid var(--line); border-radius:8px;
   padding:1.4rem 1.4rem 1.2rem; transition:border-color .3s, transform .3s, box-shadow .3s;
@@ -179,7 +185,7 @@ h1 em{font-style:normal; color:var(--teal)}
   background:linear-gradient(90deg,var(--teal),transparent 65%); opacity:0; transition:.3s;
 }
 .design:hover::after,.design.open::after{opacity:1}
-.design.open{grid-column:1/-1; border-color:var(--teal); cursor:default; box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.design.open{border-color:var(--teal); cursor:default; box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .design .d-num{font-size:.62rem; color:var(--gold); letter-spacing:.25em}
 .design h3{color:var(--white); font-size:1.06rem; margin-top:.35rem}
 .design .d-blurb{font-size:.8rem; color:var(--muted); margin-top:.5rem}
@@ -188,8 +194,7 @@ h1 em{font-style:normal; color:var(--teal)}
 .d-body{display:grid; grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.22,1,.3,1)}
 .design.open .d-body{grid-template-rows:1fr}
 .d-body>div{overflow:hidden}
-.d-inner{display:grid; grid-template-columns:minmax(240px,1fr) 1.1fr; gap:1.6rem; padding-top:1.2rem}
-@media(max-width:760px){.d-inner{grid-template-columns:1fr}}
+.d-inner{display:grid; grid-template-columns:1fr; gap:1.3rem; padding-top:1.2rem}
 .d-anim{
   background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:1rem; align-self:start;
 }
@@ -345,10 +350,14 @@ footer .copy{color:#5b6875; margin-top:.9rem; font-size:.62rem; letter-spacing:.
       <h1><span data-i18n="hero_name">Shiar Fooad Haweez</span><br><em data-i18n="hero_em">the end-to-end builder.</em></h1>
       <p class="hero-sub" data-i18n="hero_sub">Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.</p>
       <div class="btns">
-        <span class="cv-label" data-i18n="cv_label">DATASHEET ▾</span>
-        <a class="btn btn-b" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf" target="_blank" data-i18n="cv_en">CV · ENGLISH</a>
-        <a class="btn btn-b" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/c92387f05_cv2026-09-24-kurdish.pdf" target="_blank" data-i18n="cv_ku">CV · کوردی</a>
-        <a class="btn btn-b" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/af1fdc8ab_cv2026-09-24-arabic.pdf" target="_blank" data-i18n="cv_ar">CV · العربية</a>
+        <div class="cv-drop" id="cv-drop">
+          <button class="btn btn-a" id="cv-btn" type="button" data-i18n="cv_label">⬇ DATASHEET (CV) ▾</button>
+          <div class="cv-menu" id="cv-menu">
+            <a href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf" target="_blank" data-i18n="cv_en">CV · ENGLISH</a>
+            <a href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/c92387f05_cv2026-09-24-kurdish.pdf" target="_blank" data-i18n="cv_ku">CV · کوردی</a>
+            <a href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/af1fdc8ab_cv2026-09-24-arabic.pdf" target="_blank" data-i18n="cv_ar">CV · العربية</a>
+          </div>
+        </div>
         <a class="btn btn-a" href="https://github.com/SJ2005-code" target="_blank" data-i18n="btn_github">◈ VIEW GITHUB</a>
       </div>
     </div>
@@ -505,7 +514,7 @@ en: {
   nav_right:"REV 2026.09 · ERBIL/KURDISTAN",
   hero_name:"Shiar Fooad Haweez", hero_em:"the end-to-end builder.",
   hero_sub:"Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.",
-  cv_label:"DATASHEET ▾", cv_en:"CV · ENGLISH", cv_ku:"CV · کوردی", cv_ar:"CV · العربية", btn_github:"◈ VIEW GITHUB", scroll_hint:"SCROLL ▾",
+  cv_label:"⬇ DATASHEET (CV) ▾", cv_en:"CV · ENGLISH", cv_ku:"CV · کوردی", cv_ar:"CV · العربية", btn_github:"◈ VIEW GITHUB", scroll_hint:"SCROLL ▾",
   boot:["boot shiar.sys .................... OK","mount skills: c# · python · sql · hw OK","status: READY TO BUILD"],
   s1_title:"Device Overview", s1_sub:"WHAT THIS COMPONENT DOES",
   s1_lead:"A recent Information Technology graduate from Khabat Technical Institute with an unusually wide operating range: full desktop software, relational databases, machine learning, electronics, and business operations — in one package.",
@@ -550,7 +559,7 @@ ku: {
   nav_right:"REV 2026.09 · هەولێر/کوردستان",
   hero_name:"شیار فوئاد هاویز", hero_em:"دروستکەرێک لە سەرەتاوە تا کۆتایی.",
   hero_sub:"پەرەپەدەری سۆفتوێر و شارەزای کارپێکردنی تەکنیکی. کێشە لە بیرۆکەوە دەهێنمە دەرەنجامێکی کارا — نووسینی کۆد، دیزاینی داتابەیس، یان کۆکردنەوەی سوڕکت. ئەم پەڕەیە داتاشیتەکەی منە.",
-  cv_label:"کۆپییەکانی داتاشیت ▾", cv_en:"CV · ENGLISH", cv_ku:"CV · کوردی", cv_ar:"CV · العربية", btn_github:"◈ سەیرکردنی GitHub", scroll_hint:"بۆ خوارەوە ▾",
+  cv_label:"⬇ داتاشیت (CV) ▾", cv_en:"CV · ENGLISH", cv_ku:"CV · کوردی", cv_ar:"CV · العربية", btn_github:"◈ سەیرکردنی GitHub", scroll_hint:"بۆ خوارەوە ▾",
   boot:["boot shiar.sys ............ باشە ✓","mount skills: c# · python · sql · hw ✓","status: ئامادەم بۆ دروستکردن"],
   s1_title:"گشتیی ئامێرەکە", s1_sub:"ئەم پێکهاتەیە چی دەکات",
   s1_lead:"دەرچووی بەشی تەکنەلۆژیای زانیاری لە پەیمانگەی تەکنیکی خەبات، بە مەودایەکی کارکردنی بێوێنە: سۆفتوێری دێسکتۆپ، داتابەیسی پەیوەندیدار، ماشین لێرنینگ، ئەلیکترۆنیکس، و کارپێکردنی بازرگانی — لە یەک پاکێجدا.",
@@ -768,6 +777,7 @@ function renderProjects(){
       if(card.classList.contains("open")) return;
       document.querySelectorAll(".design.open").forEach(o=>o.classList.remove("open"));
       card.classList.add("open");
+      setTimeout(()=>card.scrollIntoView({behavior:"smooth", block:"nearest"}), 150);
     });
     card.querySelector(".d-close").addEventListener("click", e=>{
       e.stopPropagation(); card.classList.remove("open");
@@ -827,6 +837,16 @@ const io = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target);} });
 },{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+/* ============ CV dropdown ============ */
+const cvDrop = document.getElementById("cv-drop");
+document.getElementById("cv-btn").addEventListener("click", e=>{
+  e.stopPropagation(); cvDrop.classList.toggle("open");
+});
+document.querySelectorAll("#cv-menu a").forEach(a=>{
+  a.addEventListener("click", ()=>cvDrop.classList.remove("open"));
+});
+document.addEventListener("click", ()=>cvDrop.classList.remove("open"));
 
 /* init */
 applyLang(LANG);
