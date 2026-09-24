@@ -117,6 +117,7 @@ h1 em{font-style:normal; color:var(--teal)}
 .btn-a:hover{background:#1fd6c0; transform:translateY(-2px); box-shadow:0 8px 24px rgba(20,184,166,.35)}
 .btn-b{border:1px solid var(--line); color:var(--text)}
 .btn-b:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px)}
+.cv-label{font-size:.66rem; color:var(--gold); letter-spacing:.2em; font-weight:700; align-self:center}
 .scroll-hint{position:absolute; bottom:1.2rem; left:50%; transform:translateX(-50%); color:var(--muted); font-size:.65rem; letter-spacing:.3em; animation:bob 2s ease-in-out infinite}
 @keyframes bob{50%{transform:translate(-50%,8px)}}
 
@@ -344,8 +345,11 @@ footer .copy{color:#5b6875; margin-top:.9rem; font-size:.62rem; letter-spacing:.
       <h1><span data-i18n="hero_name">Shiar Fooad Haweez</span><br><em data-i18n="hero_em">the end-to-end builder.</em></h1>
       <p class="hero-sub" data-i18n="hero_sub">Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.</p>
       <div class="btns">
-        <a class="btn btn-a" id="btn-cv" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf" target="_blank" data-i18n="btn_cv">⬇ DOWNLOAD DATASHEET (CV)</a>
-        <a class="btn btn-b" href="https://github.com/SJ2005-code" target="_blank" data-i18n="btn_github">◈ VIEW GITHUB</a>
+        <span class="cv-label" data-i18n="cv_label">DATASHEET ▾</span>
+        <a class="btn btn-b" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf" target="_blank" data-i18n="cv_en">CV · ENGLISH</a>
+        <a class="btn btn-b" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/c92387f05_cv2026-09-24-kurdish.pdf" target="_blank" data-i18n="cv_ku">CV · کوردی</a>
+        <a class="btn btn-b" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/af1fdc8ab_cv2026-09-24-arabic.pdf" target="_blank" data-i18n="cv_ar">CV · العربية</a>
+        <a class="btn btn-a" href="https://github.com/SJ2005-code" target="_blank" data-i18n="btn_github">◈ VIEW GITHUB</a>
       </div>
     </div>
   </div>
@@ -501,7 +505,7 @@ en: {
   nav_right:"REV 2026.09 · ERBIL/KURDISTAN",
   hero_name:"Shiar Fooad Haweez", hero_em:"the end-to-end builder.",
   hero_sub:"Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.",
-  btn_cv:"⬇ DOWNLOAD DATASHEET (CV)", btn_github:"◈ VIEW GITHUB", scroll_hint:"SCROLL ▾",
+  cv_label:"DATASHEET ▾", cv_en:"CV · ENGLISH", cv_ku:"CV · کوردی", cv_ar:"CV · العربية", btn_github:"◈ VIEW GITHUB", scroll_hint:"SCROLL ▾",
   boot:["boot shiar.sys .................... OK","mount skills: c# · python · sql · hw OK","status: READY TO BUILD"],
   s1_title:"Device Overview", s1_sub:"WHAT THIS COMPONENT DOES",
   s1_lead:"A recent Information Technology graduate from Khabat Technical Institute with an unusually wide operating range: full desktop software, relational databases, machine learning, electronics, and business operations — in one package.",
@@ -546,7 +550,7 @@ ku: {
   nav_right:"REV 2026.09 · هەولێر/کوردستان",
   hero_name:"شیار فوئاد هاویز", hero_em:"دروستکەرێک لە سەرەتاوە تا کۆتایی.",
   hero_sub:"پەرەپەدەری سۆفتوێر و شارەزای کارپێکردنی تەکنیکی. کێشە لە بیرۆکەوە دەهێنمە دەرەنجامێکی کارا — نووسینی کۆد، دیزاینی داتابەیس، یان کۆکردنەوەی سوڕکت. ئەم پەڕەیە داتاشیتەکەی منە.",
-  btn_cv:"⬇ داگرتنی داتاشیت (CV بە کوردی)", btn_github:"◈ سەیرکردنی GitHub", scroll_hint:"بۆ خوارەوە ▾",
+  cv_label:"کۆپییەکانی داتاشیت ▾", cv_en:"CV · ENGLISH", cv_ku:"CV · کوردی", cv_ar:"CV · العربية", btn_github:"◈ سەیرکردنی GitHub", scroll_hint:"بۆ خوارەوە ▾",
   boot:["boot shiar.sys ............ باشە ✓","mount skills: c# · python · sql · hw ✓","status: ئامادەم بۆ دروستکردن"],
   s1_title:"گشتیی ئامێرەکە", s1_sub:"ئەم پێکهاتەیە چی دەکات",
   s1_lead:"دەرچووی بەشی تەکنەلۆژیای زانیاری لە پەیمانگەی تەکنیکی خەبات، بە مەودایەکی کارکردنی بێوێنە: سۆفتوێری دێسکتۆپ، داتابەیسی پەیوەندیدار، ماشین لێرنینگ، ئەلیکترۆنیکس، و کارپێکردنی بازرگانی — لە یەک پاکێجدا.",
@@ -785,9 +789,6 @@ function applyLang(l){
     const k = el.getAttribute("data-i18n-html");
     if(d[k] !== undefined) el.innerHTML = d[k];
   });
-  document.getElementById("btn-cv").href = (l==="ku")
-    ? "https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/c92387f05_cv2026-09-24-kurdish.pdf"
-    : "https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf";
   document.querySelectorAll(".lang-switch button").forEach(b=>{
     b.classList.toggle("on", b.dataset.lang === l);
   });
