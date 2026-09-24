@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+<!--
+  © 2026 Shiar Fooad Haweez — All rights reserved.
+  This site and its design are the exclusive property of the author.
+  Hosted at github.com/SJ2005-code/shiar-portfolio (source protected by license).
+-->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='8' y='8' width='16' height='16' rx='2' fill='none' stroke='%2314b8a6' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23e2a23b'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Kufi+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0b0f14; --panel:#11181f; --panel2:#0e151c; --line:#1e2a35;
@@ -30,14 +35,16 @@ body{
     linear-gradient(90deg, rgba(30,42,53,.35) 1px, transparent 1px);
   background-size:100% 100%, 44px 44px, 44px 44px;
 }
+html[dir="rtl"] body{font-family:"Noto Kufi Arabic","JetBrains Mono",monospace}
 ::selection{background:var(--teal); color:#04211e}
 a{color:var(--teal); text-decoration:none}
-h1,h2,h3{font-family:"Space Grotesk","JetBrains Mono",monospace}
+h1,h2,h3{font-family:"Space Grotesk","Noto Kufi Arabic","JetBrains Mono",monospace}
+html[dir="rtl"] h1,html[dir="rtl"] h2,html[dir="rtl"] h3{font-family:"Noto Kufi Arabic","Space Grotesk",monospace}
 
 /* ---------- nav ---------- */
 nav{
   position:fixed; top:0; left:0; right:0; z-index:50;
-  display:flex; align-items:center; gap:1.4rem; flex-wrap:wrap;
+  display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap;
   padding:.7rem 1.4rem; background:rgba(11,15,20,.85); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line); font-size:.78rem;
 }
@@ -45,8 +52,14 @@ nav .logo{color:var(--white); font-weight:700; letter-spacing:.05em}
 nav .logo span{color:var(--teal)}
 nav a{color:var(--muted); transition:color .2s}
 nav a:hover{color:var(--teal)}
-nav .right{margin-left:auto; color:var(--gold); font-size:.7rem}
-@media(max-width:720px){nav .right{display:none}}
+nav .right{margin-inline-start:auto; color:var(--gold); font-size:.7rem}
+.lang-switch{display:flex; border:1px solid var(--line); border-radius:99px; overflow:hidden}
+.lang-switch button{
+  background:none; border:none; color:var(--muted); font-family:inherit;
+  font-size:.68rem; font-weight:700; padding:.28rem .8rem; cursor:pointer; transition:.2s; letter-spacing:.06em;
+}
+.lang-switch button.on{background:var(--teal); color:#04211e}
+@media(max-width:760px){nav .right{display:none}}
 
 /* ---------- layout ---------- */
 .wrap{max-width:1100px; margin:0 auto; padding:0 1.4rem}
@@ -90,7 +103,7 @@ header{min-height:100vh; display:flex; align-items:center; padding:5.5rem 0 3rem
 .term-bar{display:flex; gap:.45rem; margin-bottom:1.1rem}
 .term-bar i{width:10px;height:10px;border-radius:50%;background:#223240;display:block}
 .term-bar i:first-child{background:#e2543f}.term-bar i:nth-child(2){background:var(--gold)}.term-bar i:last-child{background:var(--teal)}
-.term-line{font-size:.75rem; color:var(--muted); min-height:1.25rem}
+.term-line{font-size:.75rem; color:var(--muted); min-height:1.25rem; direction:ltr}
 .term-line .ok{color:var(--teal)}
 h1{font-size:clamp(1.9rem,4.6vw,3.1rem); color:var(--white); line-height:1.12; margin:.9rem 0 .9rem}
 h1 em{font-style:normal; color:var(--teal)}
@@ -113,7 +126,7 @@ h1 em{font-style:normal; color:var(--teal)}
 .overview p{margin-bottom:1rem; font-size:.92rem}
 .overview .lead{font-size:1.05rem; color:var(--white)}
 .datasheet-note{
-  border-left:3px solid var(--gold); background:rgba(226,162,59,.06);
+  border-inline-start:3px solid var(--gold); background:rgba(226,162,59,.06);
   padding:.9rem 1.1rem; font-size:.8rem; color:var(--muted); margin-top:1.4rem;
 }
 .datasheet-note b{color:var(--gold)}
@@ -140,44 +153,100 @@ h1 em{font-style:normal; color:var(--teal)}
 .specs tr{border-bottom:1px solid var(--line)}
 .specs tr:last-child{border-bottom:none}
 .specs th{
-  text-align:left; color:var(--gold); font-size:.72rem; letter-spacing:.15em; font-weight:700;
+  text-align:start; color:var(--gold); font-size:.72rem; letter-spacing:.15em; font-weight:700;
   padding:.95rem 1.2rem; width:220px; vertical-align:top; background:var(--panel2);
 }
 .specs td{padding:.95rem 1.2rem; font-size:.85rem; color:var(--text)}
 .specs td b{color:var(--white)}
-.lang-row{display:inline-flex; align-items:flex-end; gap:2px; margin-right:.7rem; height:14px; vertical-align:middle}
+.lang-row{display:inline-flex; align-items:flex-end; gap:2px; margin-inline-end:.7rem; height:14px; vertical-align:middle}
 .lang-row i{width:3px; background:var(--teal); border-radius:1px; display:inline-block; animation:eq 1.6s ease-in-out infinite}
 .lang-row i:nth-child(2){animation-delay:.2s}.lang-row i:nth-child(3){animation-delay:.4s}
 .lang-row i:nth-child(4){animation-delay:.6s}.lang-row i:nth-child(5){animation-delay:.8s}
 @keyframes eq{0%,100%{height:30%}50%{height:100%}}
 .eq-wrap:hover .lang-row i{animation-duration:.5s}
 
-/* ---------- designs (projects) ---------- */
-.design-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.3rem}
+/* ---------- portfolio / designs ---------- */
+.portfolio-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.3rem}
 .design{
   position:relative; background:var(--panel); border:1px solid var(--line); border-radius:8px;
-  padding:1.5rem 1.4rem; transition:.3s; overflow:hidden; display:flex; flex-direction:column; gap:.7rem;
+  padding:1.4rem 1.4rem 1.2rem; transition:border-color .3s, transform .3s, box-shadow .3s;
+  overflow:hidden; display:flex; flex-direction:column; cursor:pointer;
 }
 .design:hover{border-color:var(--teal-dim); transform:translateY(-4px); box-shadow:0 14px 40px rgba(0,0,0,.4)}
 .design::after{
   content:""; position:absolute; top:0; left:0; width:100%; height:2px;
   background:linear-gradient(90deg,var(--teal),transparent 65%); opacity:0; transition:.3s;
 }
-.design:hover::after{opacity:1}
+.design:hover::after,.design.open::after{opacity:1}
+.design.open{grid-column:1/-1; border-color:var(--teal); cursor:default; box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .design .d-num{font-size:.62rem; color:var(--gold); letter-spacing:.25em}
-.design h3{color:var(--white); font-size:1.06rem}
-.design p{font-size:.8rem; color:var(--muted)}
-.tags{display:flex; gap:.4rem; flex-wrap:wrap; margin-top:auto; padding-top:.5rem}
+.design h3{color:var(--white); font-size:1.06rem; margin-top:.35rem}
+.design .d-blurb{font-size:.8rem; color:var(--muted); margin-top:.5rem}
+.design .d-hint{font-size:.64rem; color:var(--teal-dim); letter-spacing:.15em; margin-top:auto; padding-top:1rem}
+.design.open .d-hint{display:none}
+.d-body{display:grid; grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.22,1,.3,1)}
+.design.open .d-body{grid-template-rows:1fr}
+.d-body>div{overflow:hidden}
+.d-inner{display:grid; grid-template-columns:minmax(240px,1fr) 1.1fr; gap:1.6rem; padding-top:1.2rem}
+@media(max-width:760px){.d-inner{grid-template-columns:1fr}}
+.d-anim{
+  background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:1rem; align-self:start;
+}
+.d-anim svg{width:100%; height:auto; display:block}
+.d-anim .cap{font-size:.6rem; color:#5b6875; letter-spacing:.2em; text-align:center; margin-top:.5rem}
+.d-detail p{font-size:.84rem; color:var(--text)}
+.d-detail p+p{margin-top:.7rem}
+.tags{display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1rem}
 .tag{font-size:.62rem; padding:.2rem .55rem; border:1px solid var(--line); border-radius:99px; color:var(--teal)}
-.design .d-link{font-size:.72rem; font-weight:700; letter-spacing:.05em; margin-top:.4rem; display:inline-flex; gap:.3rem}
-.design .d-link:hover{text-decoration:underline}
+.d-actions{display:flex; gap:1rem; align-items:center; margin-top:1.1rem; flex-wrap:wrap}
+.d-link{font-size:.74rem; font-weight:700; letter-spacing:.05em; display:inline-flex; gap:.3rem}
+.d-link:hover{text-decoration:underline}
+.d-close{
+  margin-inline-start:auto; background:none; border:1px solid var(--line); color:var(--muted);
+  font-family:inherit; font-size:.68rem; padding:.35rem .9rem; border-radius:99px; cursor:pointer; transition:.2s;
+}
+.d-close:hover{border-color:var(--gold); color:var(--gold)}
+.media-slot{
+  margin-top:1.1rem; border:1px dashed var(--line); border-radius:6px; padding:.8rem 1rem;
+  font-size:.66rem; color:#5b6875; letter-spacing:.12em; text-align:center;
+}
+/* svg anim states (run only while open) */
+.a-bar{transform-origin:bottom; transform:scaleY(0)}
+.design.open .a-bar{animation:grow .9s cubic-bezier(.22,1,.3,1) forwards}
+.design.open .a-bar:nth-of-type(2){animation-delay:.1s}
+.design.open .a-bar:nth-of-type(3){animation-delay:.2s}
+.design.open .a-bar:nth-of-type(4){animation-delay:.3s}
+.design.open .a-bar:nth-of-type(5){animation-delay:.4s}
+.design.open .a-bar:nth-of-type(6){animation-delay:.5s}
+.design.open .a-bar:nth-of-type(7){animation-delay:.6s}
+@keyframes grow{to{transform:scaleY(1)}}
+.a-draw{stroke-dasharray:400; stroke-dashoffset:400}
+.design.open .a-draw{animation:draw 1.6s .5s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.a-blink{opacity:0}
+.design.open .a-blink{animation:blink 1.2s .8s infinite}
+@keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
+.a-pulse2{stroke-dasharray:3 180; stroke-dashoffset:183}
+.design.open .a-pulse2{animation:run2 3.5s 1s linear infinite}
+@keyframes run2{to{stroke-dashoffset:0}}
+.a-press{transform:translateY(0)}
+.design.open .a-press{animation:press 2.4s 1s ease-in-out infinite}
+@keyframes press{50%{transform:translateY(34px)}}
+.a-steam{opacity:0}
+.design.open .a-steam{animation:steam 2.2s 1s ease-in-out infinite}
+@keyframes steam{0%{opacity:0; transform:translateY(4px)}40%{opacity:.8}100%{opacity:0; transform:translateY(-8px)}}
+.a-typeline{white-space:nowrap; overflow:hidden; width:0}
+.design.open .a-typeline{animation:typing 1.6s steps(28) .8s forwards}
+@keyframes typing{to{width:100%}}
+.a-cursor{animation:cur 1s steps(1) infinite}
+@keyframes cur{50%{opacity:0}}
 
 /* ---------- history ---------- */
-.timeline{position:relative; margin-left:6px; padding-left:2rem; border-left:2px solid var(--line)}
+.timeline{position:relative; margin-inline-start:6px; padding-inline-start:2rem; border-inline-start:2px solid var(--line)}
 .t-item{position:relative; padding-bottom:2.2rem}
 .t-item:last-child{padding-bottom:0}
 .t-item::before{
-  content:""; position:absolute; left:calc(-2rem - 7px); top:6px; width:12px; height:12px;
+  content:""; position:absolute; inset-inline-start:calc(-2rem - 7px); top:6px; width:12px; height:12px;
   border-radius:50%; background:var(--bg); border:2.5px solid var(--teal); box-shadow:0 0 12px rgba(20,184,166,.6);
 }
 .t-item .t-date{font-size:.68rem; color:var(--gold); letter-spacing:.15em; margin-bottom:.25rem}
@@ -202,25 +271,29 @@ footer{
 }
 footer .hex{color:#4a5763; letter-spacing:.18em; margin-top:.5rem}
 footer .hex b{color:var(--teal-dim)}
+footer .copy{color:#5b6875; margin-top:.9rem; font-size:.62rem; letter-spacing:.1em}
 </style>
 </head>
 <body>
 
 <nav>
   <span class="logo">SJ2005<span>://</span>DATASHEET</span>
-  <a href="#overview">overview</a>
-  <a href="#specs">specs</a>
-  <a href="#designs">designs</a>
-  <a href="#history">history</a>
-  <a href="#interface">interface</a>
-  <span class="right">REV 2026.09 · ERBIL/KURDISTAN</span>
+  <a href="#overview" data-i18n="nav_overview">overview</a>
+  <a href="#specs" data-i18n="nav_specs">specs</a>
+  <a href="#designs" data-i18n="nav_portfolio">portfolio</a>
+  <a href="#history" data-i18n="nav_history">history</a>
+  <a href="#interface" data-i18n="nav_interface">interface</a>
+  <div class="lang-switch">
+    <button type="button" data-lang="en" class="on">EN</button>
+    <button type="button" data-lang="ku">کوردی</button>
+  </div>
+  <span class="right" data-i18n="nav_right">REV 2026.09 · ERBIL/KURDISTAN</span>
 </nav>
 
 <header>
   <div class="wrap hero">
     <div class="chip-stage reveal" aria-hidden="true">
       <svg viewBox="0 0 460 400">
-        <!-- traces + pulses -->
         <path class="trace" d="M330 150 h34 l34 34 h40"/>
         <path class="pulse" d="M330 150 h34 l34 34 h40"/>
         <path class="trace" d="M330 180 h48 l28 -28 h54"/>
@@ -237,7 +310,6 @@ footer .hex b{color:var(--teal-dim)}
         <path class="pulse" style="animation-delay:2.6s" d="M230 96 v-30 l-30 -30 h-40"/>
         <path class="trace" d="M230 296 v30 l30 30 h40"/>
         <path class="pulse slow" style="animation-delay:.9s" d="M230 296 v30 l30 30 h40"/>
-        <!-- pins -->
         <g>
           <rect class="pin" x="316" y="140" width="14" height="10" rx="2"/><rect class="pin" x="316" y="170" width="14" height="10" rx="2"/>
           <rect class="pin" x="316" y="200" width="14" height="10" rx="2"/><rect class="pin" x="316" y="230" width="14" height="10" rx="2"/>
@@ -246,15 +318,13 @@ footer .hex b{color:var(--teal-dim)}
           <rect class="pin" x="220" y="82" width="10" height="14" rx="2"/><rect class="pin" x="250" y="82" width="10" height="14" rx="2"/>
           <rect class="pin" x="220" y="296" width="10" height="14" rx="2"/><rect class="pin" x="250" y="296" width="10" height="14" rx="2"/>
         </g>
-        <!-- chip body -->
         <rect class="chip-body" x="144" y="96" width="172" height="200" rx="10"/>
-        <circle cx="160" cy="112" r="4" fill="var(--gold)"/>
+        <circle cx="160" cy="112" r="4" fill="#e2a23b"/>
         <text class="chip-text" x="230" y="172" font-size="19" text-anchor="middle">SHIAR</text>
         <text class="chip-text" x="230" y="196" font-size="19" text-anchor="middle">HAWEEZ</text>
         <text class="chip-sub" x="230" y="222" text-anchor="middle">SJ2005-CODE</text>
         <text class="chip-sub" x="230" y="238" text-anchor="middle">TECH-OPS · 2026</text>
         <text class="chip-sub" x="230" y="272" text-anchor="middle" fill="#3d4a56">▣ QC PASSED</text>
-        <!-- trace labels -->
         <text class="trace-label" x="418" y="144">ML</text>
         <text class="trace-label" x="418" y="178">DATA</text>
         <text class="trace-label" x="418" y="244">V-OPS</text>
@@ -271,15 +341,15 @@ footer .hex b{color:var(--teal-dim)}
       <div class="term-line" id="t1"></div>
       <div class="term-line" id="t2"></div>
       <div class="term-line" id="t3"></div>
-      <h1>Shiar Fooad Haweez<br><em>the end-to-end builder.</em></h1>
-      <p class="hero-sub">Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.</p>
+      <h1><span data-i18n="hero_name">Shiar Fooad Haweez</span><br><em data-i18n="hero_em">the end-to-end builder.</em></h1>
+      <p class="hero-sub" data-i18n="hero_sub">Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.</p>
       <div class="btns">
-        <a class="btn btn-a" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf" target="_blank">⬇ DOWNLOAD DATASHEET (CV)</a>
-        <a class="btn btn-b" href="https://github.com/SJ2005-code" target="_blank">◈ VIEW GITHUB</a>
+        <a class="btn btn-a" id="btn-cv" href="https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf" target="_blank" data-i18n="btn_cv">⬇ DOWNLOAD DATASHEET (CV)</a>
+        <a class="btn btn-b" href="https://github.com/SJ2005-code" target="_blank" data-i18n="btn_github">◈ VIEW GITHUB</a>
       </div>
     </div>
   </div>
-  <div class="scroll-hint">SCROLL ▾</div>
+  <div class="scroll-hint" data-i18n="scroll_hint">SCROLL ▾</div>
 </header>
 
 <main class="wrap">
@@ -287,24 +357,24 @@ footer .hex b{color:var(--teal-dim)}
   <section id="overview">
     <div class="sec-head reveal">
       <span class="sec-num">01</span>
-      <h2 class="sec-title">Device Overview<small>WHAT THIS COMPONENT DOES</small></h2>
+      <h2 class="sec-title"><span data-i18n="s1_title">Device Overview</span><small data-i18n="s1_sub">WHAT THIS COMPONENT DOES</small></h2>
     </div>
     <div class="overview">
       <div class="reveal">
-        <p class="lead">A recent Information Technology graduate from Khabat Technical Institute with an unusually wide operating range: full desktop software, relational databases, machine learning, electronics, and business operations — in one package.</p>
-        <p>On the software side I design and build complete C# Windows Forms applications — an administrative system, accounting software, and a flight management app — each backed by normalized SQL Server schemas and tuned queries. On the data side I built an end-to-end sales forecasting model in Python with XGBoost, from feature engineering to evaluation.</p>
-        <p>On the hardware side I assemble lithium battery packs with BMS protection, TP4056 charging, and proper circuit safety, and I have built hydraulic pumps and presses from scratch. I also script away repetitive work with CMD automation, and I have run real operations: brand management, e-commerce, and financial tracking at a restaurant launch in Erbil.</p>
-        <div class="datasheet-note"><b>NOTE:</b> this component self-starts. Give it a problem and it selects its own tools — code, script, or soldering iron — and returns a working deliverable.</div>
+        <p class="lead" data-i18n="s1_lead">A recent Information Technology graduate from Khabat Technical Institute with an unusually wide operating range: full desktop software, relational databases, machine learning, electronics, and business operations — in one package.</p>
+        <p data-i18n="s1_p2">On the software side I design and build complete C# Windows Forms applications — an administrative system, accounting software, and a flight management app — each backed by normalized SQL Server schemas and tuned queries. On the data side I built an end-to-end sales forecasting model in Python with XGBoost, from feature engineering to evaluation.</p>
+        <p data-i18n="s1_p3">On the hardware side I assemble lithium battery packs with BMS protection, TP4056 charging, and proper circuit safety, and I have built hydraulic pumps and presses from scratch. I also script away repetitive work with CMD automation, and I have run real operations: brand management, e-commerce, and financial tracking at a restaurant launch in Erbil.</p>
+        <div class="datasheet-note" data-i18n-html="s1_note"><b>NOTE:</b> this component self-starts. Give it a problem and it selects its own tools — code, script, or soldering iron — and returns a working deliverable.</div>
       </div>
-      <div class="photo-frame reveal eq-wrap">
+      <div class="photo-frame reveal">
         <span class="pin-corners"><i></i><i></i><i></i><i></i></span>
         <svg width="54" height="54" viewBox="0 0 54 54" fill="none">
           <rect x="17" y="17" width="20" height="20" rx="3" stroke="#14b8a6" stroke-width="2"/>
           <rect x="23" y="23" width="8" height="8" rx="1" stroke="#e2a23b" stroke-width="2"/>
           <path d="M17 21h-7M17 33h-7M37 21h7M37 33h7M21 17v-7M33 17v-7M21 37v7M33 37v7" stroke="#14b8a6" stroke-width="2"/>
         </svg>
-        <span class="ph-label">PACKAGE VISUAL</span>
-        <span class="ph-sub">// photo module: awaiting image</span>
+        <span class="ph-label" data-i18n="photo_label">PACKAGE VISUAL</span>
+        <span class="ph-sub" data-i18n="photo_sub">// photo module: awaiting image</span>
       </div>
     </div>
   </section>
@@ -312,99 +382,61 @@ footer .hex b{color:var(--teal-dim)}
   <section id="specs">
     <div class="sec-head reveal">
       <span class="sec-num">02</span>
-      <h2 class="sec-title">Absolute Specifications<small>RATED CAPABILITIES</small></h2>
+      <h2 class="sec-title"><span data-i18n="s2_title">Absolute Specifications</span><small data-i18n="s2_sub">RATED CAPABILITIES</small></h2>
     </div>
     <table class="specs reveal">
-      <tr><th>SOFTWARE</th><td><b>C#</b> (Windows Forms) · <b>Python</b> · PHP · HTML · CSS</td></tr>
-      <tr><th>DATA &amp; ML</th><td>SQL Server / SSMS · schema design · complex queries · <b>XGBoost</b> · scikit-learn · Pandas</td></tr>
-      <tr><th>HARDWARE</th><td>Lithium battery packs · BMS · TP4056 charging circuits · flyback-diode protection · hydraulics</td></tr>
-      <tr><th>AUTOMATION</th><td>CMD scripting · multi-step workflow automation</td></tr>
-      <tr><th>OPERATIONS</th><td>Brand &amp; social media management · e-commerce (Stripe) · financial tracking templates · customer support</td></tr>
-      <tr><th class="eq-wrap">LANGUAGES</th><td>
-        <span class="lang-row"><i></i><i></i><i></i><i></i><i></i></span><b>Kurdish</b> — native&nbsp;&nbsp;
+      <tr><th data-i18n="th_software">SOFTWARE</th><td><b>C#</b> (Windows Forms) · <b>Python</b> · PHP · HTML · CSS</td></tr>
+      <tr><th data-i18n="th_data">DATA &amp; ML</th><td>SQL Server / SSMS · schema design · complex queries · <b>XGBoost</b> · scikit-learn · Pandas</td></tr>
+      <tr><th data-i18n="th_hardware">HARDWARE</th><td data-i18n="td_hardware"><b>Lithium battery packs</b> · BMS · TP4056 charging circuits · flyback-diode protection · hydraulics</td></tr>
+      <tr><th data-i18n="th_automation">AUTOMATION</th><td data-i18n="td_automation">CMD scripting · multi-step workflow automation</td></tr>
+      <tr><th data-i18n="th_operations">OPERATIONS</th><td data-i18n="td_operations">Brand &amp; social media management · e-commerce (Stripe) · financial tracking templates · customer support</td></tr>
+      <tr><th class="eq-wrap" data-i18n="th_languages">LANGUAGES</th><td>
+        <span class="lang-row"><i></i><i></i><i></i><i></i><i></i></span><b data-i18n="lang_ku">Kurdish</b> <span data-i18n="lang_ku_lvl">— native</span>&nbsp;&nbsp;
         <span class="lang-row"><i></i><i></i><i></i><i></i></span><b>English</b> — fluent&nbsp;&nbsp;
         <span class="lang-row"><i></i><i></i><i></i><i></i></span><b>Swedish</b> — fluent&nbsp;&nbsp;
         <span class="lang-row"><i></i><i></i><i></i><i></i></span><b>Norwegian</b> — fluent
       </td></tr>
-      <tr><th>STRESS TESTED</th><td>Fast-paced retail &amp; hospitality front lines. Recovers gracefully from unexpected load.</td></tr>
+      <tr><th data-i18n="th_stress">STRESS TESTED</th><td data-i18n="td_stress">Fast-paced retail &amp; hospitality front lines. Recovers gracefully from unexpected load.</td></tr>
     </table>
   </section>
 
   <section id="designs">
     <div class="sec-head reveal">
       <span class="sec-num">03</span>
-      <h2 class="sec-title">Reference Designs<small>PROVEN PROJECTS</small></h2>
+      <h2 class="sec-title"><span data-i18n="s3_title">Portfolio</span><small data-i18n="s3_sub">MY CREATIONS — CLICK A CARD TO OPEN IT</small></h2>
     </div>
-    <div class="design-grid">
-      <div class="design reveal">
-        <span class="d-num">DESIGN A1</span>
-        <h3>Rossmann Sales Forecasting</h3>
-        <p>End-to-end machine learning pipeline predicting daily store sales — feature engineering, Random Forest &amp; XGBoost models, systematic hyperparameter tuning.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">XGBoost</span><span class="tag">scikit-learn</span><span class="tag">Pandas</span></div>
-        <a class="d-link" href="https://github.com/SJ2005-code/rossmann_sales_forecast" target="_blank">VIEW ON GITHUB →</a>
-      </div>
-      <div class="design reveal">
-        <span class="d-num">DESIGN A2</span>
-        <h3>Windows Forms Application Suite</h3>
-        <p>Custom administrative system, accounting software, and a flight management app — full C# desktop builds on normalized SQL Server databases with optimized queries.</p>
-        <div class="tags"><span class="tag">C#</span><span class="tag">WinForms</span><span class="tag">SQL Server</span></div>
-      </div>
-      <div class="design reveal">
-        <span class="d-num">DESIGN B1</span>
-        <h3>Lithium Battery Pack + BMS</h3>
-        <p>Custom battery packs integrating TP4056 charging modules, battery management systems, and flyback-diode circuit protection. Built, tested, and powering real devices.</p>
-        <div class="tags"><span class="tag">Electronics</span><span class="tag">BMS</span><span class="tag">TP4056</span></div>
-      </div>
-      <div class="design reveal">
-        <span class="d-num">DESIGN B2</span>
-        <h3>Hydraulic Press &amp; Pump</h3>
-        <p>Mechanical builds designed and constructed independently — proof that the engineering instinct extends past the keyboard into physical systems.</p>
-        <div class="tags"><span class="tag">Mechanical</span><span class="tag">Build</span></div>
-      </div>
-      <div class="design reveal">
-        <span class="d-num">DESIGN C1</span>
-        <h3>CMD Workflow Automation</h3>
-        <p>Custom command-line scripts that compress repetitive multi-step manual tasks into single commands — including automated system reset routines.</p>
-        <div class="tags"><span class="tag">CMD</span><span class="tag">Scripting</span><span class="tag">Automation</span></div>
-      </div>
-      <div class="design reveal">
-        <span class="d-num">DESIGN C2</span>
-        <h3>NORDO Restaurant Launch</h3>
-        <p>Coordinated the launch of a restaurant in Erbil: promotional design, visual branding, social media campaigns, Google Business management, and internal financial tracking templates.</p>
-        <div class="tags"><span class="tag">Branding</span><span class="tag">Marketing</span><span class="tag">Stripe</span></div>
-      </div>
-    </div>
+    <div class="portfolio-grid" id="portfolio-grid"></div>
   </section>
 
   <section id="history">
     <div class="sec-head reveal">
       <span class="sec-num">04</span>
-      <h2 class="sec-title">Operating History<small>WHERE THIS UNIT HAS DEPLOYED</small></h2>
+      <h2 class="sec-title"><span data-i18n="s4_title">Operating History</span><small data-i18n="s4_sub">WHERE THIS UNIT HAS DEPLOYED</small></h2>
     </div>
     <div class="timeline">
       <div class="t-item reveal">
-        <div class="t-date">2026 — PRESENT</div>
+        <div class="t-date" data-i18n="t1d">2026 — PRESENT</div>
         <h3>NORDO Restaurant, Erbil</h3>
-        <div class="t-role">Operations &amp; Marketing Specialist</div>
-        <p>Ran the launch: promo design, branding assets, social campaigns, verified business listings, and digital financial workflows.</p>
+        <div class="t-role" data-i18n="t1r">Operations &amp; Marketing Specialist</div>
+        <p data-i18n="t1p">Ran the launch: promo design, branding assets, social campaigns, verified business listings, and digital financial workflows.</p>
       </div>
       <div class="t-item reveal">
-        <div class="t-date">2026 · JUN — AUG</div>
+        <div class="t-date" data-i18n="t2d">2026 · JUN — AUG</div>
         <h3>Al Najar Company, Erbil</h3>
-        <div class="t-role">Practical Training Intern</div>
-        <p>Applied core IT principles in a commercial environment — documenting procedures and supporting daily system operations.</p>
+        <div class="t-role" data-i18n="t2r">Practical Training Intern</div>
+        <p data-i18n="t2p">Applied core IT principles in a commercial environment — documenting procedures and supporting daily system operations.</p>
       </div>
       <div class="t-item reveal">
-        <div class="t-date">2026 · GRADUATED</div>
+        <div class="t-date" data-i18n="t3d">2026 · GRADUATED</div>
         <h3>Khabat Technical Institute</h3>
-        <div class="t-role">Diploma in Information Technology</div>
-        <p>Completed with a full database graduation project — complex SQL queries, views, and maintenance procedures for official evaluation.</p>
+        <div class="t-role" data-i18n="t3r">Diploma in Information Technology</div>
+        <p data-i18n="t3p">Completed with a full database graduation project — complex SQL queries, views, and maintenance procedures for official evaluation.</p>
       </div>
       <div class="t-item reveal">
-        <div class="t-date">EARLIER</div>
-        <h3>Front-line Operations &amp; IES Länna, Stockholm</h3>
-        <div class="t-role">Customer service · cashiering · Swedish secondary education</div>
-        <p>Fast-paced retail and hospitality work across Kurdistan, and secondary education completed in Sweden — the origin of four working languages.</p>
+        <div class="t-date" data-i18n="t4d">EARLIER</div>
+        <h3 data-i18n="t4h">Front-line Operations &amp; IES Länna, Stockholm</h3>
+        <div class="t-role" data-i18n="t4r">Customer service · cashiering · Swedish secondary education</div>
+        <p data-i18n="t4p">Fast-paced retail and hospitality work across Kurdistan, and secondary education completed in Sweden — the origin of four working languages.</p>
       </div>
     </div>
   </section>
@@ -412,28 +444,28 @@ footer .hex b{color:var(--teal-dim)}
   <section id="interface">
     <div class="sec-head reveal">
       <span class="sec-num">05</span>
-      <h2 class="sec-title">Interface Connections<small>HOW TO CONNECT TO THIS DEVICE</small></h2>
+      <h2 class="sec-title"><span data-i18n="s5_title">Interface Connections</span><small data-i18n="s5_sub">HOW TO CONNECT TO THIS DEVICE</small></h2>
     </div>
     <div class="interface-grid">
       <a class="iface reveal" href="mailto:shiar.mohammad.2005@gmail.com">
-        <div class="i-name">PIN 1 — EMAIL</div>
+        <div class="i-name" data-i18n="pin1">PIN 1 — EMAIL</div>
         <div class="i-val">shiar.mohammad.2005@gmail.com</div>
-        <div class="i-note">fastest signal path · replies quickly</div>
+        <div class="i-note" data-i18n="pin1n">fastest signal path · replies quickly</div>
       </a>
       <a class="iface reveal" href="tel:+9647518833032">
-        <div class="i-name">PIN 2 — PHONE</div>
-        <div class="i-val">+964 751 883 3032</div>
-        <div class="i-note">voice &amp; WhatsApp · Erbil time (GMT+3)</div>
+        <div class="i-name" data-i18n="pin2">PIN 2 — PHONE</div>
+        <div class="i-val" dir="ltr">+964 751 883 3032</div>
+        <div class="i-note" data-i18n="pin2n">voice &amp; WhatsApp · Erbil time (GMT+3)</div>
       </a>
       <a class="iface reveal" href="https://github.com/SJ2005-code" target="_blank">
-        <div class="i-name">PIN 3 — GITHUB</div>
-        <div class="i-val">github.com/SJ2005-code</div>
-        <div class="i-note">live source code &amp; projects</div>
+        <div class="i-name" data-i18n="pin3">PIN 3 — GITHUB</div>
+        <div class="i-val" dir="ltr">github.com/SJ2005-code</div>
+        <div class="i-note" data-i18n="pin3n">live source code &amp; projects</div>
       </a>
       <div class="iface reveal">
-        <div class="i-name">PIN 4 — LOCATION</div>
-        <div class="i-val">Erbil, Kurdistan Region, Iraq</div>
-        <div class="i-note">open to relocation for the right role</div>
+        <div class="i-name" data-i18n="pin4">PIN 4 — LOCATION</div>
+        <div class="i-val" data-i18n="pin4v">Erbil, Kurdistan Region, Iraq</div>
+        <div class="i-note" data-i18n="pin4n">open to relocation for the right role</div>
       </div>
     </div>
   </section>
@@ -441,42 +473,341 @@ footer .hex b{color:var(--teal-dim)}
 </main>
 
 <footer>
-  <div>Single-file site · zero dependencies · designed &amp; built by Shiar Fooad Haweez — rev 2026.09</div>
-  <div class="hex">0x53 <b>0x48 0x49 0x41 0x52</b> — that's "SHIAR" in hex. The first byte was the hardest.</div>
+  <div data-i18n="foot_main">Single-file site · zero dependencies · designed &amp; built by Shiar Fooad Haweez — rev 2026.09</div>
+  <div class="hex" dir="ltr"><span data-i18n="foot_hex_label">0x53</span> <b>0x48 0x49 0x41 0x52</b> — <span data-i18n="foot_hex">that's "SHIAR" in hex. The first byte was the hardest.</span></div>
+  <div class="copy" data-i18n="foot_copy">© 2026 Shiar Fooad Haweez — All rights reserved. Design and code are the exclusive property of the author.</div>
 </footer>
 
 <script>
-// typed terminal boot lines
-const lines = [
-  ["t1", "> boot shiar.sys .................... <span class='ok'>OK</span>"],
-  ["t2", "> mount skills: c# · python · sql · hw <span class='ok'>OK</span>"],
-  ["t3", "> status: READY TO BUILD"]
-];
-let li = 0;
-function typeLine(){
-  if(li >= lines.length) return;
-  const [id, html] = lines[li++];
-  const el = document.getElementById(id);
-  let pos = 0;
-  const plain = html.replace(/<[^>]*>/g, "");
-  const t = setInterval(()=>{
-    pos++;
-    el.innerHTML = html.slice(0, pos).replace(/&lt;/g,"<");
-    // show plain text while typing, then final html with colors
-    if(pos >= html.length){ el.innerHTML = html; clearInterval(t); typeLine(); return; }
-    el.textContent = plain.slice(0, pos);
-  }, 14);
+/* ============ i18n dictionary ============ */
+const I18N = {
+en: {
+  nav_overview:"overview", nav_specs:"specs", nav_portfolio:"portfolio", nav_history:"history", nav_interface:"interface",
+  nav_right:"REV 2026.09 · ERBIL/KURDISTAN",
+  hero_name:"Shiar Fooad Haweez", hero_em:"the end-to-end builder.",
+  hero_sub:"Software developer &amp; technical operations specialist. I take a problem from idea to working result — writing the code, designing the database, or assembling the circuit. This page is my datasheet.",
+  btn_cv:"⬇ DOWNLOAD DATASHEET (CV)", btn_github:"◈ VIEW GITHUB", scroll_hint:"SCROLL ▾",
+  boot:["boot shiar.sys .................... OK","mount skills: c# · python · sql · hw OK","status: READY TO BUILD"],
+  s1_title:"Device Overview", s1_sub:"WHAT THIS COMPONENT DOES",
+  s1_lead:"A recent Information Technology graduate from Khabat Technical Institute with an unusually wide operating range: full desktop software, relational databases, machine learning, electronics, and business operations — in one package.",
+  s1_p2:"On the software side I design and build complete C# Windows Forms applications — an administrative system, accounting software, and a flight management app — each backed by normalized SQL Server schemas and tuned queries. On the data side I built an end-to-end sales forecasting model in Python with XGBoost, from feature engineering to evaluation.",
+  s1_p3:"On the hardware side I assemble lithium battery packs with BMS protection, TP4056 charging, and proper circuit safety, and I have built hydraulic pumps and presses from scratch. I also script away repetitive work with CMD automation, and I have run real operations: brand management, e-commerce, and financial tracking at a restaurant launch in Erbil.",
+  s1_note:"<b>NOTE:</b> this component self-starts. Give it a problem and it selects its own tools — code, script, or soldering iron — and returns a working deliverable.",
+  photo_label:"PACKAGE VISUAL", photo_sub:"// photo module: awaiting image",
+  s2_title:"Absolute Specifications", s2_sub:"RATED CAPABILITIES",
+  th_software:"SOFTWARE", th_data:"DATA &amp; ML", th_hardware:"HARDWARE", th_automation:"AUTOMATION", th_operations:"OPERATIONS", th_languages:"LANGUAGES", th_stress:"STRESS TESTED",
+  td_hardware:"<b>Lithium battery packs</b> · BMS · TP4056 charging circuits · flyback-diode protection · hydraulics",
+  td_automation:"CMD scripting · multi-step workflow automation",
+  td_operations:"Brand &amp; social media management · e-commerce (Stripe) · financial tracking templates · customer support",
+  lang_ku:"Kurdish", lang_ku_lvl:"— native",
+  td_stress:"Fast-paced retail &amp; hospitality front lines. Recovers gracefully from unexpected load.",
+  s3_title:"Portfolio", s3_sub:"MY CREATIONS — CLICK A CARD TO OPEN IT",
+  s4_title:"Operating History", s4_sub:"WHERE THIS UNIT HAS DEPLOYED",
+  t1d:"2026 — PRESENT", t1r:"Operations &amp; Marketing Specialist",
+  t1p:"Ran the launch: promo design, branding assets, social campaigns, verified business listings, and digital financial workflows.",
+  t2d:"2026 · JUN — AUG", t2r:"Practical Training Intern",
+  t2p:"Applied core IT principles in a commercial environment — documenting procedures and supporting daily system operations.",
+  t3d:"2026 · GRADUATED", t3r:"Diploma in Information Technology",
+  t3p:"Completed with a full database graduation project — complex SQL queries, views, and maintenance procedures for official evaluation.",
+  t4d:"EARLIER", t4h:"Front-line Operations &amp; IES Länna, Stockholm",
+  t4r:"Customer service · cashiering · Swedish secondary education",
+  t4p:"Fast-paced retail and hospitality work across Kurdistan, and secondary education completed in Sweden — the origin of four working languages.",
+  s5_title:"Interface Connections", s5_sub:"HOW TO CONNECT TO THIS DEVICE",
+  pin1:"PIN 1 — EMAIL", pin1n:"fastest signal path · replies quickly",
+  pin2:"PIN 2 — PHONE", pin2n:"voice &amp; WhatsApp · Erbil time (GMT+3)",
+  pin3:"PIN 3 — GITHUB", pin3n:"live source code &amp; projects",
+  pin4:"PIN 4 — LOCATION", pin4v:"Erbil, Kurdistan Region, Iraq", pin4n:"open to relocation for the right role",
+  foot_main:"Single-file site · zero dependencies · designed &amp; built by Shiar Fooad Haweez — rev 2026.09",
+  foot_hex_label:"0x53", foot_hex:"that's \"SHIAR\" in hex. The first byte was the hardest.",
+  foot_copy:"© 2026 Shiar Fooad Haweez — All rights reserved. Design and code are the exclusive property of the author.",
+  media_slot:"MEDIA SLOT — real photos &amp; video coming soon",
+  view_github:"VIEW ON GITHUB →", close:"✕ CLOSE", cap_hint:"interactive schematic"
+},
+ku: {
+  nav_overview:"گشتی", nav_specs:"تواناکان", nav_portfolio:"پۆرتفۆلیۆ", nav_history:"مێژوو", nav_interface:"پەیوەندی",
+  nav_right:"REV 2026.09 · هەولێر/کوردستان",
+  hero_name:"شیار فوئاد هاویز", hero_em:"دروستکەرێک لە سەرەتاوە تا کۆتایی.",
+  hero_sub:"پەرەپەدەری سۆفتوێر و شارەزای کارپێکردنی تەکنیکی. کێشە لە بیرۆکەوە دەهێنمە دەرەنجامێکی کارا — نووسینی کۆد، دیزاینی داتابەیس، یان کۆکردنەوەی سوڕکت. ئەم پەڕەیە داتاشیتەکەی منە.",
+  btn_cv:"⬇ داگرتنی داتاشیت (CV بە کوردی)", btn_github:"◈ سەیرکردنی GitHub", scroll_hint:"بۆ خوارەوە ▾",
+  boot:["boot shiar.sys ............ باشە ✓","mount skills: c# · python · sql · hw ✓","status: ئامادەم بۆ دروستکردن"],
+  s1_title:"گشتیی ئامێرەکە", s1_sub:"ئەم پێکهاتەیە چی دەکات",
+  s1_lead:"دەرچووی بەشی تەکنەلۆژیای زانیاری لە پەیمانگەی تەکنیکی خەبات، بە مەودایەکی کارکردنی بێوێنە: سۆفتوێری دێسکتۆپ، داتابەیسی پەیوەندیدار، ماشین لێرنینگ، ئەلیکترۆنیکس، و کارپێکردنی بازرگانی — لە یەک پاکێجدا.",
+  s1_p2:"لایەنی سۆفتوێرەوە سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی بەڕێوەبردنی فڕۆکە بە C# دروست دەکەم — هەریەکەیان لەسەر داتابەیسی SQL Server. لایەنی داتاشەوە مۆدێلێکی تەواوی پێشبینی فرۆشتم بە Python و XGBoost دروستکردووە، لە ئەندازیاری فیچەرەوە تا هەڵسەنگاندن.",
+  s1_p3:"لایەنی هاردوێرەوە پاکی باتری لیتیۆم بە سیستەمی پاراستنی BMS و چارجکردنی TP4056 کۆدەکەمەوە، و مەکینەی هایدرۆلیکی هەیە کە بە تەواوی خۆم دروستمکردووە. هەروەها کاری ڕاگەیاندن، براندینگ، و شیکاری دارایی ڕاستەقینەم کردووە لە کردنەوەیەکی خواردنگەدا لە هەولێر.",
+  s1_note:"<b>تێبینی:</b> ئەم پێکهاتەیە بە خۆی دەست پێدەکات. کێشەیەکی پێبدە و خۆی ئامرازی خۆی هەڵدەبژێرێت — کۆد، سکریپت، یان لووتکەی قوڕ — و دەرەنجامێکی کارا دەگەرێنێتەوە.",
+  photo_label:"وێنەی پاکێج", photo_sub:"// مۆدیلی وێنە: چاوەڕوانی وێنە",
+  s2_title:"دیارییە سەرەکییەکان", s2_sub:"توانا پەسەندکراوەکان",
+  th_software:"سۆفتوێر", th_data:"داتا و ML", th_hardware:"هاردوێر", th_automation:"ئۆتۆمەیشن", th_operations:"کارپێکردن", th_languages:"زمانەکان", th_stress:"تاقیکراو",
+  td_hardware:"<b>پاکی باتری لیتیۆم</b> · BMS · سوڕکتی چارجکردنی TP4056 · پاراستنی فڵایباک · هایدرۆلیک",
+  td_automation:"سکریپتی CMD · ئۆتۆمەتیکردنی کارە هەنگاوینەکان",
+  td_operations:"بەڕێوەبردنی براند و سۆشیال میدیا · ئی-کۆمەرس (Stripe) · تێمپلێتی شیکاری دارایی · پشتگیری کڕیار",
+  lang_ku:"کوردی", lang_ku_lvl:"— زمانی دایک",
+  td_stress:"کاری خێرا لە فرۆشگا و خواردنگە. لە بارێکی چڕەوە بە خێرایی وەڵام دەداتەوە.",
+  s3_title:"پۆرتفۆلیۆ", s3_sub:"دروستکراوەکانم — کلیک لە کارتێک بکە بۆ کردنەوەی",
+  s4_title:"مێژووی کارکردن", s4_sub:"ئەو شوێنانەی ئەم یەکەیە کاری تێدا کردووە",
+  t1d:"٢٠٢٦ — ئێستا", t1r:"شاری کارپێکردن و مارکێتینگ",
+  t1p:"کردنەوەکەم ڕێکخست: دیزاینی پرۆمۆ، براندینگ، کەمپینی سۆشیال، بەڕێوەبردنی Google Business، و وۆکفلۆوی دارایی دیجیتاڵ.",
+  t2d:"٢٠٢٦ · حوزەیران — ئاب", t2r:"فێرخوازی ڕاهێنانی پراکتیکی",
+  t2p:"بەکارهێنانی بنەماکانی IT لە ژینگەیەکی بازرگانی — بەڵگەنامەکردنی پرۆسەکان و پشتگیری کارپێکردنی ڕۆژانە.",
+  t3d:"٢٠٢٦ · دەرچوو", t3r:"دیپلۆمی تەکنەلۆژیای زانیاری",
+  t3p:"بە پڕۆژەیەکی تەواوی داتابەیس تەواوکراوە — پرۆژێکتی ئاڵۆزی SQL و ڕوتینی چاککردنەوە بۆ هەڵسەنگاندنی فەرمی.",
+  t4d:"پێشتر", t4h:"کاری پێشەنگی و IES Länna، ستۆکهۆڵم",
+  t4r:"خزمەتگوزاری کڕیار · کاشیر · خوێندنی ئامادەیی لە سوێد",
+  t4p:"کاری خێرا لە فرۆشگا و خواردنگە لە کوردستان، و خوێندنی ئامادەیی لە سوێد — سەرچاوەی چوار زمانە کاراکەم.",
+  s5_title:"پەیوەندییەکان", s5_sub:"چۆن پەیوەندی بکەیت بەم ئامێرەوە",
+  pin1:"پین ١ — ئیمەیڵ", pin1n:"خێراترین ڕێگا · بە خێرایی وەڵام دەداتەوە",
+  pin2:"پین ٢ — تەلەفۆن", pin2n:"دەنگ و واتسئاپ · کاتی هەولێر (GMT+3)",
+  pin3:"پین ٣ — GitHub", pin3n:"کۆدی سەرچاوە و پڕۆژەکان",
+  pin4:"پین ٤ — شوێن", pin4v:"هەولێر، هەرێمی کوردستان، عێراق", pin4n:"ئامادەم بۆگواستنەوە بۆ کارێکی گونجاو",
+  foot_main:"پەڕەیەکی یەکفایلی · بێ دەپێندێنسی · دیزاین و دروستکراوەی شیار فوئاد هاویز — rev 2026.09",
+  foot_hex_label:"0x53", foot_hex:"ئەمە \"SHIAR\"ـە بە هێکس. بایتی یەکەم سەختترین بوو.",
+  foot_copy:"© ٢٠٢٦ شیار فوئاد هاویز — هەموو مافەکان پارێزراون. دیزاین و کۆد تایبەتن بە دروستکەرەکەیان.",
+  media_slot:"جێگەی میدیا — وێنە و ڤیدیۆی ڕاستەقینە بەم زووانە دێن",
+  view_github:"سەیرکردن لە GitHub →", close:"✕ داخستن", cap_hint:"سکیمایەکی کارا"
 }
-typeLine();
+};
 
-// scroll reveal
+/* ============ projects ============ */
+const PROJECTS = [
+{ id:"ml", visual:"ml", link:"https://github.com/SJ2005-code/rossmann_sales_forecast", tags:["Python","XGBoost","scikit-learn","Pandas"],
+  num:"DESIGN A1",
+  en:{title:"Rossmann Sales Forecasting", blurb:"End-to-end machine learning pipeline predicting daily store sales.",
+      detail:"Built in Python on the Kaggle Rossmann Store Sales dataset. I engineered features from promotions, holidays and store metadata, compared Random Forest against XGBoost, and tuned hyperparameters systematically to push predictive accuracy. The full pipeline — cleaning, modeling, evaluation, visualization — is public on GitHub.",
+      cap:"SALES FORECAST — XGBoost OUTPUT"},
+  ku:{title:"پێشبینی فرۆشتنی Rossmann", blurb:"مۆدێلی تەواوی ماشین لێرنینگ بۆ پێشبینی فرۆشتنی ڕۆژانە.",
+      detail:"بە Python و لەسەر داتاکانی Kaggle دروستمکردووە. فیچەرەکانم لە پرۆمۆشن و پشووەکان و زانیاری فرۆشگاکانەوە دروستکردووە، Random Forest و XGBoostم بەراوردکردووە، و پارامەیتەرەکانم بە سیستەماتیکی ڕێکخستووە بۆ وردبینییەکی باشتر. تەواوی پڕۆسەکە لە GitHub بەردەستە.",
+      cap:"پێشبینی فرۆشتن — دەرەنجامی XGBoost"} },
+{ id:"win", visual:"win", tags:["C#","WinForms","SQL Server"],
+  num:"DESIGN A2",
+  en:{title:"Windows Forms Application Suite", blurb:"Admin system, accounting software, and a flight management app — full C# desktop builds.",
+      detail:"Three complete desktop applications written in C#: a custom administrative system, accounting software, and a flight management app. Each sits on a normalized SQL Server database with tuned queries, data validation, and maintenance routines — designed, built, and tested end to end by one person.",
+      cap:"DESKTOP APP — ADMIN SYSTEM"},
+  ku:{title:"کۆمەڵەی ئەپەکانی Windows Forms", blurb:"سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی فڕۆکە — بە C#.",
+      detail:"سێ ئەپی تەواوی دێسکتۆپ بە C#: سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی بەڕێوەبردنی فڕۆکە. هەریەکەیان لەسەر داتابەیسی SQL Serverە بە پرۆژێکتی باشکراو — لە دیزاینەوە تا تاقیکردنەوە، بە دەستی خۆم.",
+      cap:"ئەپی دێسکتۆپ — سیستەمی کارگێڕی"} },
+{ id:"bat", visual:"bat", tags:["Electronics","BMS","TP4056"],
+  num:"DESIGN B1",
+  en:{title:"Lithium Battery Pack + BMS", blurb:"Custom lithium packs with TP4056 charging and real circuit protection.",
+      detail:"Custom lithium battery packs assembled by hand: TP4056 charging modules, battery management systems, and flyback-diode protection so nothing fries. Designed, soldered, tested with a multimeter, and put to work powering real devices. Photos and the charging-test video are coming with the portfolio media.",
+      cap:"BATTERY PACK — CHARGING CIRCUIT"},
+  ku:{title:"پاکی باتری لیتیۆم + BMS", blurb:"پاکی باتری بە چارجکردنی TP4056 و پاراستنی ڕاستەقینەی سوڕکت.",
+      detail:"پاکی باتری لیتیۆم کە خۆم کۆمکردووەتەوە: مۆدیلی چارجکردنی TP4056، سیستەمی بەڕێوەبردنی باتری (BMS)، و پاراستنی فڵایباک بۆ ئەوەی هیچ نەسووتێت. دیزاین و لووتکە و تاقیکردنەوە بە مۆلتی مەیتەر — هەموو بە دەستی خۆم. وێنە و ڤیدیۆکان بەم زووانە دێن.",
+      cap:"پاکی باتری — سوڕکتی چارجکردن"} },
+{ id:"hyd", visual:"hyd", tags:["Mechanical","Build"],
+  num:"DESIGN B2",
+  en:{title:"Hydraulic Press & Pump", blurb:"Mechanical builds designed and constructed from scratch.",
+      detail:"A working hydraulic pump and press designed and built independently — the engineering instinct does not stop at the keyboard. Precision structural woodworking too. Visual documentation is coming with the portfolio media.",
+      cap:"HYDRAULIC PRESS — WORK STROKE"},
+  ku:{title:"مەکینەی هایدرۆلیکی", blurb:"دیزاین و دروستکردنی میکانیکی لە سفرەوە.",
+      detail:"مەکینەی هایدرۆلیکی کارا کە بە تەواوی خۆم دروستمکردووە — هەستێکی ئەندازیاری تەنها لە کۆمپیوتەر کۆتایی نایێت. هەروەها دارتەلێنانی ورد. وێنەکان بەم زووانە دێن.",
+      cap:"مەکینەی هایدرۆلیکی — جووڵەی کار"} },
+{ id:"cmd", visual:"cmd", tags:["CMD","Scripting","Automation"],
+  num:"DESIGN C1",
+  en:{title:"CMD Workflow Automation", blurb:"Scripts that turn multi-step manual work into one command.",
+      detail:"Custom Command Prompt scripts that compress repetitive multi-step tasks into single commands — file routines, cleanup, and automated system reset protocols. Small tools, big hours saved.",
+      cap:"AUTOMATION SCRIPT — LIVE RUN"},
+  ku:{title:"ئۆتۆمەیشنی کار بە CMD", blurb:"سکریپتێک کارە هەنگاوینەکان دەکات بە یەک فەرمان.",
+      detail:"سکریپتی CMD کە کارە دووبارەبووەوەکان دەکەن بە فەرمانێکی یەکلاکەرەوە — ڕوتینی فایل، پاککردنەوە، و ڕیسێتی ئۆتۆماتیکی سیستەم. ئامرزێکی بچووک، کاتێکی زۆری پارێزراو.",
+      cap:"سکریپتی ئۆتۆمەیشن — جووڵەی ڕاستەقینە"} },
+{ id:"nordo", visual:"nordo", tags:["Branding","Marketing","Stripe"],
+  num:"DESIGN C2",
+  en:{title:"NORDO Restaurant Launch", blurb:"Brand, marketing, and operations for a restaurant launch in Erbil.",
+      detail:"Coordinated the grand launch of NORDO restaurant in Erbil: promotional design and visual branding, social media campaigns, verified Google Business management, e-commerce setup with Stripe, and internal financial tracking templates I designed myself.",
+      cap:"BRAND LAUNCH — NORDO"},
+  ku:{title:"کردنەوەی خواردنگەی NORDO", blurb:"براند، مارکێتینگ، و کارپێکردنی کردنەوەیەک لە هەولێر.",
+      detail:"کردنەوەی خواردنگەی NORDO لە هەولێرم ڕێکخست: دیزاینی پرۆمۆ و براندینگ، کەمپینی سۆشیال میدیا، بەڕێوەبردنی Google Business، ئی-کۆمەرس بە Stripe، و تێمپلێتی شیکاری دارایی کە خۆم دیزاینمکردووە.",
+      cap:"کردنەوەی براند — NORDO"} }
+];
+
+/* ============ project SVG visuals ============ */
+function visual(v, cap){
+  const frames = {
+  ml: `<svg viewBox="0 0 400 220">
+    <line x1="50" y1="20" x2="50" y2="180" stroke="#1e2a35" stroke-width="2"/>
+    <line x1="50" y1="180" x2="380" y2="180" stroke="#1e2a35" stroke-width="2"/>
+    <rect class="a-bar" x="70" y="120" width="26" height="60" fill="#0e6e6b"/>
+    <rect class="a-bar" x="110" y="95" width="26" height="85" fill="#0e6e6b"/>
+    <rect class="a-bar" x="150" y="130" width="26" height="50" fill="#0e6e6b"/>
+    <rect class="a-bar" x="190" y="70" width="26" height="110" fill="#14b8a6"/>
+    <rect class="a-bar" x="230" y="100" width="26" height="80" fill="#0e6e6b"/>
+    <rect class="a-bar" x="270" y="55" width="26" height="125" fill="#14b8a6"/>
+    <rect class="a-bar" x="310" y="85" width="26" height="95" fill="#0e6e6b"/>
+    <polyline class="a-draw" points="83,110 123,88 163,115 203,60 243,90 283,45 323,70" fill="none" stroke="#e2a23b" stroke-width="2.5" stroke-dasharray="6 5"/>
+    <text x="50" y="205" fill="#5b6875" font-size="10" font-family="JetBrains Mono,monospace">STORE 1 · 6-WEEK FORECAST</text>
+    <text x="340" y="40" fill="#e2a23b" font-size="11" font-weight="bold" font-family="JetBrains Mono,monospace">▲</text>
+  </svg>`,
+  win: `<svg viewBox="0 0 400 220">
+    <rect x="60" y="30" width="280" height="160" rx="6" fill="#0e151c" stroke="#1e2a35" stroke-width="2"/>
+    <rect x="60" y="30" width="280" height="26" rx="6" fill="#131c25"/>
+    <circle cx="76" cy="43" r="4" fill="#e2543f"/><circle cx="90" cy="43" r="4" fill="#e2a23b"/><circle cx="104" cy="43" r="4" fill="#14b8a6"/>
+    <text x="200" y="47" fill="#8a97a3" font-size="10" text-anchor="middle" font-family="JetBrains Mono,monospace">FlightManager.exe</text>
+    <rect x="74" y="68" width="70" height="110" rx="4" fill="#11181f" stroke="#1e2a35"/>
+    <rect class="a-blink" x="82" y="78" width="54" height="8" rx="2" fill="#14b8a6"/>
+    <rect class="a-blink" style="animation-delay:1s" x="82" y="94" width="54" height="8" rx="2" fill="#223240"/>
+    <rect class="a-blink" style="animation-delay:1.2s" x="82" y="110" width="54" height="8" rx="2" fill="#223240"/>
+    <rect x="156" y="72" width="110" height="9" rx="2" fill="#223240"/>
+    <rect x="156" y="90" width="170" height="9" rx="2" fill="#223240"/>
+    <rect x="156" y="108" width="140" height="9" rx="2" fill="#223240"/>
+    <rect x="156" y="140" width="60" height="22" rx="4" fill="#0e6e6b"/>
+    <text x="186" y="155" fill="#04211e" font-size="10" font-weight="bold" text-anchor="middle" font-family="JetBrains Mono,monospace">SAVE</text>
+    <rect x="226" y="140" width="60" height="22" rx="4" fill="none" stroke="#223240"/>
+  </svg>`,
+  bat: `<svg viewBox="0 0 400 220">
+    <rect x="40" y="80" width="120" height="70" rx="6" fill="#0e151c" stroke="#1e2a35" stroke-width="2"/>
+    <text x="100" y="110" fill="#8a97a3" font-size="11" text-anchor="middle" font-family="JetBrains Mono,monospace">TP4056</text>
+    <text x="100" y="128" fill="#5b6875" font-size="8" text-anchor="middle" font-family="JetBrains Mono,monospace">CHARGE MODULE</text>
+    <circle class="a-blink" cx="100" cy="62" r="5" fill="#14b8a6"/>
+    <rect x="230" y="60" width="34" height="110" rx="4" fill="#11181f" stroke="#1e2a35" stroke-width="2"/>
+    <rect x="264" y="60" width="34" height="110" rx="4" fill="#11181f" stroke="#1e2a35" stroke-width="2"/>
+    <rect x="298" y="60" width="34" height="110" rx="4" fill="#11181f" stroke="#1e2a35" stroke-width="2"/>
+    <rect x="230" y="60" width="102" height="14" rx="3" fill="#14b8a6" opacity=".85"/>
+    <path d="M160 115 h60" stroke="#8a97a3" stroke-width="2" fill="none"/>
+    <path class="a-pulse2" d="M160 115 h60" stroke="#14b8a6" stroke-width="3" fill="none"/>
+    <path d="M160 130 h60" stroke="#8a97a3" stroke-width="2" fill="none"/>
+    <path class="a-pulse2" style="animation-delay:1.5s" d="M160 130 h60" stroke="#14b8a6" stroke-width="3" fill="none"/>
+    <text x="230" y="192" fill="#5b6875" font-size="10" font-family="JetBrains Mono,monospace">3S BATTERY PACK · 4.2V</text>
+    <text x="352" y="70" fill="#e2a23b" font-size="14" font-family="JetBrains Mono,monospace">⚡</text>
+  </svg>`,
+  hyd: `<svg viewBox="0 0 400 220">
+    <rect x="150" y="20" width="100" height="14" rx="4" fill="#223240"/>
+    <rect x="185" y="34" width="30" height="70" rx="4" fill="#11181f" stroke="#1e2a35" stroke-width="2"/>
+    <g class="a-press">
+      <rect x="140" y="104" width="120" height="12" rx="3" fill="#0e6e6b"/>
+    </g>
+    <rect x="120" y="150" width="160" height="40" rx="4" fill="#0e151c" stroke="#1e2a35" stroke-width="2"/>
+    <rect x="160" y="116" width="80" height="34" rx="3" fill="#131c25" stroke="#1e2a35"/>
+    <line x1="60" y1="150" x2="60" y2="60" stroke="#8a97a3" stroke-width="2"/>
+    <circle cx="60" cy="45" r="16" fill="#0e151c" stroke="#1e2a35" stroke-width="2"/>
+    <text x="60" y="49" fill="#14b8a6" font-size="10" text-anchor="middle" font-family="JetBrains Mono,monospace">bar</text>
+    <path class="a-draw" d="M60 45 l40 -40" stroke="#e2a23b" stroke-width="2.5" fill="none"/>
+    <text x="200" y="205" fill="#5b6875" font-size="10" text-anchor="middle" font-family="JetBrains Mono,monospace">HYDRAULIC PRESS · WORKING STROKE</text>
+  </svg>`,
+  cmd: `<svg viewBox="0 0 400 220">
+    <rect x="50" y="40" width="300" height="140" rx="6" fill="#0a0e12" stroke="#1e2a35" stroke-width="2"/>
+    <text x="66" y="66" fill="#5b6875" font-size="10" font-family="JetBrains Mono,monospace">C:\\Users\\Shiar&gt;</text>
+    <text class="a-typeline" x="66" y="88" fill="#14b8a6" font-size="11" font-family="JetBrains Mono,monospace">reset_workflow.bat --auto</text>
+    <text class="a-typeline" style="animation-delay:1.4s" x="66" y="110" fill="#8a97a3" font-size="10" font-family="JetBrains Mono,monospace">[1/4] backing up files........</text>
+    <text class="a-typeline" style="animation-delay:2.2s" x="66" y="128" fill="#8a97a3" font-size="10" font-family="JetBrains Mono,monospace">[2/4] cleaning temp.........</text>
+    <text class="a-typeline" style="animation-delay:3s" x="66" y="146" fill="#14b8a6" font-size="10" font-family="JetBrains Mono,monospace">[3/4] done. 0 errors.</text>
+    <rect class="a-cursor" x="66" y="158" width="7" height="11" fill="#14b8a6"/>
+    <text x="200" y="200" fill="#5b6875" font-size="10" text-anchor="middle" font-family="JetBrains Mono,monospace">ONE COMMAND · FOUR MANUAL STEPS GONE</text>
+  </svg>`,
+  nordo: `<svg viewBox="0 0 400 220">
+    <rect x="110" y="80" width="180" height="100" rx="5" fill="#0e151c" stroke="#1e2a35" stroke-width="2"/>
+    <g>
+      <rect x="104" y="60" width="24" height="22" fill="#0e6e6b"/><rect x="128" y="60" width="24" height="22" fill="#e2a23b"/>
+      <rect x="152" y="60" width="24" height="22" fill="#0e6e6b"/><rect x="176" y="60" width="24" height="22" fill="#e2a23b"/>
+      <rect x="200" y="60" width="24" height="22" fill="#0e6e6b"/><rect x="224" y="60" width="24" height="22" fill="#e2a23b"/>
+      <rect x="248" y="60" width="24" height="22" fill="#0e6e6b"/><rect x="272" y="60" width="24" height="22" fill="#e2a23b"/>
+    </g>
+    <rect class="a-blink" x="140" y="100" width="120" height="30" rx="4" fill="none" stroke="#14b8a6" stroke-width="2"/>
+    <text class="a-blink" x="200" y="120" fill="#14b8a6" font-size="14" font-weight="bold" text-anchor="middle" font-family="JetBrains Mono,monospace">NORDO</text>
+    <rect x="145" y="145" width="26" height="20" rx="3" fill="#223240"/>
+    <rect x="230" y="145" width="26" height="20" rx="3" fill="#223240"/>
+    <path class="a-steam" d="M200 95 q4 -8 0 -14" stroke="#8a97a3" stroke-width="2" fill="none"/>
+    <text x="200" y="205" fill="#5b6875" font-size="10" text-anchor="middle" font-family="JetBrains Mono,monospace">GRAND LAUNCH · ERBIL 2026</text>
+  </svg>`};
+  return `<div class="d-anim">${frames[v]}<div class="cap">${cap}</div></div>`;
+}
+
+/* ============ render ============ */
+let LANG = localStorage.getItem("shiar-lang") || "en";
+const grid = document.getElementById("portfolio-grid");
+function renderProjects(){
+  grid.innerHTML = PROJECTS.map(p=>{
+    const t = p[LANG];
+    return `<article class="design" data-id="${p.id}">
+      <div class="d-head">
+        <span class="d-num">${p.num}</span>
+        <h3>${t.title}</h3>
+        <p class="d-blurb">${t.blurb}</p>
+        <div class="d-hint">[ + ] EXPAND</div>
+      </div>
+      <div class="d-body"><div><div class="d-inner">
+        ${visual(p.visual, t.cap)}
+        <div class="d-detail">
+          <p>${t.detail}</p>
+          <div class="tags">${p.tags.map(x=>`<span class="tag">${x}</span>`).join("")}</div>
+          <div class="media-slot">${I18N[LANG].media_slot}</div>
+          <div class="d-actions">
+            ${p.link?`<a class="d-link" href="${p.link}" target="_blank">${I18N[LANG].view_github}</a>`:""}
+            <button class="d-close" type="button">${I18N[LANG].close}</button>
+          </div>
+        </div>
+      </div></div></div>
+    </article>`;
+  }).join("");
+  document.querySelectorAll(".design").forEach(card=>{
+    const head = card.querySelector(".d-head");
+    head.addEventListener("click", ()=>{
+      if(card.classList.contains("open")) return;
+      document.querySelectorAll(".design.open").forEach(o=>o.classList.remove("open"));
+      card.classList.add("open");
+    });
+    card.querySelector(".d-close").addEventListener("click", e=>{
+      e.stopPropagation(); card.classList.remove("open");
+    });
+  });
+}
+
+/* ============ language toggle ============ */
+function applyLang(l){
+  LANG = l; localStorage.setItem("shiar-lang", l);
+  const d = I18N[l];
+  document.documentElement.lang = (l==="ku") ? "ku" : "en";
+  document.documentElement.dir  = (l==="ku") ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(d[k] !== undefined) el.innerHTML = d[k];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{
+    const k = el.getAttribute("data-i18n-html");
+    if(d[k] !== undefined) el.innerHTML = d[k];
+  });
+  document.getElementById("btn-cv").href = (l==="ku")
+    ? "https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/c92387f05_cv2026-09-24-kurdish.pdf"
+    : "https://base44.app/api/apps/6a80295aa36ab08a08439347/files/mp/public/6a80295aa36ab08a08439347/1a16523ec_cv2026-09-24.pdf";
+  document.querySelectorAll(".lang-switch button").forEach(b=>{
+    b.classList.toggle("on", b.dataset.lang === l);
+  });
+  renderProjects();
+  typeBoot();
+}
+document.querySelectorAll(".lang-switch button").forEach(b=>{
+  b.addEventListener("click", ()=>applyLang(b.dataset.lang));
+});
+
+/* ============ boot typing ============ */
+let bootTimers = [];
+function typeBoot(){
+  bootTimers.forEach(clearTimeout); bootTimers = [];
+  ["t1","t2","t3"].forEach(id=>{ document.getElementById(id).textContent = ""; });
+  const lines = I18N[LANG].boot;
+  let li = 0;
+  function typeLine(){
+    if(li >= lines.length) return;
+    const id = "t" + (++li);
+    const el = document.getElementById(id);
+    const txt = lines[li-1];
+    let pos = 0;
+    const t = setInterval(()=>{
+      pos++;
+      el.textContent = txt.slice(0, pos);
+      if(pos >= txt.length){ clearInterval(t); bootTimers.push(setTimeout(typeLine, 150)); }
+    }, 14);
+    bootTimers.push(t);
+  }
+  typeLine();
+}
+
+/* ============ reveal ============ */
 const io = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target);} });
 },{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
-// stagger project cards a touch
-document.querySelectorAll(".design-grid .design").forEach((d,i)=>{ d.style.transitionDelay = (i%3)*90 + "ms"; });
+/* init */
+applyLang(LANG);
 </script>
 </body>
 </html>
