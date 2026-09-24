@@ -13,6 +13,7 @@
 <meta property="og:title" content="Shiar Fooad Haweez — SJ2005">
 <meta property="og:description" content="The technical datasheet of a developer who builds things end to end: code, databases, hardware.">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#0b0f14">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='8' y='8' width='16' height='16' rx='2' fill='none' stroke='%2314b8a6' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23e2a23b'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +72,34 @@ section{padding:5.2rem 0 2rem; position:relative}
 }
 .sec-title{font-size:clamp(1.5rem,3.4vw,2.1rem); color:var(--white); letter-spacing:.02em}
 .sec-title small{display:block; font-size:.68rem; color:var(--muted); letter-spacing:.25em; margin-top:.2rem}
+
+/* ---------- mobile ---------- */
+@media(max-width:880px){
+  .chip-stage{order:2}
+  header{min-height:auto; padding:4.5rem 0 2.5rem}
+  .hero{gap:2.2rem}
+}
+@media(max-width:700px){
+  nav{gap:.9rem}
+  nav a{display:none}
+  nav .lang-switch{margin-inline-start:auto}
+  section{padding:3.6rem 0 1.6rem}
+  .specs,.specs tr,.specs th,.specs td{display:block}
+  .specs tr{border-bottom:1px solid var(--line)}
+  .specs th{width:auto; background:none; border-bottom:none; padding-bottom:.1rem}
+  .specs td{padding-top:.1rem}
+}
+@media(max-width:560px){
+  .hero-terminal{padding:1.2rem 1.1rem}
+  h1{font-size:1.7rem}
+  .scroll-hint{display:none}
+  .btn{width:100%; justify-content:center}
+  .sec-num{font-size:.66rem}
+  .t-item{padding-bottom:1.6rem}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
+}
 
 /* reveal */
 .reveal{opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease}
