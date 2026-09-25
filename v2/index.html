@@ -314,7 +314,7 @@ footer .copy{color:#5b6875; margin-top:.9rem; font-size:.62rem; letter-spacing:.
   background:#131c25; aspect-ratio:1/1; max-width:460px; width:100%; margin-inline:auto;
   will-change:transform}
 .char-stage .cf{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-  opacity:0; transition:opacity .12s linear; pointer-events:none}
+  opacity:0; transition:opacity .18s ease; pointer-events:none}
 .char-stage .cf-center{opacity:1}
 .scanline{position:absolute; inset:0; pointer-events:none; opacity:.5;
   background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.055) 3px 4px)}
@@ -861,8 +861,11 @@ applyLang(LANG);
   });
   window.addEventListener('mouseleave', function(){ idle = true; });
 
-  function setWeights(w){
-    for(var k in frames){ frames[k].style.opacity = w[k]; }
+  var cur = 'center';
+  function show(key){
+    if(key === cur) return;
+    for(var k in frames){ frames[k].style.opacity = (k === key) ? 1 : 0; }
+    cur = key;
   }
   function loop(){
     if(idle){ // gentle idle sway on touch devices / when cursor leaves
@@ -870,13 +873,15 @@ applyLang(LANG);
       tx = Math.sin(t*0.9)*0.45;
       ty = Math.sin(t*0.6)*0.25;
     }
-    cx += (tx-cx)*0.09;  cy += (ty-cy)*0.09;
-    // direction weights (no down frame yet: down blends back to center)
-    var wl = Math.max(0,-cx), wr = Math.max(0,cx), wu = Math.max(0,-cy);
-    var wd = Math.max(0,cy) * 0.35;               // down => mostly center, slight dip
-    var wc = Math.max(0.12, 1 - Math.max(Math.abs(cx), Math.abs(cy)) - wd*0.3);
-    var s = wl + wr + wu + wc;
-    setWeights({ center: wc/s, left: wl/s, right: wr/s, up: wu/s });
+    cx += (tx-cx)*0.14;  cy += (ty-cy)*0.14;
+    // one clean face at a time: pick the dominant direction
+    var m = Math.max(Math.abs(cx), Math.abs(cy));
+    var key = 'center';
+    if(m > 0.20){
+      if(Math.abs(cx) >= Math.abs(cy)) key = cx > 0 ? 'right' : 'left';
+      else if(cy < 0) key = 'up';
+    }
+    show(key);
     // parallax: stage leans toward the cursor slightly
     stage.style.transform = 'translate(' + (cx*7) + 'px,' + (cy*5) + 'px)';
     if(hud){
