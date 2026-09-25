@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shiar Haweez — Software & Automation Engineer</title>
+<meta name="description" content="Shiar Fooad Haweez — software, hardware and automation engineer in Erbil, Kurdistan. C# desktop systems, SQL databases, ML pipelines, lithium battery builds and real operations experience.">
+<meta property="og:title" content="Shiar Haweez — Software & Automation Engineer">
+<meta property="og:description" content="Code, scripts or a soldering iron — pick the tool, ship the deliverable. Portfolio of a full-stack builder from Erbil.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sj2005-code.github.io/shiar-portfolio/v3/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SHIAR HAWEEZ — PORTFOLIO v3
+   dark editorial / kinetic type / copper on warm black
+   ============================================================ */
+:root{
+  --bg:#0d0b08;
+  --bg2:#12100c;
+  --panel:#17140f;
+  --line:rgba(240,230,214,.09);
+  --ink:#f2ede3;
+  --dim:#a59d8e;
+  --faint:#6f695d;
+  --copper:#e8a44a;
+  --copper-hi:#ffca7a;
+  --ember:#c96f2e;
+  --teal:#39c9b2;
+  --serif:'Fraunces',Georgia,'Noto Kufi Arabic',serif;
+  --sans:'Manrope','Noto Kufi Arabic',system-ui,sans-serif;
+  --kuff:'Noto Kufi Arabic','Manrope',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.65;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body.ku{font-family:var(--kuff)}
+body.ku .notranslate{font-family:var(--serif)}
+::selection{background:var(--copper);color:#0d0b08}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+
+/* grain overlay */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2000;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+}
+
+/* ---------- nav ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,5vw,56px);
+  transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(13,11,8,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.logo{display:flex;align-items:baseline;gap:10px}
+.logo .mark{
+  font-family:var(--sans);font-weight:800;font-size:15px;letter-spacing:.12em;
+  color:var(--copper);
+}
+.logo .sub{font-size:11px;color:var(--faint);letter-spacing:.18em}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{
+  font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dim);transition:color .25s;
+}
+.nav-links a:hover{color:var(--copper-hi)}
+.lang-btn{
+  background:none;border:1px solid var(--line);color:var(--dim);
+  font-family:var(--kuff);font-size:12px;font-weight:600;
+  padding:6px 14px;border-radius:99px;cursor:pointer;
+  transition:all .25s;letter-spacing:.05em;
+}
+.lang-btn:hover{border-color:var(--copper);color:var(--copper-hi)}
+body.ku .lang-btn{font-family:var(--sans)}
+
+/* ---------- hero ---------- */
+header.hero{
+  min-height:100svh;position:relative;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:120px clamp(20px,6vw,80px) 60px;
+}
+#stars{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-glow{
+  position:absolute;z-index:0;width:130vmin;height:130vmin;
+  left:50%;top:-52vmin;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle at 50% 60%,rgba(232,164,74,.16),rgba(232,164,74,.05) 38%,transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;width:100%}
+.status-pill{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--line);border-radius:99px;
+  padding:8px 18px;font-size:12px;letter-spacing:.16em;font-weight:600;
+  color:var(--dim);text-transform:uppercase;
+  background:rgba(13,11,8,.5);margin-bottom:34px;
+}
+.status-pill .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--teal);
+  box-shadow:0 0 12px var(--teal);animation:pulse 2.2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero-kicker{
+  font-size:13px;font-weight:700;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--copper);margin-bottom:12px;
+}
+h1.hero-name{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(52px,12.5vw,164px);
+  line-height:.92;letter-spacing:-.015em;margin-bottom:26px;
+}
+h1.hero-name .ln{display:block;overflow:hidden}
+h1.hero-name .ln span{display:inline-block;animation:rise 1.1s var(--ease) both}
+h1.hero-name .ln:nth-child(2) span{animation-delay:.12s}
+@keyframes rise{from{transform:translateY(110%)}to{transform:translateY(0)}}
+.hero-name em{
+  font-style:italic;font-weight:400;
+  background:linear-gradient(100deg,var(--copper-hi) 5%,var(--copper) 45%,var(--ember) 95%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.ticker-line{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  font-size:clamp(17px,2.6vw,26px);color:var(--dim);margin-bottom:44px;
+  min-height:1.6em;
+}
+.ticker-line .lead{font-weight:600;color:var(--ink)}
+#rot{font-family:var(--serif);font-style:italic;color:var(--copper-hi);white-space:nowrap}
+body.ku #rot{font-family:var(--kuff);font-style:normal}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 30px;border-radius:99px;font-size:13.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;
+  transition:all .3s var(--ease);
+}
+.btn.gold{background:var(--copper);color:#0d0b08}
+.btn.gold:hover{background:var(--copper-hi);transform:translateY(-2px);box-shadow:0 14px 40px -8px rgba(232,164,74,.45)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--copper);color:var(--copper-hi);transform:translateY(-2px)}
+.scroll-hint{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.3em;color:var(--faint);text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2;
+}
+.scroll-hint::after{
+  content:"";width:1px;height:44px;
+  background:linear-gradient(var(--copper),transparent);
+  animation:drip 1.8s infinite;
+}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- marquee ---------- */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:20px 0;overflow:hidden;white-space:nowrap;position:relative;
+  background:var(--bg2);
+}
+.marquee::before,.marquee::after{
+  content:"";position:absolute;top:0;bottom:0;width:14vw;z-index:3;pointer-events:none;
+}
+.marquee::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.marquee::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.marquee .track{display:inline-flex;gap:0;animation:slide 36s linear infinite}
+@keyframes slide{to{transform:translateX(-50%)}}
+.marquee span{
+  font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.4vw,26px);
+  color:var(--dim);padding:0 26px;position:relative;
+}
+.marquee span::after{content:"✦";position:absolute;right:-6px;color:var(--copper);font-style:normal;font-size:14px}
+body.ku .marquee span{font-family:var(--kuff);font-style:normal}
+
+/* ---------- sections ---------- */
+section{padding:clamp(80px,11vw,150px) clamp(20px,6vw,80px);position:relative}
+.wrap{max-width:1180px;margin:0 auto}
+.sec-head{display:flex;align-items:baseline;gap:22px;margin-bottom:clamp(36px,5vw,64px)}
+.sec-num{
+  font-family:var(--serif);font-style:italic;font-size:15px;color:var(--copper);
+  letter-spacing:.05em;flex-shrink:0;
+}
+.sec-title{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(34px,5.4vw,64px);line-height:1.04;letter-spacing:-.01em;
+}
+body.ku .sec-title{font-family:var(--kuff);letter-spacing:0}
+.sec-title em{font-style:italic;color:var(--copper)}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,80px);align-items:start}
+.about-lead{
+  font-family:var(--serif);font-size:clamp(21px,2.7vw,30px);line-height:1.42;
+  font-weight:400;margin-bottom:34px;
+}
+body.ku .about-lead{font-family:var(--kuff);line-height:1.9}
+.about-lead strong{color:var(--copper-hi);font-weight:600}
+.about-copy p{color:var(--dim);margin-bottom:20px;font-size:16.5px}
+.about-copy p:last-child{margin-bottom:0}
+.about-note{
+  margin-top:34px;padding:22px 26px;border-left:3px solid var(--copper);
+  background:var(--panel);border-radius:0 14px 14px 0;
+  font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.5;color:var(--ink);
+}
+body.ku .about-note{font-family:var(--kuff);font-style:normal;line-height:1.9}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.stat{background:var(--panel);padding:clamp(24px,3vw,38px) clamp(20px,2.5vw,32px);transition:background .3s}
+.stat:hover{background:#1d1913}
+.stat .n{
+  font-family:var(--serif);font-size:clamp(40px,5vw,58px);font-weight:500;
+  color:var(--copper-hi);line-height:1;display:block;
+}
+.stat .l{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:10px;font-weight:600;display:block}
+
+/* ---------- stack ---------- */
+.stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.stack-card{
+  border:1px solid var(--line);border-radius:18px;padding:30px 28px;
+  background:linear-gradient(160deg,var(--panel),transparent 140%);
+  transition:transform .35s var(--ease),border-color .35s;
+}
+.stack-card:hover{transform:translateY(-5px);border-color:rgba(232,164,74,.4)}
+.stack-card .icon{
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:rgba(232,164,74,.1);color:var(--copper-hi);margin-bottom:20px;font-size:18px;
+}
+.stack-card h3{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-hi);margin-bottom:14px;font-weight:700}
+.stack-card ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.stack-card li{
+  font-size:13.5px;color:var(--dim);border:1px solid var(--line);
+  padding:5px 12px;border-radius:99px;
+}
+
+/* ---------- work / bento ---------- */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.card{
+  position:relative;border:1px solid var(--line);border-radius:20px;
+  background:linear-gradient(165deg,var(--panel) 30%,transparent);
+  padding:26px;cursor:pointer;overflow:hidden;
+  transition:transform .4s var(--ease),border-color .35s,box-shadow .4s;
+  display:flex;flex-direction:column;gap:14px;min-height:250px;
+}
+.card:hover{
+  transform:translateY(-6px);border-color:rgba(232,164,74,.45);
+  box-shadow:0 24px 60px -24px rgba(232,164,74,.25);
+}
+.card.w3{grid-column:span 3}
+.card.w2{grid-column:span 2}
+.card .art{
+  height:120px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(232,164,74,.09),rgba(0,0,0,.25));
+  border:1px solid rgba(240,230,214,.05);
+}
+.card .art svg{width:100%;height:100%;max-height:110px}
+.card .num{
+  position:absolute;top:20px;right:22px;font-family:var(--serif);
+  font-style:italic;font-size:13px;color:var(--faint);
+}
+.card h3{font-family:var(--serif);font-size:clamp(20px,2vw,25px);font-weight:500;line-height:1.15}
+body.ku .card h3{font-family:var(--kuff)}
+.card p{font-size:14px;color:var(--dim);flex:1}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap}
+.card .tags span{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  color:var(--copper);background:rgba(232,164,74,.08);
+  padding:4px 11px;border-radius:99px;
+}
+.card .open{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:var(--faint);transition:color .25s;display:inline-flex;gap:8px;align-items:center;
+}
+.card:hover .open{color:var(--copper-hi)}
+
+/* modal */
+.modal-bg{
+  position:fixed;inset:0;z-index:1500;background:rgba(8,6,4,.82);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:22px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-bg.on{opacity:1;pointer-events:auto}
+.modal{
+  background:var(--bg2);border:1px solid rgba(232,164,74,.25);border-radius:22px;
+  max-width:640px;width:100%;max-height:86vh;overflow:auto;
+  padding:clamp(28px,4vw,46px);position:relative;
+  transform:translateY(24px) scale(.98);transition:transform .35s var(--ease);
+}
+.modal-bg.on .modal{transform:none}
+.modal .x{
+  position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:none;color:var(--dim);cursor:pointer;
+  font-size:17px;transition:all .25s;
+}
+.modal .x:hover{border-color:var(--copper);color:var(--copper-hi);transform:rotate(90deg)}
+.modal h3{font-family:var(--serif);font-size:clamp(26px,3vw,34px);font-weight:500;margin:8px 0 18px}
+body.ku .modal h3{font-family:var(--kuff)}
+.modal .mtags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.modal .mtags span{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  color:var(--copper);background:rgba(232,164,74,.08);padding:4px 11px;border-radius:99px;
+}
+.modal p{color:var(--dim);font-size:15.5px;margin-bottom:14px;line-height:1.8}
+.modal .m-link{margin-top:20px}
+
+/* ---------- history ---------- */
+.timeline{position:relative;max-width:840px}
+.timeline::before{
+  content:"";position:absolute;left:19px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(var(--copper),rgba(232,164,74,.06));
+}
+.t-item{position:relative;padding:0 0 clamp(40px,5vw,60px) 66px}
+.t-item:last-child{padding-bottom:0}
+.t-item::before{
+  content:"";position:absolute;left:13px;top:8px;width:13px;height:13px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--copper);
+  box-shadow:0 0 0 5px rgba(232,164,74,.1);
+}
+.t-item .when{
+  font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--copper);font-weight:700;margin-bottom:8px;
+}
+.t-item h3{font-family:var(--serif);font-size:clamp(21px,2.6vw,28px);font-weight:500;margin-bottom:4px}
+body.ku .t-item h3{font-family:var(--kuff)}
+.t-item .role{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:12px}
+.t-item p{color:var(--dim);font-size:15.5px;max-width:640px}
+
+/* ---------- contact ---------- */
+.contact-cta{max-width:1000px;margin:0 auto;text-align:center}
+.contact-cta .big{
+  font-family:var(--serif);font-size:clamp(40px,7.4vw,96px);line-height:1.02;
+  font-weight:500;letter-spacing:-.01em;margin-bottom:30px;
+}
+body.ku .contact-cta .big{font-family:var(--kuff);line-height:1.5}
+.contact-cta .big em{font-style:italic;color:var(--copper)}
+.contact-sub{color:var(--dim);font-size:17px;margin-bottom:44px}
+.contact-sub a{color:var(--copper-hi);border-bottom:1px solid rgba(232,164,74,.4)}
+.contact-sub a:hover{color:var(--copper)}
+.contact-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:70px}
+.socials{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+}
+.soc{background:var(--panel);padding:22px 18px;text-align:center;transition:background .3s}
+.soc:hover{background:#1d1913}
+.soc .k{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:6px}
+.soc .v{font-size:14px;color:var(--ink);font-weight:600;direction:ltr}
+.soc:hover .v{color:var(--copper-hi)}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line);padding:34px clamp(20px,6vw,80px);
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  color:var(--faint);font-size:12.5px;letter-spacing:.08em;
+}
+footer .clock{color:var(--copper);font-weight:700;letter-spacing:.14em}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+.rv.d4{transition-delay:.32s}.rv.d5{transition-delay:.4s}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .nav-right{display:flex;gap:12px;align-items:center}
+  .about-grid{grid-template-columns:1fr}
+  .stack-grid{grid-template-columns:1fr 1fr}
+  .card.w3,.card.w2{grid-column:span 6}
+}
+@media(max-width:600px){
+  .stack-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .hero-ctas .btn{width:100%;justify-content:center}
+  .sec-head{gap:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo">
+    <span class="mark">SJ·05</span>
+    <span class="sub notranslate">SHIAR HAWEEZ</span>
+  </div>
+  <div class="nav-links">
+    <a href="#work" data-i18n="nav_work">Work</a>
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#history" data-i18n="nav_history">History</a>
+    <a href="#contact" data-i18n="nav_contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">کوردی</button>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <canvas id="stars"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="status-pill"><span class="dot"></span><span data-i18n="status">Open to opportunities · Erbil, Kurdistan</span></div>
+    <p class="hero-kicker" data-i18n="kicker">Software · Hardware · Automation</p>
+    <h1 class="hero-name notranslate">
+      <span class="ln"><span>SHIAR</span></span>
+      <span class="ln"><span><em>HAWEEZ</em></span></span>
+    </h1>
+    <div class="ticker-line">
+      <span class="lead" data-i18n="ticker_lead">I build</span>
+      <span id="rot"></span>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn gold" href="#work" data-i18n="cta_work">See the work</a>
+      <a class="btn ghost" href="#contact" data-i18n="cta_contact">Get in touch</a>
+    </div>
+  </div>
+  <div class="scroll-hint" data-i18n="scroll">Scroll</div>
+</header>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">( 01 )</span>
+      <h2 class="sec-title" data-i18n="about_title">The short <em>version</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="rv">
+        <p class="about-lead" data-i18n="about_lead"></p>
+        <div class="about-copy">
+          <p data-i18n="about_p1"></p>
+          <p data-i18n="about_p2"></p>
+          <p data-i18n="about_p3"></p>
+        </div>
+        <div class="about-note" data-i18n="about_note"></div>
+      </div>
+      <div class="stats rv d2">
+        <div class="stat"><span class="n" data-count="6">0</span><span class="l" data-i18n="stat_projects">Shipped projects</span></div>
+        <div class="stat"><span class="n" data-count="3">0</span><span class="l" data-i18n="stat_apps">Complete desktop apps</span></div>
+        <div class="stat"><span class="n" data-count="4">0</span><span class="l" data-i18n="stat_langs">Working languages</span></div>
+        <div class="stat"><span class="n" data-count="1">0</span><span class="l" data-i18n="stat_ml">End-to-end ML pipeline</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STACK ================= -->
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">( 02 )</span>
+      <h2 class="sec-title" data-i18n="stack_title">What's in the <em>toolbox</em></h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-card rv"><div class="icon">⌘</div><h3 data-i18n="sk1">Software</h3>
+        <ul><li>C# · WinForms</li><li>Python</li><li>PHP</li><li>HTML · CSS</li></ul></div>
+      <div class="stack-card rv d1"><div class="icon">◈</div><h3 data-i18n="sk2">Data & ML</h3>
+        <ul><li>SQL Server · SSMS</li><li>Schema design</li><li>XGBoost</li><li>scikit-learn</li><li>Pandas</li></ul></div>
+      <div class="stack-card rv d2"><div class="icon">⚡</div><h3 data-i18n="sk3">Hardware</h3>
+        <ul><li>Lithium packs</li><li>BMS · TP4056</li><li>Circuit protection</li><li>Hydraulics</li></ul></div>
+      <div class="stack-card rv"><div class="icon">↻</div><h3 data-i18n="sk4">Automation</h3>
+        <ul><li>CMD scripting</li><li>Workflow automation</li></ul></div>
+      <div class="stack-card rv d1"><div class="icon">◉</div><h3 data-i18n="sk5">Operations</h3>
+        <ul><li>Brand management</li><li>E-commerce · Stripe</li><li>Financial tracking</li><li>Customer support</li></ul></div>
+      <div class="stack-card rv d2"><div class="icon">✎</div><h3 data-i18n="sk6">Languages</h3>
+        <ul><li data-i18n="lang_ku">Kurdish — native</li><li data-i18n="lang_en">English — fluent</li><li data-i18n="lang_sv">Swedish — fluent</li><li data-i18n="lang_no">Norwegian — fluent</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">( 03 )</span>
+      <h2 class="sec-title" data-i18n="work_title">Selected <em>work</em></h2>
+    </div>
+    <div class="bento" id="bento"></div>
+  </div>
+</section>
+
+<!-- ================= HISTORY ================= -->
+<section id="history">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">( 04 )</span>
+      <h2 class="sec-title" data-i18n="hist_title">Where this unit has <em>deployed</em></h2>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="contact-cta rv">
+    <h2 class="big" data-i18n="contact_big"></h2>
+    <p class="contact-sub" data-i18n="contact_sub"></p>
+    <div class="contact-actions">
+      <a class="btn gold" href="mailto:shiar.mohammad.2005@gmail.com" data-i18n="cta_email">Email me</a>
+      <a class="btn ghost" href="https://t.me/Shiar_m" target="_blank" rel="noopener" data-i18n="cta_tg">Telegram</a>
+    </div>
+    <div class="socials">
+      <a class="soc" href="mailto:shiar.mohammad.2005@gmail.com"><span class="k" data-i18n="c_email">Email</span><span class="v notranslate">shiar.mohammad.2005@gmail.com</span></a>
+      <a class="soc" href="tel:+9647518833032"><span class="k" data-i18n="c_phone">Phone</span><span class="v notranslate">+964 751 883 3032</span></a>
+      <a class="soc" href="https://github.com/SJ2005-code" target="_blank" rel="noopener"><span class="k">GitHub</span><span class="v notranslate">SJ2005-code</span></a>
+      <a class="soc" href="https://instagram.com/shiar_m" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v notranslate">@shiar_m</span></a>
+      <a class="soc" href="https://t.me/Shiar_m" target="_blank" rel="noopener"><span class="k">Telegram</span><span class="v notranslate">@Shiar_m</span></a>
+      <a class="soc" href="https://snapchat.com/add/sj_mhh1233" target="_blank" rel="noopener"><span class="k">Snapchat</span><span class="v notranslate">sj_mhh1233</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span data-i18n="foot_built">Designed & built from scratch by Shiar · Erbil</span>
+  <span class="clock" id="clock">ERBIL --:--</span>
+  <span>© 2026 · SJ2005</span>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="x" onclick="closeModal()">✕</button>
+    <div class="mtags" id="mTags"></div>
+    <h3 id="mTitle"></h3>
+    <p id="mDetail"></p>
+    <div class="m-link" id="mLink"></div>
+  </div>
+</div>
+
+<script>
+/* ============ i18n ============ */
+const I18N = {
+en:{
+  nav_work:"Work", nav_about:"About", nav_history:"History", nav_contact:"Contact",
+  status:"Open to opportunities · Erbil, Kurdistan",
+  kicker:"Software · Hardware · Automation",
+  ticker_lead:"I build",
+  cta_work:"See the work", cta_contact:"Get in touch", scroll:"Scroll",
+  about_title:'The short <em>version</em>',
+  about_lead:"A recent IT graduate with an unusually wide operating range: <strong>software, databases, machine learning, electronics, and real business operations</strong> — in one package.",
+  about_p1:"On the software side I design and build complete C# Windows Forms applications — an administrative system, accounting software, and a flight management app — each backed by normalized SQL Server schemas and tuned queries.",
+  about_p2:"On the data side I built an end-to-end sales forecasting model in Python with XGBoost, from feature engineering to evaluation. On the hardware side I assemble lithium battery packs with BMS protection and proper circuit safety, and I have built hydraulic pumps and presses from scratch.",
+  about_p3:"I also script away repetitive work with CMD automation, and I have run real operations: brand management, e-commerce, and financial tracking at a restaurant launch in Erbil.",
+  about_note:"“This unit self-starts. Give it a problem and it selects its own tools — code, script, or soldering iron — and returns a working deliverable.”",
+  stat_projects:"Shipped projects", stat_apps:"Complete desktop apps",
+  stat_langs:"Working languages", stat_ml:"End-to-end ML pipeline",
+  sk1:"Software", sk2:"Data & ML", sk3:"Hardware", sk4:"Automation", sk5:"Operations", sk6:"Languages",
+  lang_ku:"Kurdish — native", lang_en:"English — fluent", lang_sv:"Swedish — fluent", lang_no:"Norwegian — fluent",
+  stack_title:"What's in the <em>toolbox</em>",
+  work_title:"Selected <em>work</em>",
+  work_hint:"Click a card to open it",
+  hist_title:"Where this unit has <em>deployed</em>",
+  contact_big:'Got a problem?<br><em>I ship solutions.</em>',
+  contact_sub:'Email is the fastest signal path — or find me on Telegram. <a href="mailto:shiar.mohammad.2005@gmail.com">shiar.mohammad.2005@gmail.com</a>',
+  cta_email:"Email me", cta_tg:"Telegram",
+  c_email:"Email", c_phone:"Phone",
+  foot_built:"Designed & built from scratch by Shiar · Erbil",
+  view_github:"View on GitHub", close:"Close"
+},
+ku:{
+  nav_work:"کارەکان", nav_about:"دەربارە", nav_history:"مێژوو", nav_contact:"پەیوەندی",
+  status:"ئامادەم بۆ دەرفەت · هەولێر، کوردستان",
+  kicker:"سۆفتوێر · هاردوێر · ئۆتۆمەیشن",
+  ticker_lead:"دروستم دەکەم",
+  cta_work:"بینینی کارەکان", cta_contact:"پەیوەندیم پێوە بکە", scroll:"سکڕۆڵ",
+  about_title:'<em>وەرزی کورت</em>',
+  about_lead:"دەرچووی زانکۆی تەکنیکی بە مەودایەکی بەرفراوان: <strong>سۆفتوێر، داتابەیس، ماشین لێرنینگ، ئەلەکترۆنیکس، و کارپێکردنی ڕاستەقینەی بازرگانی</strong> — لە یەک پاکێجدا.",
+  about_p1:"لای سۆفتوێر ئەپی تەواوی C# Windows Forms دروست دەکەم — سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی بەڕێوەبردنی فڕۆکە — هەریەکەیان لەسەر SQL Serverی نۆرماڵکراو.",
+  about_p2:"لای داتا مۆدێلی پێشبینی فرۆشتنم بە Python و XGBoost دروستکردووە. لای هاردوێر پاکی باتری لیتیۆم بە BMS و پاراستنی سوڕکت کۆم دەکەمەوە، و مەکینەی هایدرۆلیکیشم لە سفرەوە دروستکردووە.",
+  about_p3:"هەروەها کارە دووبارەبووەوەکان بە ئۆتۆمەیشنی CMD دەکەم بە یەک فەرمان، و کارپێکردنی ڕاستەقینەم کردووە: براندینگ، ئی-کۆمەرس، و شیکاری دارایی لە کردنەوەی خواردنگەیەک لە هەولێر.",
+  about_note:"«ئەم یەکەیە خۆی دەست پێ دەکات. کێشەیەکی پێ بدرێت خۆی ئامرازەکەی هەڵدەبژێرێت — کۆد، سکریپت، یان لووتکە — و دەرەنجامێکی کارا دەگەڕێنێتەوە.»",
+  stat_projects:"پڕۆژەی تەواوکراو", stat_apps:"ئەپی تەواوی دێسکتۆپ",
+  stat_langs:"زمانی کارکردن", stat_ml:"پایپڵاینی ML",
+  sk1:"سۆفتوێر", sk2:"داتا و ML", sk3:"هاردوێر", sk4:"ئۆتۆمەیشن", sk5:"کارپێکردن", sk6:"زمانەکان",
+  lang_ku:"کوردی — دایکی", lang_en:"ئینگلیزی — ڕوان", lang_sv:"سویدی — ڕوان", lang_no:"نۆرویژی — ڕوان",
+  stack_title:"چی لە ناو <em>توڵەکەدایە</em>",
+  work_title:"<em>کارە</em> دیارەکان",
+  work_hint:"کلیک لە کارتێک بکە بۆ کردنەوەی",
+  hist_title:"ئەم یەکەیە لە کوێ <em>کارکردووە</em>",
+  contact_big:'کێشەت هەیە؟<br><em>چارەسەر گەیشتووە.</em>',
+  contact_sub:'ئیمەیڵ خێراترین ڕێگای پەیوەندییە — یان لە تێلێگرامم بدۆزەرەوە. <a href="mailto:shiar.mohammad.2005@gmail.com">shiar.mohammad.2005@gmail.com</a>',
+  cta_email:"ئیمەیڵم بۆ بنێرە", cta_tg:"تێلێگرام",
+  c_email:"ئیمەیڵ", c_phone:"تەلەفۆن",
+  foot_built:"دیزاین و دروستکراوە لە سفرەوە لەلایەن شیار · هەولێر",
+  view_github:"لە GitHub ببینە", close:"داخستن"
+}};
+let LANG = "en";
+
+/* ============ projects ============ */
+const PROJECTS = [
+{ id:"ml", span:"w3", link:"https://github.com/SJ2005-code/rossmann_sales_forecast",
+  tags:["Python","XGBoost","scikit-learn","Pandas"],
+  en:{title:"Rossmann Sales Forecasting", blurb:"End-to-end machine learning pipeline predicting daily store sales.",
+      detail:"Built in Python on the Kaggle Rossmann Store Sales dataset. I engineered features from promotions, holidays and store metadata, compared Random Forest against XGBoost, and tuned hyperparameters systematically to push predictive accuracy. The full pipeline — cleaning, modeling, evaluation, visualization — is public on GitHub.",
+      art:"ml"},
+  ku:{title:"پێشبینی فرۆشتنی Rossmann", blurb:"پایپڵاینی تەواوی ماشین لێرنینگ بۆ پێشبینی فرۆشتنی ڕۆژانە.",
+      detail:"بە Python و لەسەر داتاکانی Kaggle دروستمکردووە. فیچەرەکانم لە پرۆمۆشن و پشووەکان و زانیاری فرۆشگاکانەوە دروستکردووە، Random Forest و XGBoostم بەراوردکردووە، و پارامەیتەرەکانم بە سیستەماتیکی ڕێکخستووە. تەواوی پڕۆسەکە لە GitHub بەردەستە.",
+      art:"ml"} },
+{ id:"win", span:"w3",
+  tags:["C#","WinForms","SQL Server"],
+  en:{title:"Windows Forms Application Suite", blurb:"Admin system, accounting software, and a flight management app — full C# desktop builds.",
+      detail:"Three complete desktop applications written in C#: a custom administrative system, accounting software, and a flight management app. Each sits on a normalized SQL Server database with tuned queries, data validation, and maintenance routines — designed, built, and tested end to end by one person.",
+      art:"win"},
+  ku:{title:"کۆمەڵەی ئەپەکانی Windows Forms", blurb:"سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی فڕۆکە — بە C#.",
+      detail:"سێ ئەپی تەواوی دێسکتۆپ بە C#: سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی بەڕێوەبردنی فڕۆکە. هەریەکەیان لەسەر داتابەیسی SQL Serverە بە پرۆژێکتی باشکراو — لە دیزاینەوە تا تاقیکردنەوە، بە دەستی خۆم.",
+      art:"win"} },
+{ id:"bat", span:"w2",
+  tags:["Electronics","BMS","TP4056"],
+  en:{title:"Lithium Battery Pack + BMS", blurb:"Custom lithium packs with TP4056 charging and real circuit protection.",
+      detail:"Custom lithium battery packs assembled by hand: TP4056 charging modules, battery management systems, and flyback-diode protection so nothing fries. Designed, soldered, tested with a multimeter, and put to work powering real devices.",
+      art:"bat"},
+  ku:{title:"پاکی باتری لیتیۆم + BMS", blurb:"پاکی باتری بە چارجکردنی TP4056 و پاراستنی ڕاستەقینەی سوڕکت.",
+      detail:"پاکی باتری لیتیۆم کە خۆم کۆمکردووەتەوە: مۆدیلی چارجکردنی TP4056، سیستەمی بەڕێوەبردنی باتری، و پاراستنی فڵایباک بۆ ئەوەی هیچ نەسووتێت. دیزاین و لووتکە و تاقیکردنەوە بە مۆلتی مەیتەر — هەموو بە دەستی خۆم.",
+      art:"bat"} },
+{ id:"hyd", span:"w2",
+  tags:["Mechanical","Build"],
+  en:{title:"Hydraulic Press & Pump", blurb:"Mechanical builds designed and constructed from scratch.",
+      detail:"A working hydraulic pump and press designed and built independently — the engineering instinct does not stop at the keyboard. Precision structural woodworking too. Visual documentation coming with the portfolio media.",
+      art:"hyd"},
+  ku:{title:"مەکینەی هایدرۆلیکی", blurb:"دیزاین و دروستکردنی میکانیکی لە سفرەوە.",
+      detail:"مەکینەی هایدرۆلیکی کارا کە بە تەواوی خۆم دروستمکردووە — هەستێکی ئەندازیاری تەنها لە کۆمپیوتەر کۆتایی نایێت. هەروەها دارتەلێنانی ورد.",
+      art:"hyd"} },
+{ id:"cmd", span:"w2",
+  tags:["CMD","Scripting","Automation"],
+  en:{title:"CMD Workflow Automation", blurb:"Scripts that turn multi-step manual work into one command.",
+      detail:"Custom Command Prompt scripts that compress repetitive multi-step tasks into single commands — file routines, cleanup, and automated system reset protocols. Small tools, big hours saved.",
+      art:"cmd"},
+  ku:{title:"ئۆتۆمەیشنی کار بە CMD", blurb:"سکریپتێک کارە هەنگاوینەکان دەکات بە یەک فەرمان.",
+      detail:"سکریپتی CMD کە کارە دووبارەبووەوەکان دەکەن بە فەرمانێکی یەکلاکەرەوە — ڕوتینی فایل، پاککردنەوە، و ڕیسێتی ئۆتۆماتیکی سیستەم. ئامرزێکی بچووک، کاتێکی زۆری پارێزراو.",
+      art:"cmd"} },
+{ id:"nordo", span:"w2",
+  tags:["Branding","Marketing","Stripe"],
+  en:{title:"NORDO Restaurant Launch", blurb:"Brand, marketing, and operations for a restaurant launch in Erbil.",
+      detail:"Coordinated the grand launch of NORDO restaurant in Erbil: promotional design and visual branding, social media campaigns, verified Google Business management, e-commerce setup with Stripe, and internal financial tracking templates I designed myself.",
+      art:"nordo"},
+  ku:{title:"کردنەوەی خواردنگەی NORDO", blurb:"براند، مارکێتینگ، و کارپێکردنی کردنەوەیەک لە هەولێر.",
+      detail:"کردنەوەی خواردنگەی NORDO لە هەولێرم ڕێکخست: دیزاینی پرۆمۆ و براندینگ، کەمپینی سۆشیال میدیا، بەڕێوەبردنی Google Business، ئی-کۆمەرس بە Stripe، و تێمپلێتی شیکاری دارایی کە خۆم دیزاینمکردووە.",
+      art:"nordo"} }
+];
+
+/* ============ history ============ */
+const HISTORY = [
+{en:{when:"2026 — Present", where:"NORDO Restaurant, Erbil", role:"Operations & Marketing Specialist", txt:"Ran the launch: promo design, branding assets, social campaigns, verified business listings, and digital financial workflows."},
+ ku:{when:"٢٠٢٦ — ئێستا", where:"خواردنگەی NORDO، هەولێر", role:"سەپەکیالیستی کارپێکردن و مارکێتینگ", txt:"کردنەوەکەم ڕێکخست: دیزاینی پرۆمۆ، براندینگ، کەمپینی سۆشیال میدیا، و وۆرکفلۆوی دارایی دیجیتاڵی."}},
+{en:{when:"2026 · Jun — Aug", where:"Al Najar Company, Erbil", role:"Practical Training Intern", txt:"Applied core IT principles in a commercial environment — documenting procedures and supporting daily system operations."},
+ ku:{when:"٢٠٢٦ · حوزەیران — ئاب", where:"کۆمپانیای النەجار، هەولێر", role:"فێرخوازی ڕاهێنانی پراکتیکی", txt:"بنەماکانی ITم لە ژینگەیەکی بازرگانیدا بەکارهێنا — بەڵگەنامەکردنی ڕووتینەکان و پاڵپشتیی کارە ڕۆژانەکان."}},
+{en:{when:"2026 · Graduated", where:"Khabat Technical Institute", role:"Diploma in Information Technology", txt:"Completed with a full database graduation project — complex SQL queries, views, and maintenance procedures for official evaluation."},
+ ku:{when:"٢٠٢٦ · دەرچووم", where:"پەیمانگای تەکنیکی خەبات", role:"دیپلۆمی تەکنەلۆژیای زانیاری", txt:"بە پڕۆژەی دەرچوونی داتابەیس تەواومکرد — پرسیاری ئاڵۆز، ڤیو، و پرۆسەی چاککردن بۆ هەڵسەنگاندنی فەرمی."}},
+{en:{when:"Earlier", where:"Front-line Operations & IES Länna, Stockholm", role:"Customer service · Swedish secondary education", txt:"Fast-paced retail and hospitality work across Kurdistan, and secondary education completed in Sweden — the origin of four working languages."},
+ ku:{when:"پێشتر", where:"کارە ڕاستەوخۆکان و IES Länna، ستۆکهۆڵم", role:"خدمەی کڕیار · خوێندنی سوێدی", txt:"کاری خێرا لە فرۆشگا و میوانداری لە کوردستان، و خوێندنی ناوەندی لە سوید — سەرچاوەی چوار زمانی کارکردن."}}
+];
+
+/* ============ SVG art ============ */
+const ART = {
+ml:`<svg viewBox="0 0 220 100" fill="none" stroke="#e8a44a" stroke-width="1.5"><polyline points="10,80 35,60 55,68 80,30 105,45 130,18 155,32 180,10 210,15" stroke-linecap="round"/><polyline points="10,80 35,60 55,68 80,30 105,45 130,18 155,32 180,10 210,15" stroke="#39c9b2" stroke-width=".75" transform="translate(0,8)" stroke-opacity=".5"/><polyline points="10,90 210,90" stroke-opacity=".25"/><circle cx="130" cy="18" r="3.5" fill="#e8a44a" stroke="none"/></svg>`,
+win:`<svg viewBox="0 0 220 100" fill="none" stroke="#e8a44a" stroke-width="1.5"><rect x="20" y="14" width="180" height="72" rx="4"/><line x1="20" y1="28" x2="200" y2="28" stroke-opacity=".5"/><rect x="26" y="19" width="8" height="3" rx="1.5" fill="#e8a44a" stroke="none"/><rect x="38" y="19" width="8" height="3" rx="1.5" fill="#e8a44a" stroke="none" opacity=".5"/><line x1="45" y1="38" x2="90" y2="38" stroke-opacity=".6"/><line x1="45" y1="46" x2="120" y2="46" stroke-opacity=".35"/><line x1="45" y1="54" x2="105" y2="54" stroke-opacity=".35"/><line x1="45" y1="62" x2="130" y2="62" stroke-opacity=".35"/><rect x="140" y="36" width="52" height="34" rx="3" stroke="#39c9b2" stroke-opacity=".6"/><line x1="140" y1="53" x2="192" y2="53" stroke="#39c9b2" stroke-opacity=".4"/><line x1="166" y1="36" x2="166" y2="70" stroke="#39c9b2" stroke-opacity=".4"/></svg>`,
+bat:`<svg viewBox="0 0 220 100" fill="none" stroke="#e8a44a" stroke-width="1.5"><rect x="40" y="20" width="120" height="60" rx="6"/><line x1="160" y1="40" x2="160" y2="60" stroke-width="4"/><line x1="40" y1="50" x2="55" y2="50"/><rect x="60" y="30" width="18" height="40" rx="2" fill="#e8a44a" stroke="none" opacity=".25"/><rect x="84" y="30" width="18" height="40" rx="2" fill="#e8a44a" stroke="none" opacity=".5"/><rect x="108" y="30" width="18" height="40" rx="2" fill="#e8a44a" stroke="none" opacity=".85"/><rect x="132" y="30" width="18" height="40" rx="2" fill="#e8a44a" stroke="none"/><path d="M180 50 l8 -6 v12 z" fill="#39c9b2" stroke="none" opacity=".8"/><path d="M188 34 a18 18 0 0 1 0 32" stroke="#39c9b2" opacity=".5"/></svg>`,
+hyd:`<svg viewBox="0 0 220 100" fill="none" stroke="#e8a44a" stroke-width="1.5"><line x1="30" y1="20" x2="190" y2="20"/><line x1="60" y1="20" x2="60" y2="80"/><line x1="160" y1="20" x2="160" y2="80"/><line x1="40" y1="80" x2="180" y2="80"/><line x1="95" y1="40" x2="125" y2="40" stroke-width="6"/><line x1="110" y1="46" x2="110" y2="66"/><path d="M84 66 h52 l-6 8 h-40 z" fill="#e8a44a" stroke="none" opacity=".3"/><path d="M103 58 a7 7 0 0 1 14 0" stroke="#39c9b2" opacity=".7"/></svg>`,
+cmd:`<svg viewBox="0 0 220 100" fill="none" stroke="#e8a44a" stroke-width="1.5"><rect x="24" y="14" width="172" height="72" rx="5"/><line x1="24" y1="28" x2="196" y2="28" stroke-opacity=".4"/><text x="36" y="48" fill="#e8a44a" stroke="none" font-family="monospace" font-size="11">&gt; run.cmd</text><text x="36" y="64" fill="#39c9b2" stroke="none" font-family="monospace" font-size="11" opacity=".85">OK — 12 steps</text><text x="36" y="78" fill="#a59d8e" stroke="none" font-family="monospace" font-size="11" opacity=".6">done in 0.8s _</text></svg>`,
+nordo:`<svg viewBox="0 0 220 100" fill="none" stroke="#e8a44a" stroke-width="1.5"><circle cx="110" cy="42" r="24"/><circle cx="110" cy="42" r="30" stroke="#39c9b2" stroke-opacity=".35" stroke-dasharray="3 5"/><text x="110" y="47" text-anchor="middle" fill="#e8a44a" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="16">N</text><line x1="70" y1="82" x2="150" y2="82" stroke-opacity=".4"/><line x1="85" y1="88" x2="135" y2="88" stroke-opacity=".2"/></svg>`
+};
+
+/* ============ render ============ */
+function renderWork(){
+  const b = document.getElementById("bento"); b.innerHTML = "";
+  PROJECTS.forEach((p,i)=>{
+    const L = p[LANG];
+    const el = document.createElement("div");
+    el.className = "card "+p.span+" rv d"+(i%3);
+    el.innerHTML = `
+      <span class="num">0${i+1}</span>
+      <div class="art">${ART[L.art]}</div>
+      <h3>${L.title}</h3>
+      <p>${L.blurb}</p>
+      <div class="tags">${p.tags.map(t=>`<span>${t}</span>`).join("")}</div>
+      <span class="open">${I18N[LANG].work_hint} →</span>`;
+    el.onclick = ()=>openModal(i);
+    b.appendChild(el);
+  });
+  observeAll();
+}
+function renderHistory(){
+  const t = document.getElementById("timeline"); t.innerHTML = "";
+  HISTORY.forEach((h,i)=>{
+    const L = h[LANG];
+    const el = document.createElement("div");
+    el.className = "t-item rv d"+(i%2);
+    el.innerHTML = `
+      <div class="when">${L.when}</div>
+      <h3>${L.where}</h3>
+      <div class="role">${L.role}</div>
+      <p>${L.txt}</p>`;
+    t.appendChild(el);
+  });
+  observeAll();
+}
+function applyI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(I18N[LANG][k] !== undefined) el.innerHTML = I18N[LANG][k];
+  });
+  document.documentElement.lang = LANG==="ku" ? "ku" : "en";
+  document.getElementById("langBtn").textContent = LANG==="ku" ? "English" : "کوردی";
+  renderWork(); renderHistory();
+}
+function toggleLang(){
+  LANG = LANG==="ku" ? "en" : "ku";
+  document.body.classList.toggle("ku", LANG==="ku");
+  applyI18n();
+}
+
+/* ============ modal ============ */
+function openModal(i){
+  const p = PROJECTS[i], L = p[LANG], T = I18N[LANG];
+  document.getElementById("mTags").innerHTML = p.tags.map(t=>`<span>${t}</span>`).join("");
+  document.getElementById("mTitle").textContent = L.title;
+  document.getElementById("mDetail").textContent = L.detail;
+  document.getElementById("mLink").innerHTML = p.link
+    ? `<a class="btn gold" href="${p.link}" target="_blank" rel="noopener">${T.view_github} ↗</a>`
+    : "";
+  document.getElementById("modalBg").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+function closeModal(){
+  document.getElementById("modalBg").classList.remove("on");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
+/* ============ marquee ============ */
+const MQ = ["C#","Python","SQL Server","XGBoost","WinForms","scikit-learn","Pandas","PHP","Lithium Packs","BMS","TP4056","Hydraulics","CMD Automation","Stripe","Branding","Kurdish","English","Swedish","Norwegian"];
+(function(){
+  const t = document.getElementById("mq");
+  const one = MQ.map(s=>`<span>${s}</span>`).join("");
+  t.innerHTML = one + one; // duplicate for seamless loop
+})();
+
+/* ============ rotating words ============ */
+const ROT = {
+  en:["C# desktop systems.","SQL databases.","ML pipelines.","lithium battery packs.","restaurant launches.","automation that saves hours."],
+  ku:["سیستەمی C#","داتابەیسی SQL","پایپڵاینی ML","پاکی باتری","کردنەوەی خواردنگە","ئۆتۆمەیشن"]
+};
+(function(){
+  const el = document.getElementById("rot");
+  let i = 0;
+  el.style.transition = "opacity .26s";
+  el.textContent = ROT[LANG][0]; i = 1;
+  setInterval(()=>{
+    const words = ROT[LANG];
+    const w = words[i % words.length];
+    el.style.opacity = 0;
+    setTimeout(()=>{ el.textContent = w; el.style.opacity = 1; }, 260);
+    i++;
+  }, 2400);
+})();
+
+/* ============ stats count-up ============ */
+function countUp(el){
+  if(el.dataset.done) return;
+  el.dataset.done = "1";
+  const target = +el.getAttribute("data-count");
+  const t0 = performance.now(), dur = 1400;
+  (function step(t){
+    const p = Math.min((t-t0)/dur,1);
+    el.textContent = Math.round(target * (1-Math.pow(1-p,3)));
+    if(p<1) requestAnimationFrame(step);
+  })(t0);
+}
+
+/* ============ reveal ============ */
+let io;
+function observeAll(){
+  if(!io){
+    io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("in");
+          if(e.target.classList.contains("stat")) e.target.querySelectorAll("[data-count]").forEach(countUp);
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.16});
+  }
+  document.querySelectorAll(".rv:not(.in)").forEach(el=>io.observe(el));
+}
+
+/* ============ nav scroll ============ */
+window.addEventListener("scroll",()=>{
+  document.getElementById("nav").classList.toggle("scrolled", scrollY>40);
+},{passive:true});
+
+/* ============ Erbil clock ============ */
+setInterval(()=>{
+  const t = new Date().toLocaleTimeString("en-GB",{timeZone:"Asia/Baghdad",hour:"2-digit",minute:"2-digit"});
+  document.getElementById("clock").textContent = "ERBIL "+t;
+},1000);
+
+/* ============ hero particle canvas ============ */
+(function(){
+  const cv = document.getElementById("stars"), ctx = cv.getContext("2d");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W,H,pts=[],mouse={x:-999,y:-999};
+  function size(){
+    W = cv.width = cv.offsetWidth * devicePixelRatio;
+    H = cv.height = cv.offsetHeight * devicePixelRatio;
+  }
+  size(); addEventListener("resize",size);
+  const N = Math.min(90, Math.floor(innerWidth/16));
+  for(let i=0;i<N;i++) pts.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0004,vy:(Math.random()-.5)*.0004});
+  cv.addEventListener("pointermove",e=>{
+    const r = cv.getBoundingClientRect();
+    mouse.x = (e.clientX-r.left)/r.width; mouse.y = (e.clientY-r.top)/r.height;
+  });
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of pts){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>1) p.vx*=-1;
+      if(p.y<0||p.y>1) p.vy*=-1;
+    }
+    for(let i=0;i<pts.length;i++){
+      const a = pts[i];
+      const dxm = a.x-mouse.x, dym = a.y-mouse.y, dm = Math.hypot(dxm,dym);
+      if(dm<.14){
+        ctx.strokeStyle = `rgba(232,164,74,${(1-dm/.14)*.28})`;
+        ctx.lineWidth = devicePixelRatio;
+        ctx.beginPath(); ctx.moveTo(a.x*W,a.y*H); ctx.lineTo(mouse.x*W,mouse.y*H); ctx.stroke();
+      }
+      for(let j=i+1;j<pts.length;j++){
+        const b = pts[j];
+        const dx = a.x-b.x, dy = a.y-b.y, d = Math.hypot(dx,dy);
+        if(d<.11){
+          ctx.strokeStyle = `rgba(232,164,74,${(1-d/.11)*.12})`;
+          ctx.lineWidth = devicePixelRatio*.7;
+          ctx.beginPath(); ctx.moveTo(a.x*W,a.y*H); ctx.lineTo(b.x*W,b.y*H); ctx.stroke();
+        }
+      }
+      ctx.fillStyle = "rgba(240,230,214,.5)";
+      ctx.beginPath(); ctx.arc(a.x*W,a.y*H,devicePixelRatio,0,7); ctx.fill();
+    }
+    if(!reduced) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ============ init ============ */
+applyI18n();
+observeAll();
+</script>
+</body>
+</html>
