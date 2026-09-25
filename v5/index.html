@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<!--
+  © 2026 Shiar Fooad Haweez — All rights reserved.
+  This site and its design are the exclusive property of the author.
+  Hosted at github.com/SJ2005-code/shiar-portfolio (source protected by license).
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIAR-2005 — Human Automation Console</title>
+<meta name="description" content="Shiar Fooad Haweez: a software and automation engineer you operate like a machine. C#, Python, SQL, ML, hardware and automation from Erbil, Kurdistan.">
+<meta property="og:title" content="SHIAR-2005 — Human Automation Console">
+<meta property="og:description" content="Software & automation engineer from Erbil. Power on and read the meters.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#e9dfc8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23241c10'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23e9dfc8'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23ff4d00'/%3E%3Crect x='15.2' y='3' width='1.6' height='7' fill='%23241c10'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Mono:wght@400;500;600&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#e9dfc8;
+  --bone-2:#dfd2b4;
+  --bone-3:#f3ecd9;
+  --ink:#241c10;
+  --ink-60:rgba(36,28,16,.62);
+  --ink-30:rgba(36,28,16,.30);
+  --line:rgba(36,28,16,.16);
+  --signal:#ff4d00;
+  --signal-dim:#c73a00;
+  --led:#1cad6a;
+  --rec:#ff2b2b;
+  --steel:#b7a88c;
+  --r-lg:18px; --r-md:12px; --r-sm:8px;
+  --mono:'IBM Plex Mono',monospace;
+  --disp:'Bricolage Grotesque',sans-serif;
+  --ku:'Vazirmatn','IBM Plex Mono',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bone);
+  color:var(--ink);
+  font-family:var(--disp);
+  font-size:16.5px;
+  line-height:1.6;
+  overflow-x:hidden;
+  position:relative;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body.ku{direction:rtl;font-family:var(--ku)}
+body.ku .en-num{direction:ltr}
+a{color:inherit}
+::selection{background:var(--signal);color:#fff}
+
+/* ============ top rack bar ============ */
+.rack-top{
+  position:sticky;top:0;z-index:50;
+  background:var(--ink);color:var(--bone);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px clamp(14px,4vw,44px);
+  border-bottom:3px solid var(--signal);
+}
+.rack-top .brand{font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
+.rack-top .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--led);box-shadow:0 0 8px var(--led);animation:ledpulse 2.4s infinite}
+body.standby .rack-top .brand .dot{background:#666;box-shadow:none;animation:none}
+.rack-nav{display:flex;gap:clamp(10px,2.4vw,28px);align-items:center}
+.rack-nav a{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-decoration:none;opacity:.75;transition:.2s}
+.rack-nav a:hover{opacity:1;color:var(--signal)}
+.lang-sw{
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+  background:none;border:1.5px solid rgba(233,223,200,.35);color:var(--bone);
+  padding:5px 14px;border-radius:999px;cursor:pointer;transition:.2s;
+}
+.lang-sw:hover{border-color:var(--signal);color:var(--signal)}
+@keyframes ledpulse{0%,100%{box-shadow:0 0 4px var(--led)}50%{box-shadow:0 0 12px var(--led)}}
+
+/* ============ rack layout ============ */
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,44px)}
+.rail{height:26px;position:relative}
+.rail::before{content:"";position:absolute;left:0;right:0;top:12px;height:3px;
+  background-image:radial-gradient(circle 1.6px at 8px 1.6px, var(--ink-30) 60%, transparent 61%);
+  background-size:16px 3px;opacity:.5}
+.module{
+  position:relative;
+  background:linear-gradient(180deg,var(--bone-3),var(--bone));
+  border:1.5px solid var(--ink-30);
+  border-radius:var(--r-lg);
+  box-shadow:0 2px 0 var(--ink-30), 0 24px 48px -28px rgba(36,28,16,.45), inset 0 1px 0 rgba(255,255,255,.55);
+  padding:clamp(26px,4.5vw,54px);
+  overflow:hidden;
+}
+.screw{position:absolute;width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#d8cbae,var(--steel) 60%,#8a7d63);
+  box-shadow:inset 0 -1px 2px rgba(0,0,0,.35);z-index:3}
+.screw::after{content:"";position:absolute;left:1.5px;right:1.5px;top:5px;height:1.6px;background:rgba(36,28,16,.55);transform:rotate(35deg)}
+.screw.tl{top:10px;left:10px}.screw.tr{top:10px;right:10px;transform:rotate(120deg)}
+.screw.bl{bottom:10px;left:10px;transform:rotate(-70deg)}.screw.br{bottom:10px;right:10px;transform:rotate(95deg)}
+
+.plate{
+  display:flex;align-items:center;gap:14px;margin-bottom:clamp(24px,3vw,40px);
+  border-bottom:1.5px dashed var(--ink-30);padding-bottom:16px;
+}
+.plate .idx{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;
+  background:var(--ink);color:var(--bone);padding:4px 10px;border-radius:6px}
+.plate .name{font-family:var(--mono);font-weight:600;font-size:clamp(13px,1.6vw,15px);letter-spacing:.3em;color:var(--ink)}
+.plate .sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-60);letter-spacing:.05em;margin-inline-start:auto}
+.plate .led{width:9px;height:9px;border-radius:50%;background:var(--led);
+  box-shadow:0 0 9px var(--led);opacity:.15;transition:opacity .6s, box-shadow .6s}
+body.standby .plate .led{opacity:.12!important;background:#666;box-shadow:none}
+
+.sec-title{
+  font-weight:800;font-size:clamp(34px,5.2vw,62px);
+  line-height:1.02;letter-spacing:-.02em;margin-bottom:18px;
+}
+body.ku .sec-title{font-family:var(--ku);letter-spacing:0;line-height:1.35}
+.sec-title em{font-style:normal;color:var(--signal)}
+.sec-lead{color:var(--ink-60);font-size:17px;max-width:640px}
+body.ku .sec-lead{font-family:var(--ku)}
+
+/* ============ M-00 POWER ============ */
+.hero{margin-top:26px;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,56px);align-items:center}
+.hero .kicker{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.22em;color:var(--ink-60);display:block;margin-bottom:18px}
+.hero .kicker b{color:var(--signal)}
+.hero h1{
+  font-weight:800;font-size:clamp(56px,9.6vw,124px);
+  line-height:.92;letter-spacing:-.03em;margin-bottom:14px;
+}
+.hero h1 .l2{color:var(--signal);display:block}
+.hero .ku-name{font-family:var(--ku);font-weight:800;font-size:clamp(26px,3.6vw,42px);display:none}
+body.ku .hero h1{display:none}
+body.ku .hero .ku-name{display:block;margin-bottom:6px}
+.hero .role{font-family:var(--mono);font-size:clamp(12px,1.4vw,14.5px);font-weight:600;letter-spacing:.34em;margin-bottom:22px}
+body.ku .hero .role{font-family:var(--ku);letter-spacing:.05em;font-size:15px}
+.hero .tag{font-size:clamp(18px,2.2vw,22px);font-weight:500;line-height:1.45;max-width:540px;margin-bottom:30px}
+body.ku .hero .tag{font-family:var(--ku);font-weight:400}
+.hero .tag b{color:var(--signal-dim)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.06em;
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  padding:13px 24px;border-radius:999px;border:2px solid var(--ink);
+  transition:transform .2s, box-shadow .2s, background .2s;cursor:pointer;
+}
+.btn.solid{background:var(--ink);color:var(--bone)}
+.btn.solid:hover{transform:translateY(-2px);box-shadow:0 12px 22px -10px rgba(36,28,16,.5)}
+.btn.sig{background:var(--signal);border-color:var(--signal);color:#fff}
+.btn.sig:hover{transform:translateY(-2px);box-shadow:0 12px 26px -10px rgba(255,77,0,.55)}
+
+.console{
+  background:linear-gradient(180deg,var(--bone-2),var(--bone));
+  border:1.5px solid var(--ink-30);border-radius:var(--r-md);
+  box-shadow:inset 0 2px 6px rgba(36,28,16,.14), 0 14px 28px -18px rgba(36,28,16,.4);
+  padding:20px 20px 16px;position:relative;
+}
+.console .c-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.console .c-head .lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--ink-60)}
+.rec{display:flex;align-items:center;gap:7px;cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--rec)}
+.rec i{width:10px;height:10px;border-radius:50%;background:var(--rec);box-shadow:0 0 10px var(--rec);animation:recblink 1.1s infinite}
+@keyframes recblink{0%,60%{opacity:1}61%,100%{opacity:.25}}
+.vu{display:flex;align-items:flex-end;gap:3px;height:88px;background:var(--ink);border-radius:8px;padding:10px 12px;margin-bottom:16px}
+.vu i{flex:1;min-width:6px;border-radius:2px;background:var(--led);transform-origin:bottom;animation:vu 1.4s ease-in-out infinite}
+.vu i:nth-child(n+13){background:#ffcf00}
+.vu i:nth-child(n+17){background:var(--rec)}
+@keyframes vu{0%,100%{transform:scaleY(.28)}50%{transform:scaleY(var(--h,.8))}}
+body.standby .vu i{animation-play-state:paused;transform:scaleY(.1)}
+body.standby .rec i{animation:none;opacity:.25}
+.faders{display:flex;flex-direction:column;gap:11px}
+.fader{display:grid;grid-template-columns:112px 1fr 44px;align-items:center;gap:10px}
+.fader .fl{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--ink-60)}
+.fader .fl small{display:block;letter-spacing:0;font-size:10px;opacity:.75;color:var(--ink-60);font-family:var(--ku);font-weight:500}
+.fader .fr{font-family:var(--mono);font-size:12px;font-weight:600;text-align:end;color:var(--signal-dim)}
+.fader input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;cursor:pointer;direction:ltr;
+}
+.fader input[type=range]::-webkit-slider-runnable-track{
+  height:8px;border-radius:99px;
+  background:linear-gradient(90deg,var(--signal) var(--v,90%),var(--ink-30) var(--v,90%));
+  border:1px solid var(--ink-30);box-shadow:inset 0 1px 3px rgba(36,28,16,.25);
+}
+.fader input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:26px;margin-top:-10px;border-radius:4px;
+  background:linear-gradient(180deg,#fdf7e7,#d8cbae);border:1.5px solid var(--ink);
+  box-shadow:0 3px 6px rgba(36,28,16,.35);
+}
+.fader input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:var(--ink-30);border:1px solid var(--ink-30)}
+.fader input[type=range]::-moz-range-progress{height:8px;border-radius:99px;background:var(--signal)}
+.fader input[type=range]::-moz-range-thumb{width:14px;height:24px;border-radius:4px;background:#fdf7e7;border:1.5px solid var(--ink)}
+body.standby .fader input[type=range]{pointer-events:none;opacity:.5}
+.prow{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1.5px dashed var(--ink-30)}
+.prow .mix{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-60)}
+.prow .mix b{color:var(--signal-dim);font-size:13px}
+.pswitch{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
+.pswitch .plbl{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;color:var(--ink-60)}
+.pswitch .pw{
+  width:46px;height:24px;border-radius:99px;border:1.5px solid var(--ink);
+  background:var(--led);position:relative;transition:background .3s;box-shadow:inset 0 1px 3px rgba(36,28,16,.3);
+}
+.pswitch .pw::after{
+  content:"";position:absolute;top:2px;left:23px;width:17px;height:17px;border-radius:50%;
+  background:linear-gradient(180deg,#fdf7e7,#d8cbae);border:1.5px solid var(--ink);transition:left .3s;
+}
+body.standby .pswitch .pw{background:var(--ink-30)}
+body.standby .pswitch .pw::after{left:2px}
+.hmeta{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hmeta .cell{
+  background:var(--ink);color:var(--bone);border-radius:var(--r-sm);
+  padding:12px 14px;display:flex;flex-direction:column;gap:2px;
+}
+.hmeta .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;opacity:.65}
+.hmeta .v{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.04em}
+.hmeta .v .on{color:#5ee9a0}
+
+/* ============ tape ============ */
+.tape{overflow:hidden;background:var(--ink);color:var(--bone);padding:11px 0;position:relative;margin-top:26px}
+.tape .strip{display:inline-flex;gap:0;white-space:nowrap;animation:tape 36s linear infinite}
+.tape .strip span{
+  font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.18em;
+  padding:0 22px;position:relative;
+}
+.tape .strip span::after{content:"◆";position:absolute;right:-7px;color:var(--signal);font-size:8px;top:4px}
+@keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+body.standby .tape .strip{animation-play-state:paused;opacity:.4}
+
+/* ============ M-01 OSC ============ */
+.story{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,4vw,60px);align-items:start}
+.story .txt p{color:var(--ink-60);margin-bottom:20px;font-size:17.5px}
+body.ku .story .txt p{font-family:var(--ku);font-size:16px}
+.story .txt p b{color:var(--ink)}
+.spec{display:flex;flex-direction:column;gap:12px}
+.spec .row{
+  background:var(--bone-2);border:1.5px solid var(--ink-30);border-radius:var(--r-sm);
+  padding:14px 18px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:center;
+  box-shadow:inset 0 1px 3px rgba(36,28,16,.12);
+}
+.spec .row .k{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.2em;color:var(--signal-dim)}
+.spec .row .v{font-weight:700;font-size:17px}
+body.ku .spec .row .v{font-family:var(--ku);font-weight:700}
+.spec .row .s{grid-column:2;color:var(--ink-60);font-size:13px}
+body.ku .spec .row .s{font-family:var(--ku)}
+
+/* ============ M-02 FILTER ============ */
+.knobs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.knob-card{
+  background:var(--bone-2);border:1.5px solid var(--ink-30);border-radius:var(--r-md);
+  padding:22px;position:relative;box-shadow:inset 0 1px 4px rgba(36,28,16,.1);
+  transition:transform .25s, box-shadow .25s;
+}
+.knob-card:hover{transform:translateY(-4px);box-shadow:0 16px 30px -16px rgba(36,28,16,.4)}
+.knob{
+  width:64px;height:64px;border-radius:50%;margin-bottom:16px;position:relative;
+  background:radial-gradient(circle at 35% 30%,#4a3d28,var(--ink) 65%);
+  box-shadow:0 4px 10px rgba(36,28,16,.4), inset 0 2px 3px rgba(255,255,255,.15);
+}
+.knob::before{content:"";position:absolute;inset:14px;border-radius:50%;
+  background:repeating-conic-gradient(var(--bone) 0 6deg, transparent 6deg 30deg);opacity:.25}
+.knob::after{content:"";position:absolute;left:50%;top:6px;width:3.5px;height:18px;border-radius:2px;
+  background:var(--signal);transform-origin:50% 26px;transform:rotate(calc(var(--rot,-60deg) - 90deg)) translateX(-50%);
+  box-shadow:0 0 6px rgba(255,77,0,.7)}
+.knob-card:nth-child(2) .knob{--rot:110deg}
+.knob-card:nth-child(3) .knob{--rot:190deg}
+.knob-card:nth-child(4) .knob{--rot:70deg}
+.knob-card:nth-child(5) .knob{--rot:150deg}
+.knob-card:nth-child(6) .knob{--rot:230deg}
+.knob-card .kt{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.2em;color:var(--signal-dim);margin-bottom:10px;display:block}
+body.ku .knob-card .kt{font-family:var(--ku);letter-spacing:0;font-size:13px}
+.knob-card .ki{font-family:var(--mono);font-size:13px;line-height:1.9;color:var(--ink);display:block}
+body.ku .knob-card .ki{font-family:var(--ku);font-size:14.5px;line-height:2}
+.knob-card .ki i{font-style:normal;color:var(--signal);margin:0 6px}
+
+/* ============ M-03 SEQUENCER ============ */
+.seq{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:8px}
+.step{
+  position:relative;background:var(--bone-2);border:1.5px solid var(--ink-30);border-radius:var(--r-sm);
+  padding:16px 10px 14px;text-align:start;cursor:pointer;overflow:hidden;
+  transition:transform .2s, box-shadow .2s, background .3s;min-height:132px;
+  display:flex;flex-direction:column;gap:8px;font-family:inherit;color:inherit;
+}
+.step:hover{transform:translateY(-4px);box-shadow:0 14px 26px -12px rgba(36,28,16,.45);background:var(--bone-3)}
+.step .sn{
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;
+  background:var(--ink);color:var(--bone);border-radius:4px;padding:2px 7px;
+  width:max-content;
+}
+.step.playing .sn{background:var(--signal)}
+.step .st{font-weight:700;font-size:13.5px;line-height:1.25;margin-top:auto}
+body.ku .step .st{font-family:var(--ku);font-weight:700}
+.step .sg{position:absolute;right:10px;top:12px;width:7px;height:7px;border-radius:50%;background:var(--led);box-shadow:0 0 8px var(--led);opacity:.2;transition:.3s}
+.step.playing .sg{opacity:1;animation:recblink 1s infinite}
+.seq-note{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-60);margin-top:16px}
+body.ku .seq-note{font-family:var(--ku);font-size:12.5px}
+.seq-note b{color:var(--signal-dim)}
+
+/* ============ M-04 SIGNAL PATH ============ */
+.path{position:relative;margin-top:10px}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.pgrid::before{
+  content:"";position:absolute;top:9px;left:4%;right:4%;height:2.5px;
+  background:repeating-linear-gradient(90deg,var(--ink-30) 0 10px,transparent 10px 18px);
+}
+.pnode{padding:0 16px;position:relative}
+.pnode .jack{
+  width:19px;height:19px;border-radius:50%;background:var(--ink);
+  border:3px solid var(--bone);outline:2px solid var(--ink);
+  margin-bottom:18px;position:relative;z-index:2;box-shadow:0 0 0 4px rgba(36,28,16,.08);
+}
+.pnode .jack::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--signal)}
+.pnode .when{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--signal-dim);display:block;margin-bottom:6px}
+.pnode .where{font-weight:800;font-size:16.5px;line-height:1.25;margin-bottom:5px}
+body.ku .pnode .where{font-family:var(--ku)}
+.pnode .role{font-family:var(--mono);font-size:11.5px;color:var(--ink);opacity:.85;display:block;margin-bottom:8px}
+body.ku .pnode .role{font-family:var(--ku);font-size:12.5px}
+.pnode p{color:var(--ink-60);font-size:13.5px}
+body.ku .pnode p{font-family:var(--ku)}
+
+/* ============ M-05 MIXER ============ */
+.mixer{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.ch{
+  background:var(--ink);border-radius:var(--r-md);padding:20px 20px 18px;color:var(--bone);
+  position:relative;overflow:hidden;
+}
+.ch .meter{display:flex;align-items:flex-end;gap:3px;height:56px;margin-bottom:14px}
+.ch .meter i{flex:1;border-radius:2px;background:var(--led);opacity:.9;transform:scaleY(.06);transform-origin:bottom;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.ch .meter i:nth-child(n+9){background:#ffcf00}
+.ch .meter i:nth-child(n+13){background:var(--rec)}
+body:not(.standby) .ch.on .meter i{transform:scaleY(var(--h,.7))}
+body.standby .ch .meter i{transform:scaleY(.06)!important}
+.ch .n{font-size:clamp(38px,4.6vw,54px);font-weight:800;line-height:1;display:block;margin-bottom:8px;letter-spacing:-.02em}
+.ch .n em{font-style:normal;color:var(--signal)}
+.ch .l{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;opacity:.7;display:block}
+body.ku .ch .l{font-family:var(--ku);letter-spacing:0;font-size:12px}
+
+/* ============ M-06 MANUALS ============ */
+.manuals{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.man{
+  display:flex;flex-direction:column;gap:10px;text-decoration:none;
+  background:var(--bone-2);border:1.5px solid var(--ink-30);border-radius:var(--r-md);
+  padding:24px;position:relative;overflow:hidden;
+  transition:transform .22s, box-shadow .22s, background .22s;
+}
+.man:hover{transform:translateY(-4px);box-shadow:0 16px 30px -14px rgba(36,28,16,.45);background:var(--bone-3)}
+.man .rings{display:flex;gap:8px;margin-bottom:6px}
+.man .rings i{width:13px;height:13px;border-radius:50%;background:var(--ink);border:2.5px solid var(--bone);outline:1.5px solid var(--ink-30)}
+.man .ml{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.24em;color:var(--signal-dim)}
+.man .mt{font-weight:800;font-size:24px}
+.man .md{color:var(--ink-60);font-size:13.5px}
+body.ku .man .md{font-family:var(--ku)}
+.man .go{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:auto;padding-top:14px;color:var(--ink)}
+body.ku .man .go{font-family:var(--ku)}
+.man:hover .go{color:var(--signal-dim)}
+
+/* ============ M-07 PATCH BAY ============ */
+.bay{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.jack-card{
+  display:flex;align-items:center;gap:15px;text-decoration:none;
+  background:var(--bone-2);border:1.5px solid var(--ink-30);border-radius:var(--r-sm);
+  padding:15px 18px;transition:transform .2s, box-shadow .2s, background .2s;
+}
+.jack-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px -12px rgba(36,28,16,.4);background:var(--bone-3)}
+.socket{
+  width:26px;height:26px;border-radius:50%;flex:none;position:relative;
+  background:radial-gradient(circle at 40% 35%,#000,#241c10 70%);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.8), 0 0 0 3.5px var(--bone), 0 0 0 5px var(--ink-30);
+}
+.jack-card:hover .socket{box-shadow:inset 0 2px 4px rgba(0,0,0,.8), 0 0 0 3.5px var(--bone), 0 0 0 5px var(--signal), 0 0 14px rgba(255,77,0,.6)}
+.jack-card .jk{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.22em;color:var(--signal-dim);display:block}
+.jack-card .jv{font-weight:700;font-size:14.5px;word-break:break-all}
+body.ku .jack-card .jv{font-family:var(--ku)}
+body.ku .jack-card .jk{font-family:var(--ku);letter-spacing:0;font-size:11px}
+.big-cta{margin-top:34px;text-align:center}
+.big-cta h2{font-weight:800;font-size:clamp(30px,4.4vw,52px);line-height:1.05;letter-spacing:-.02em;margin-bottom:14px}
+body.ku .big-cta h2{font-family:var(--ku);letter-spacing:0;line-height:1.3}
+.big-cta h2 em{font-style:normal;color:var(--signal)}
+.big-cta p{color:var(--ink-60);max-width:520px;margin:0 auto 26px}
+body.ku .big-cta p{font-family:var(--ku)}
+.big-cta p a{color:var(--signal-dim)}
+.big-cta .hero-cta{justify-content:center}
+
+/* ============ foot ============ */
+.foot{
+  background:var(--ink);color:var(--bone);margin-top:26px;
+  padding:26px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;gap:14px;
+  align-items:center;justify-content:space-between;
+}
+.foot .f-plate{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;opacity:.9}
+.foot .f-plate b{color:var(--signal)}
+.foot .qc{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  border:2px solid var(--led);color:#5ee9a0;border-radius:6px;padding:6px 12px;transform:rotate(-2deg);
+}
+
+/* ============ modal ============ */
+.mback{
+  position:fixed;inset:0;background:rgba(36,28,16,.55);z-index:90;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(3px);
+}
+.mback.open{display:flex}
+.sheet{
+  background:linear-gradient(180deg,var(--bone-3),var(--bone));
+  border:2px solid var(--ink);border-radius:var(--r-lg);max-width:640px;width:100%;
+  max-height:86vh;overflow:auto;position:relative;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6);
+  animation:pop .28s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes pop{from{transform:translateY(18px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.sheet .s-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 22px;border-bottom:1.5px dashed var(--ink-30);
+  position:sticky;top:0;background:var(--bone-3);z-index:2;
+}
+.sheet .s-head .t{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.26em;color:var(--signal-dim)}
+.sheet .x{
+  font-family:var(--mono);font-weight:600;font-size:14px;background:var(--ink);color:var(--bone);
+  border:none;border-radius:6px;width:30px;height:30px;cursor:pointer;
+}
+.sheet .s-body{padding:26px}
+.sheet .comps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.sheet .comps span{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;
+  background:var(--ink);color:var(--bone);padding:4px 10px;border-radius:5px;
+}
+.sheet h3{font-size:clamp(24px,3.4vw,34px);font-weight:800;letter-spacing:-.02em;margin-bottom:12px;line-height:1.1}
+body.ku .sheet h3{font-family:var(--ku);letter-spacing:0;line-height:1.35}
+.sheet .s-txt{color:var(--ink-60);margin-bottom:20px;font-size:16px}
+body.ku .sheet .s-txt{font-family:var(--ku);font-size:15px}
+
+/* toast */
+.toast{
+  position:fixed;bottom:22px;left:50%;transform:translate(-50%,80px);z-index:99;
+  background:var(--ink);color:var(--bone);font-family:var(--mono);font-size:12.5px;font-weight:600;
+  letter-spacing:.1em;padding:12px 22px;border-radius:999px;border:2px solid var(--signal);
+  opacity:0;transition:.35s cubic-bezier(.2,.9,.3,1.2);pointer-events:none;white-space:nowrap;
+}
+body.ku .toast{font-family:var(--ku);letter-spacing:0}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+/* reveals */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+/* ============ responsive ============ */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .knobs{grid-template-columns:repeat(2,1fr)}
+  .seq{grid-template-columns:repeat(3,1fr)}
+  .pgrid{grid-template-columns:1fr 1fr;gap:26px 0}
+  .pgrid::before{display:none}
+  .story{grid-template-columns:1fr}
+  .mixer{grid-template-columns:repeat(2,1fr)}
+  .manuals{grid-template-columns:1fr;max-width:480px}
+  .bay{grid-template-columns:1fr 1fr}
+  .hmeta{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .seq{grid-template-columns:1fr 1fr}
+  .step{min-height:110px}
+  .knobs{grid-template-columns:1fr}
+  .fader{grid-template-columns:96px 1fr 38px}
+  .rack-nav a{display:none}
+  .bay{grid-template-columns:1fr}
+  .plate .sub{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ RACK TOP ============ -->
+<header class="rack-top">
+  <span class="brand en-num"><span class="dot"></span>SHIAR-2005</span>
+  <nav class="rack-nav">
+    <a href="#story" data-i18n="nav_story">My story</a>
+    <a href="#skills" data-i18n="nav_skills">Skills</a>
+    <a href="#work" data-i18n="nav_work">Work</a>
+    <a href="#cv" data-i18n="nav_cv">CV</a>
+    <a href="#contact" data-i18n="nav_contact">Contact</a>
+    <button class="lang-sw" onclick="toggleLang()" aria-label="switch language">کوردی</button>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ M-00 POWER ============ -->
+  <section class="module m00" id="power">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="hero">
+      <div>
+        <span class="kicker en-num"><b>SJ-2005</b> · <span data-i18n="hero_kicker">PERSONAL AUTOMATION CONSOLE</span></span>
+        <h1>SHIAR<span class="l2">HAWEEZ</span></h1>
+        <div class="ku-name">شیار هاوێز</div>
+        <div class="role"><span data-i18n="hero_role">SOFTWARE &amp; AUTOMATION ENGINEER</span></div>
+        <p class="tag" data-i18n="hero_tag">I build software, machines, and momentum. Based in Erbil, Kurdistan: <b>four languages, six shipped projects,</b> one rule: it has to actually work.</p>
+        <div class="hero-cta">
+          <a class="btn solid" href="#work" data-i18n="cta_work">See what I've built</a>
+          <a class="btn sig" href="mailto:shiar.mohammad.2005@gmail.com" data-i18n="cta_contact">Say hi</a>
+        </div>
+      </div>
+      <div class="console">
+        <div class="c-head">
+          <span class="lbl" data-i18n="lbl_signal">SIGNAL MONITOR</span>
+          <span class="rec" onclick="toast()"><i></i>REC</span>
+        </div>
+        <div class="vu" id="vu"></div>
+        <div class="faders">
+          <div class="fader"><span class="fl">CURIOSITY<small data-i18n="f_ku1">زانینەوە</small></span><input type="range" min="0" max="100" value="92" oninput="setFader(this)"><span class="fr">92</span></div>
+          <div class="fader"><span class="fl">PRECISION<small data-i18n="f_ku2">وردکاری</small></span><input type="range" min="0" max="100" value="88" oninput="setFader(this)"><span class="fr">88</span></div>
+          <div class="fader"><span class="fl">CAFFEINE<small data-i18n="f_ku3">کافاین</small></span><input type="range" min="0" max="100" value="97" oninput="setFader(this)"><span class="fr">97</span></div>
+          <div class="fader"><span class="fl">GRIT<small data-i18n="f_ku4">ئیرادە</small></span><input type="range" min="0" max="100" value="100" oninput="setFader(this)"><span class="fr">100</span></div>
+        </div>
+        <div class="prow">
+          <span class="mix"><span data-i18n="mix">MIX</span> <b id="mixv">94%</b></span>
+          <span class="pswitch" onclick="togglePower()"><span class="plbl">POWER</span><span class="pw"></span></span>
+        </div>
+      </div>
+    </div>
+    <div class="hmeta">
+      <div class="cell"><span class="k">STATUS</span><span class="v"><span class="on">●</span> <span data-i18n="meta_open">OPEN TO WORK</span></span></div>
+      <div class="cell"><span class="k">LOCATION</span><span class="v en-num">ERBIL, KURDISTAN</span></div>
+      <div class="cell"><span class="k">SERIAL</span><span class="v en-num">SJ-2005 / 26</span></div>
+      <div class="cell"><span class="k">LANGS</span><span class="v en-num">KU·EN·SV·NO</span></div>
+    </div>
+  </section>
+</div>
+
+<!-- tape -->
+<div class="tape"><div class="strip" id="tape"></div></div>
+
+<div class="wrap" style="padding-top:26px">
+  <section class="module rv" id="story">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-01</span><span class="name en-num">OSCILLATOR</span><span class="led"></span><span class="sub en-num">SIGNAL SOURCE</span></div>
+    <h2 class="sec-title" data-i18n="story_title">My <em>story</em></h2>
+    <div class="story">
+      <div class="txt">
+        <p data-i18n="story_p1">I'm Shiar, a software and automation engineer from Erbil, and I've always lived between two worlds: <b>a keyboard and a soldering iron.</b> One week I'm writing C# against a SQL Server database, the next I'm assembling lithium battery packs or building a hydraulic press from raw parts.</p>
+        <p data-i18n="story_p2">I studied Information Technology at Khabat Technical Institute, where my graduation project was a full SQL Server database: complex queries, views, maintenance procedures, evaluated by real assessors. Before that I finished secondary school in <b>Sweden</b>, which is where my four working languages come from: Kurdish, English, Swedish, and Norwegian.</p>
+        <p data-i18n="story_p3">Right now I run operations and marketing at <b>NORDO restaurant</b> in Erbil. The launch, the branding, the Stripe payments, even the financial templates are mine. And in my spare hours? I train machine-learning pipelines on Kaggle data and automate everything I touch. If something can be done in one command instead of ten, I've already scripted it.</p>
+      </div>
+      <div class="spec">
+        <div class="row"><span class="k" data-i18n="fact_from">FROM</span><span class="v" data-i18n="fact_from_v">Erbil, Kurdistan</span><span class="s" data-i18n="fact_from_s">born and based</span></div>
+        <div class="row"><span class="k" data-i18n="fact_edu">STUDIED</span><span class="v" data-i18n="fact_edu_v">IT Diploma</span><span class="s" data-i18n="fact_edu_s">Khabat Technical Institute</span></div>
+        <div class="row"><span class="k" data-i18n="fact_now">NOW</span><span class="v" data-i18n="fact_now_v">NORDO, Erbil</span><span class="s" data-i18n="fact_now_s">operations &amp; marketing</span></div>
+        <div class="row"><span class="k" data-i18n="fact_langs">LANGUAGES</span><span class="v en-num">KU · EN · SV · NO</span><span class="s" data-i18n="fact_langs_s">all working languages</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="rail"></div>
+<div class="wrap">
+
+  <section class="module rv" id="skills">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-02</span><span class="name en-num">FILTER</span><span class="led"></span><span class="sub en-num">TOOLBOX</span></div>
+    <h2 class="sec-title" data-i18n="skills_title">What's in my <em>toolbox</em></h2>
+    <div class="knobs">
+      <div class="knob-card"><span class="knob"></span><span class="kt" data-i18n="sk1">SOFTWARE</span><span class="ki">C# <i>·</i> WinForms<br>Python <i>·</i> PHP<br>HTML <i>·</i> CSS <i>·</i> SQL</span></div>
+      <div class="knob-card"><span class="knob"></span><span class="kt" data-i18n="sk2">DATA &amp; ML</span><span class="ki en-num">SQL Server <i>·</i> SSMS<br>Schema design<br>XGBoost <i>·</i> scikit-learn<br>Pandas</span></div>
+      <div class="knob-card"><span class="knob"></span><span class="kt" data-i18n="sk3">HARDWARE</span><span class="ki">Lithium packs<br>BMS <i>·</i> TP4056<br>Circuit protection<br>Hydraulics</span></div>
+      <div class="knob-card"><span class="knob"></span><span class="kt" data-i18n="sk4">AUTOMATION</span><span class="ki">CMD scripting<br>Workflow automation</span></div>
+      <div class="knob-card"><span class="knob"></span><span class="kt" data-i18n="sk5">OPERATIONS</span><span class="ki">Brand management<br>E-commerce <i>·</i> Stripe<br>Financial tracking<br>Customer support</span></div>
+      <div class="knob-card"><span class="knob"></span><span class="kt" data-i18n="sk6">LANGUAGES</span><span class="ki" data-i18n="langs_list">Kurdish — native<br>English — fluent<br>Swedish — fluent<br>Norwegian — fluent</span></div>
+    </div>
+  </section>
+</div>
+<div class="rail"></div>
+<div class="wrap">
+
+  <section class="module rv" id="work">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-03</span><span class="name en-num">SEQUENCER</span><span class="led"></span><span class="sub en-num">PROJECT STEPS</span></div>
+    <h2 class="sec-title" data-i18n="work_title">Things I've <em>built</em></h2>
+    <p class="sec-lead" data-i18n="work_lead">Everything below is real work, designed, built, and tested by me. Press a step to open its patch sheet.</p>
+    <div class="seq" id="seq"></div>
+    <p class="seq-note"><b>SEQ PLAYING</b> · <span data-i18n="seq_note">6 patterns loaded, no presets, all recorded live.</span></p>
+  </section>
+</div>
+<div class="rail"></div>
+<div class="wrap">
+
+  <section class="module rv" id="history">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-04</span><span class="name en-num">SIGNAL PATH</span><span class="led"></span><span class="sub en-num">HISTORY</span></div>
+    <h2 class="sec-title" data-i18n="hist_title">Where the signal <em>came from</em></h2>
+    <div class="path"><div class="pgrid" id="pgrid"></div></div>
+  </section>
+</div>
+<div class="rail"></div>
+<div class="wrap">
+
+  <section class="module rv" id="stats">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-05</span><span class="name en-num">MIXER</span><span class="led"></span><span class="sub en-num">OUTPUT LEVELS</span></div>
+    <div class="mixer" id="mixer">
+      <div class="ch" data-h=".95"><div class="meter"></div><span class="n"><span class="cnt" data-n="6">0</span><em>×</em></span><span class="l" data-i18n="stat_projects">SHIPPED PROJECTS</span></div>
+      <div class="ch" data-h=".75"><div class="meter"></div><span class="n"><span class="cnt" data-n="3">0</span><em>×</em></span><span class="l" data-i18n="stat_apps">DESKTOP APPS</span></div>
+      <div class="ch" data-h=".85"><div class="meter"></div><span class="n"><span class="cnt" data-n="4">0</span><em>×</em></span><span class="l" data-i18n="stat_langs">WORKING LANGUAGES</span></div>
+      <div class="ch" data-h="1"><div class="meter"></div><span class="n"><span class="cnt" data-n="1">0</span><em>×</em></span><span class="l" data-i18n="stat_ml">END-TO-END ML PIPELINE</span></div>
+    </div>
+  </section>
+</div>
+<div class="rail"></div>
+<div class="wrap">
+
+  <section class="module rv" id="cv">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-06</span><span class="name en-num">MANUALS</span><span class="led"></span><span class="sub en-num">DOCUMENTATION</span></div>
+    <h2 class="sec-title" data-i18n="cv_title">Take the <em>manual</em> with you</h2>
+    <p class="sec-lead" data-i18n="cv_lead">One page, three languages, always up to date.</p>
+    <div class="manuals">
+      <a class="man" href="cv/cv-english.pdf" download>
+        <span class="rings"><i></i><i></i><i></i></span>
+        <span class="ml">DOC-01 · EN</span><span class="mt">English</span><span class="md" data-i18n="cv_en_d">The operating manual, standard edition.</span><span class="go" data-i18n="cv_dl">Download PDF ↓</span>
+      </a>
+      <a class="man" href="cv/cv-kurdish.pdf" download>
+        <span class="rings"><i></i><i></i><i></i></span>
+        <span class="ml">DOC-02 · KU</span><span class="mt">کوردی</span><span class="md" data-i18n="cv_ku_d">وەرگێڕانی کوردی، هەمان ناوەڕۆک.</span><span class="go" data-i18n="cv_dl">Download PDF ↓</span>
+      </a>
+      <a class="man" href="cv/cv-arabic.pdf" download>
+        <span class="rings"><i></i><i></i><i></i></span>
+        <span class="ml">DOC-03 · AR</span><span class="mt">العربية</span><span class="md" data-i18n="cv_ar_d">النسخة العربية من السيرة الذاتية.</span><span class="go" data-i18n="cv_dl">Download PDF ↓</span>
+      </a>
+    </div>
+  </section>
+</div>
+<div class="rail"></div>
+<div class="wrap">
+
+  <section class="module rv" id="contact">
+    <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+    <div class="plate"><span class="idx">M-07</span><span class="name en-num">PATCH BAY</span><span class="led"></span><span class="sub en-num">I/O</span></div>
+    <h2 class="sec-title" data-i18n="contact_title">Plug into the <em>patch bay</em></h2>
+    <div class="bay">
+      <a class="jack-card" href="mailto:shiar.mohammad.2005@gmail.com"><span class="socket"></span><span><span class="jk">CH-01 · EMAIL</span><span class="jv en-num">shiar.mohammad.2005@gmail.com</span></span></a>
+      <a class="jack-card" href="tel:+9647518833032"><span class="socket"></span><span><span class="jk">CH-02 · PHONE</span><span class="jv en-num">+964 751 883 3032</span></span></a>
+      <a class="jack-card" href="https://instagram.com/shiar_m" target="_blank" rel="noopener"><span class="socket"></span><span><span class="jk">CH-03 · INSTAGRAM</span><span class="jv en-num">@shiar_m</span></span></a>
+      <a class="jack-card" href="https://t.me/Shiar_m" target="_blank" rel="noopener"><span class="socket"></span><span><span class="jk">CH-04 · TELEGRAM</span><span class="jv en-num">@Shiar_m</span></span></a>
+      <a class="jack-card" href="https://snapchat.com/add/sj_mhh1233" target="_blank" rel="noopener"><span class="socket"></span><span><span class="jk">CH-05 · SNAPCHAT</span><span class="jv en-num">sj_mhh1233</span></span></a>
+      <a class="jack-card" href="https://github.com/SJ2005-code" target="_blank" rel="noopener"><span class="socket"></span><span><span class="jk">CH-06 · GITHUB</span><span class="jv en-num">SJ2005-code</span></span></a>
+    </div>
+    <div class="big-cta">
+      <h2 data-i18n="contact_big">Let's build something <em>that works.</em></h2>
+      <p data-i18n="contact_sub">I'm looking for my next team in Kurdistan. If you need someone who ships, <a href="mailto:shiar.mohammad.2005@gmail.com">email me</a>.</p>
+      <div class="hero-cta" style="justify-content:center">
+        <a class="btn solid" href="mailto:shiar.mohammad.2005@gmail.com" data-i18n="cta_email">Email me</a>
+        <a class="btn sig" href="https://t.me/Shiar_m" target="_blank" rel="noopener" data-i18n="cta_tg">Telegram</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">
+  <span class="f-plate en-num">SHIAR-2005 · <b>HUMAN AUTOMATION CONSOLE</b> · MADE IN ERBIL</span>
+  <span class="f-plate" data-i18n="footer_made">Designed and built by me, with my AI sidekick.</span>
+  <span class="qc en-num">QC PASSED ✓</span>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="mback" id="mback" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="s-head"><span class="t en-num">M-03 · PATCH SHEET</span><button class="x" onclick="closeModal()" aria-label="close">✕</button></div>
+    <div class="s-body">
+      <div class="comps" id="mTags"></div>
+      <h3 id="mTitle"></h3>
+      <p class="s-txt" id="mText"></p>
+      <a class="btn solid gh" id="mLink" href="#" target="_blank" rel="noopener" data-i18n="view_gh">View on GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PROJECTS = [
+{ link:"https://github.com/SJ2005-code/rossmann_sales_forecast",
+  tags:["Python","XGBoost","scikit-learn","Pandas"],
+  en:{title:"Rossmann Sales Forecasting", blurb:"An end-to-end machine-learning pipeline that predicts daily store sales.",
+      detail:"Built in Python on the Kaggle Rossmann Store Sales dataset. I engineered features from promotions, holidays and store metadata, compared Random Forest against XGBoost, and tuned hyperparameters systematically to push predictive accuracy. The full pipeline, from cleaning and modeling to evaluation and visualization, is public on GitHub."},
+  ku:{title:"پێشبینی فرۆشتنی Rossmann", blurb:"پایپڵاینی تەواوی ماشین لێرنینگ بۆ پێشبینی فرۆشتنی ڕۆژانە.",
+      detail:"بە Python و لەسەر داتاکانی Kaggle دروستمکردووە. فیچەرەکانم لە پرۆمۆشن و پشووەکان و زانیاری فرۆشگاکانەوە دروستکردووە، Random Forest و XGBoostم بەراوردکردووە، و پارامەیتەرەکانم بە سیستەماتیکی ڕێکخستووە. تەواوی پڕۆسەکە لە GitHub بەردەستە."} },
+{ link:"",
+  tags:["C#","WinForms","SQL Server"],
+  en:{title:"Windows Forms Suite", blurb:"Admin system, accounting software, and a flight management app: full C# desktop builds.",
+      detail:"Three complete desktop applications written in C#: a custom administrative system, accounting software, and a flight management app. Each sits on a normalized SQL Server database with tuned queries, data validation, and maintenance routines, designed, built, and tested end to end by me."},
+  ku:{title:"کۆمەڵەی Windows Forms", blurb:"سیستەمی کارگێڕی، ژمێریاری، و ئەپی فڕۆکە — بە C#.",
+      detail:"سێ ئەپی تەواوی دێسکتۆپ بە C#: سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی بەڕێوەبردنی فڕۆکە. هەریەکەیان لەسەر داتابەیسی SQL Serverە، لە دیزاینەوە تا تاقیکردنەوە، بە دەستی خۆم."} },
+{ link:"",
+  tags:["Electronics","BMS","TP4056"],
+  en:{title:"Lithium Battery Pack + BMS", blurb:"Custom lithium packs with TP4056 charging and real circuit protection.",
+      detail:"Custom lithium battery packs assembled by hand: TP4056 charging modules, battery management systems, and flyback-diode protection so nothing fries. Designed, soldered, tested with a multimeter, and put to work powering real devices."},
+  ku:{title:"پاکی باتری لیتیۆم + BMS", blurb:"پاکی باتری بە چارجکردنی TP4056 و پاراستنی ڕاستەقینە.",
+      detail:"پاکی باتری لیتیۆم کە خۆم کۆمکردووەتەوە: مۆدیلی چارجکردنی TP4056، سیستەمی بەڕێوەبردنی باتری، و پاراستنی فڵایباک. دیزاین و لووتکە و تاقیکردنەوە بە مۆلتی مەیتەر، هەموو بە دەستی خۆم."} },
+{ link:"",
+  tags:["Mechanical","Build"],
+  en:{title:"Hydraulic Press & Pump", blurb:"A working hydraulic pump and press, designed and built from scratch.",
+      detail:"A working hydraulic pump and press designed and built independently. The engineering instinct doesn't stop at the keyboard. Precision structural woodworking too. Photos and video documentation coming with the portfolio media."},
+  ku:{title:"مەکینەی هایدرۆلیکی", blurb:"مەکینەیەکی کارا، دیزاین و دروستکردن لە سفرەوە.",
+      detail:"مەکینەی هایدرۆلیکی کارا کە بە تەواوی خۆم دروستمکردووە. هەستێکی ئەندازیاری تەنها لە کۆمپیوتەر کۆتایی نایێت. وێنە و ڤیدیۆ بەدەم دێت."} },
+{ link:"",
+  tags:["CMD","Scripting","Automation"],
+  en:{title:"CMD Workflow Automation", blurb:"Scripts that turn multi-step manual work into one command.",
+      detail:"Custom Command Prompt scripts that compress repetitive multi-step tasks into single commands: file routines, cleanup, and automated system reset protocols. Small tools, big hours saved."},
+  ku:{title:"ئۆتۆمەیشنی CMD", blurb:"سکریپتێک کارە هەنگاوینەکان دەکات بە یەک فەرمان.",
+      detail:"سکریپتی CMD کە کارە دووبارەبووەوەکان دەکات بە فەرمانێکی یەکلاکەرەوە. ئامرزێکی بچووک، کاتێکی زۆری پارێزراو."} },
+{ link:"",
+  tags:["Branding","Marketing","Stripe"],
+  en:{title:"NORDO Restaurant Launch", blurb:"Brand, marketing, and operations for a restaurant launch in Erbil.",
+      detail:"Coordinated the grand launch of NORDO restaurant in Erbil: promotional design and visual branding, social media campaigns, verified Google Business management, e-commerce setup with Stripe, and internal financial tracking templates I designed myself."},
+  ku:{title:"کردنەوەی NORDO", blurb:"براند، مارکێتینگ، و کارپێکردنی کردنەوەیەک لە هەولێر.",
+      detail:"کردنەوەی خواردنگەی NORDO لە هەولێرم ڕێکخست: دیزاینی پرۆمۆ و براندینگ، کەمپینی سۆشیال میدیا، Google Business، ئی-کۆمەرس بە Stripe، و تێمپلێتی دارایی کە خۆم دیزاینمکردووە."} }
+];
+
+const HISTORY = [
+{en:{when:"2026 — NOW", where:"NORDO Restaurant, Erbil", role:"Operations & Marketing Specialist", txt:"Running the launch: promo design, branding assets, social campaigns, verified business listings, and digital financial workflows."},
+ ku:{when:"٢٠٢٦ — ئێستا", where:"خواردنگەی NORDO، هەولێر", role:"سەپەکیالیستی کارپێکردن و مارکێتینگ", txt:"کردنەوەکەم ڕێکخست: دیزاینی پرۆمۆ، براندینگ، کەمپینی سۆشیال میدیا، و وۆرکفلۆوی دارایی دیجیتاڵی."}},
+{en:{when:"2026 · JUN — AUG", where:"Al Najar Company, Erbil", role:"Practical Training Intern", txt:"Applied core IT principles in a commercial environment, documenting procedures and supporting daily system operations."},
+ ku:{when:"٢٠٢٦ · حوزەیران — ئاب", where:"کۆمپانیای النەجار، هەولێر", role:"فێرخوازی ڕاهێنانی پراکتیکی", txt:"بنەماکانی ITم لە ژینگەیەکی بازرگانیدا بەکارهێنا، بەڵگەنامەکردنی ڕووتینەکان و پاڵپشتیی کارە ڕۆژانەکان."}},
+{en:{when:"2026 · GRADUATED", where:"Khabat Technical Institute", role:"Diploma in Information Technology", txt:"Completed with a full database graduation project: complex SQL queries, views, and maintenance procedures for official evaluation."},
+ ku:{when:"٢٠٢٦ · دەرچووم", where:"پەیمانگای تەکنیکی خەبات", role:"دیپلۆمی تەکنەلۆژیای زانیاری", txt:"بە پڕۆژەی دەرچوونی داتابەیس تەواومکرد، پرسیاری ئاڵۆز، ڤیو، و پرۆسەی چاککردن بۆ هەڵسەنگاندنی فەرمی."}},
+{en:{when:"EARLIER", where:"Front-line Ops · IES Länna, Stockholm", role:"Customer service · Swedish secondary education", txt:"Fast-paced retail and hospitality work across Kurdistan, and secondary education completed in Sweden, the origin of my four working languages."},
+ ku:{when:"پێشتر", where:"کارە ڕاستەوخۆکان و IES Länna، ستۆکهۆڵم", role:"خدمەی کڕیار · خوێندنی سوێدی", txt:"کاری خێرا لە فرۆشگا و میوانداری لە کوردستان، و خوێندنی ناوەندی لە سوید، سەرچاوەی چوار زمانی کارکردنم."}}
+];
+
+const MQ = ["C#","Python","SQL Server","XGBoost","WinForms","scikit-learn","Pandas","PHP","Lithium Packs","BMS","TP4056","Hydraulics","CMD Automation","Stripe","Branding","Kurdish","English","Swedish","Norwegian"];
+
+const I18N = {
+en:{
+  nav_story:"My story", nav_skills:"Skills", nav_work:"Work", nav_cv:"CV", nav_contact:"Contact",
+  hero_kicker:"PERSONAL AUTOMATION CONSOLE", hero_role:"SOFTWARE & AUTOMATION ENGINEER",
+  hero_tag:"I build software, machines, and momentum. Based in Erbil, Kurdistan: <b>four languages, six shipped projects,</b> one rule: it has to actually work.",
+  cta_work:"See what I've built", cta_contact:"Say hi", cta_email:"Email me", cta_tg:"Telegram",
+  meta_open:"OPEN TO WORK", lbl_signal:"SIGNAL MONITOR", mix:"MIX",
+  f_ku1:"", f_ku2:"", f_ku3:"", f_ku4:"",
+  story_title:"My <em>story</em>",
+  story_p1:"I'm Shiar, a software and automation engineer from Erbil, and I've always lived between two worlds: <b>a keyboard and a soldering iron.</b> One week I'm writing C# against a SQL Server database, the next I'm assembling lithium battery packs or building a hydraulic press from raw parts.",
+  story_p2:"I studied Information Technology at Khabat Technical Institute, where my graduation project was a full SQL Server database: complex queries, views, maintenance procedures, evaluated by real assessors. Before that I finished secondary school in <b>Sweden</b>, which is where my four working languages come from: Kurdish, English, Swedish, and Norwegian.",
+  story_p3:"Right now I run operations and marketing at <b>NORDO restaurant</b> in Erbil. The launch, the branding, the Stripe payments, even the financial templates are mine. And in my spare hours? I train machine-learning pipelines on Kaggle data and automate everything I touch. If something can be done in one command instead of ten, I've already scripted it.",
+  fact_from:"FROM", fact_from_v:"Erbil, Kurdistan", fact_from_s:"born and based",
+  fact_edu:"STUDIED", fact_edu_v:"IT Diploma", fact_edu_s:"Khabat Technical Institute",
+  fact_now:"NOW", fact_now_v:"NORDO, Erbil", fact_now_s:"operations & marketing",
+  fact_langs:"LANGUAGES", fact_langs_s:"all working languages",
+  skills_title:"What's in my <em>toolbox</em>",
+  sk1:"SOFTWARE", sk2:"DATA & ML", sk3:"HARDWARE", sk4:"AUTOMATION", sk5:"OPERATIONS", sk6:"LANGUAGES",
+  langs_list:"Kurdish — native<br>English — fluent<br>Swedish — fluent<br>Norwegian — fluent",
+  work_title:"Things I've <em>built</em>",
+  work_lead:"Everything below is real work, designed, built, and tested by me. Press a step to open its patch sheet.",
+  seq_note:"6 patterns loaded, no presets, all recorded live.",
+  hist_title:"Where the signal <em>came from</em>",
+  stat_projects:"SHIPPED PROJECTS", stat_apps:"DESKTOP APPS", stat_langs:"WORKING LANGUAGES", stat_ml:"END-TO-END ML PIPELINE",
+  cv_title:"Take the <em>manual</em> with you", cv_lead:"One page, three languages, always up to date.",
+  cv_en_d:"The operating manual, standard edition.", cv_ku_d:"", cv_ar_d:"",
+  cv_dl:"Download PDF ↓", view_gh:"View on GitHub →",
+  contact_title:"Plug into the <em>patch bay</em>",
+  contact_big:"Let's build something <em>that works.</em>",
+  contact_sub:"I'm looking for my next team in Kurdistan. If you need someone who ships, <a href='mailto:shiar.mohammad.2005@gmail.com'>email me</a>.",
+  footer_made:"Designed and built by me, with my AI sidekick.",
+  toast_msg:"TALENT SIGNAL DETECTED ▸ 100%",
+  power_on:"CONSOLE POWERED ON", power_off:"STANDBY MODE",
+},
+ku:{
+  nav_story:"چیرۆکم", nav_skills:"لێهاتووییەکان", nav_work:"کارەکان", nav_cv:"CV", nav_contact:"پەیوەندی",
+  hero_kicker:"کۆنسۆڵی ئۆتۆمەیشنی کەسی", hero_role:"ئەندازیاری سۆفتوێر و ئۆتۆمەیشن",
+  hero_tag:"سۆفتوێر و مەکینە و خێرایی دروست دەکەم. لە هەولێری کوردستان: <b>چوار زمان، شەش پڕۆژەی تەواوکراو،</b> و یەک ڕێسا: دەبێت بەڕاستی کار بکات.",
+  cta_work:"بینینی پڕۆژەکانم", cta_contact:"سڵاو بمکە", cta_email:"ئیمەیڵم بۆ بنێرە", cta_tg:"تەلەگرام",
+  meta_open:"ئامادەم بۆ کار", lbl_signal:"چاودێری سیگناڵ", mix:"میکس",
+  f_ku1:"زانینەوە", f_ku2:"وردکاری", f_ku3:"کافاین", f_ku4:"ئیرادە",
+  story_title:"چیرۆکی <em>من</em>",
+  story_p1:"من شيارم، ئەندازیاری سۆفتوێر و ئۆتۆمەیشن لە هەولێر، و هەمیشە لە نێوان دوو جیهاندا ژیاوم: <b>کیبۆرد و لووتکە.</b> هەفتەیەک بە C# و SQL Server دەنووسم، هەفتەیەکی تر پاکی باتری لیتیۆم کۆدەکەمەوە یان مەکینەی هایدرۆلیکی لە پارچە سەرەتاییەکانەوە دروستدەکەم.",
+  story_p2:"تەکنەلۆژیای زانیاریم لە پەیمانگای تەکنیکی خەبات خوێندووە، کە پڕۆژەی دەرچوونم داتابەیسی تەواوی SQL Server بوو: پرسیاری ئاڵۆز، ڤیو، و پرۆسەی چاککردن، بە هەڵسەنگاندنی ڕاستەقینە. پێش ئەوەش خوێندنی ناوەندیم لە <b>سوید</b> تەواوکردووە، کە سەرچاوەی چوار زمانە کارکردنەکەمە: کوردی، ئینگلیزی، سوێدی، و نەرویژی.",
+  story_p3:"ئێستا کارپێکردن و مارکێتینگی خواردنگەی <b>NORDO</b> لە هەولێر بەڕێوە دەبەم. کردنەوەکە، براندینگ، پارەدان بە Stripe، هەتا تێمپلێتە داراییەکانیش هی منن. و لە کاتە بێکارییەکانم؟ پایپڵاینی ماشین لێرنینگ ڕادەهێنم و هەموو شتێک دەئۆتۆمەیتکەم. ئەگەر شتێک بە یەک فەرمان بکرێت لە جیاتی دە، ئەوا پێشتر سکریپتیم بۆ نووسیوە.",
+  fact_from:"لە", fact_from_v:"هەولێر، کوردستان", fact_from_s:"لەدایکبوو و ژیان",
+  fact_edu:"خوێندن", fact_edu_v:"دیپلۆمی IT", fact_edu_s:"پەیمانگای تەکنیکی خەبات",
+  fact_now:"ئێستا", fact_now_v:"NORDO، هەولێر", fact_now_s:"کارپێکردن و مارکێتینگ",
+  fact_langs:"زمانەکان", fact_langs_s:"هەموو زمانەکانی کارکردن",
+  skills_title:"لە <em>ئامرزەکانم</em> داچی بکە",
+  sk1:"سۆفتوێر", sk2:"داتا و ML", sk3:"هاردوێر", sk4:"ئۆتۆمەیشن", sk5:"کارپێکردن", sk6:"زمانەکان",
+  langs_list:"کوردی — دایک زمان<br>ئینگلیزی — ڕوان<br>سوێدی — ڕوان<br>نەرویژی — ڕوان",
+  work_title:"ئەوەی <em>دروستمکردووە</em>",
+  work_lead:"هەموویان کارێکی ڕاستەقینەن، دیزاین و دروستکردن و تاقیکردنەوە بە دەستی خۆم. کرتە لە هەنگاوێک بکە بۆ بینینی وردەکاری.",
+  seq_note:"٦ پاتێرن بارکراوە، هەموویان تۆمارکراو.",
+  hist_title:"سیگناڵەکە لە کوێوە <em>هاتووە</em>",
+  stat_projects:"پڕۆژەی تەواوکراو", stat_apps:"ئەپی دێسکتۆپ", stat_langs:"زمانی کارکردن", stat_ml:"پایپڵاینی ML تەواو",
+  cv_title:"<em>مانواڵەکە</em> لەگەڵ خۆت ببە", cv_lead:"یەک لاپەڕە، سێ زمان، هەمیشە نوێ.",
+  cv_en_d:"", cv_ku_d:"وەرگێڕانی کوردی، هەمان ناوەڕۆک.", cv_ar_d:"النسخة العربية من السيرة الذاتية.",
+  cv_dl:"دابەزاندنی PDF ↓", view_gh:"بینین لە GitHub →",
+  contact_title:"بەستەر بکە بە <em>پاتچ بەی</em>",
+  contact_big:"با شتێک دروستبکەین <em>کە کاربکات.</em>",
+  contact_sub:"بەدوای تیمی داهاتووم دەگەڕێم لە کوردستان. ئەگەر کەسێکت دەوێت کە کار تەواودەکات، <a href='mailto:shiar.mohammad.2005@gmail.com'>ئیمەیڵم بۆ بنێرە</a>.",
+  footer_made:"دیزاین و دروستکردن بە دەستی خۆم، لەگەڵ هاوکاری AI.",
+  toast_msg:"سیگناڵی بەهرە دۆزرایەوە ▸ ١٠٠٪",
+  power_on:"کۆنسۆڵ کارا کرا", power_off:"دۆخی چاوەڕوان",
+}
+};
+
+let LANG = "en";
+
+/* ============ i18n ============ */
+function applyLang(){
+  document.body.classList.toggle("ku", LANG==="ku");
+  document.documentElement.dir = LANG==="ku" ? "rtl" : "ltr";
+  document.documentElement.lang = LANG==="ku" ? "ku" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(I18N[LANG][k] !== undefined && I18N[LANG][k] !== "") el.innerHTML = I18N[LANG][k];
+  });
+  document.querySelector(".lang-sw").textContent = LANG==="en" ? "کوردی" : "English";
+  renderSeq(); renderPath();
+}
+function toggleLang(){ LANG = LANG==="en" ? "ku" : "en"; applyLang(); }
+
+/* ============ renderers ============ */
+function renderSeq(){
+  document.getElementById("seq").innerHTML = PROJECTS.map((p,i)=>`
+    <button class="step" onclick="openModal(${i})" aria-label="${p.en.title}">
+      <span class="sn en-num">STEP ${i+1}</span>
+      <span class="sg"></span>
+      <span class="st">${p[LANG].title}</span>
+    </button>`).join("");
+  observeSteps();
+}
+function renderPath(){
+  document.getElementById("pgrid").innerHTML = HISTORY.map(h=>`
+    <div class="pnode">
+      <span class="jack"></span>
+      <span class="when en-num">${h[LANG].when}</span>
+      <span class="where">${h[LANG].where}</span>
+      <span class="role">${h[LANG].role}</span>
+      <p>${h[LANG].txt}</p>
+    </div>`).join("");
+}
+
+/* ============ VU meter ============ */
+(function(){
+  const vu = document.getElementById("vu");
+  let bars = "";
+  for(let i=0;i<20;i++){
+    const h = (0.25 + Math.random()*0.72).toFixed(2);
+    bars += `<i style="--h:${h};animation-delay:${(i*0.07).toFixed(2)}s;animation-duration:${(1.1+Math.random()*0.9).toFixed(2)}s"></i>`;
+  }
+  vu.innerHTML = bars;
+})();
+
+/* ============ faders ============ */
+function setFader(el){
+  el.style.setProperty("--v", el.value+"%");
+  el.parentElement.querySelector(".fr").textContent = el.value;
+  const fs = [...document.querySelectorAll(".fader input")].map(f=>+f.value);
+  document.getElementById("mixv").textContent = Math.round(fs.reduce((a,b)=>a+b,0)/fs.length)+"%";
+}
+document.querySelectorAll(".fader input").forEach(f=>setFader(f));
+
+/* ============ power ============ */
+let powered = true;
+function togglePower(){
+  powered = !powered;
+  document.body.classList.toggle("standby", !powered);
+  showToast(powered ? I18N[LANG].power_on : I18N[LANG].power_off);
+}
+
+/* ============ toast ============ */
+let toastT;
+function toast(){ showToast(I18N[LANG].toast_msg); }
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove("show"), 2400);
+}
+
+/* ============ modal ============ */
+function openModal(i){
+  const p = PROJECTS[i];
+  document.getElementById("mTags").innerHTML = p.tags.map(t=>`<span>${t}</span>`).join("");
+  document.getElementById("mTitle").textContent = p[LANG].title;
+  document.getElementById("mText").textContent = p[LANG].detail;
+  const lk = document.getElementById("mLink");
+  lk.style.display = p.link ? "inline-flex" : "none";
+  if(p.link) lk.href = p.link;
+  document.getElementById("mback").classList.add("open");
+  document.querySelectorAll(".step").forEach((s,j)=>s.classList.toggle("playing", j===i));
+}
+function closeModal(){
+  document.getElementById("mback").classList.remove("open");
+  document.querySelectorAll(".step").forEach(s=>s.classList.remove("playing"));
+}
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+
+/* ============ tape ============ */
+(function(){
+  const t = document.getElementById("tape");
+  const one = MQ.map(s=>`<span>${s}</span>`).join("");
+  t.innerHTML = one + one;
+})();
+
+/* ============ reveals ============ */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("in","on");
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.16});
+function observeAll(){
+  document.querySelectorAll(".rv").forEach(el=>{ if(!el.classList.contains("in")) io.observe(el); });
+  document.querySelectorAll(".ch").forEach(ch=>{
+    const chio = new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); countUp(e.target); chio.unobserve(e.target);} });
+    },{threshold:.4});
+    chio.observe(ch);
+  });
+}
+function observeSteps(){
+  document.querySelectorAll(".step").forEach((s,i)=>{
+    const sio = new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(e.isIntersecting){
+          setTimeout(()=>s.classList.add("playing"), i*140);
+          setTimeout(()=>s.classList.remove("playing"), i*140+700);
+          sio.unobserve(e.target);
+        }
+      });
+    },{threshold:.6});
+    sio.observe(s);
+  });
+}
+function countUp(ch){
+  const n = +ch.querySelector(".cnt").dataset.n;
+  const el = ch.querySelector(".cnt");
+  const t0 = performance.now(), dur = 1200;
+  (function tick(t){
+    const p = Math.min((t-t0)/dur,1);
+    el.textContent = Math.round(n*(1-Math.pow(1-p,3)));
+    if(p<1) requestAnimationFrame(tick);
+  })(t0);
+}
+
+/* ============ init ============ */
+(function(){
+  document.querySelectorAll(".ch .meter").forEach(m=>{
+    let bars = "";
+    for(let i=0;i<15;i++) bars += `<i style="--h:${(0.3+Math.random()*(i/15*0.9)).toFixed(2)}"></i>`;
+    m.innerHTML = bars;
+  });
+  applyLang();
+  observeAll();
+})();
+</script>
+</body>
+</html>
