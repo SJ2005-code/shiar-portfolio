@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<!--
+  © 2026 Shiar Fooad Haweez — All rights reserved.
+  This site and its design are the exclusive property of the author.
+  Hosted at github.com/SJ2005-code/shiar-portfolio (source protected by license).
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shiar Haweez — Issue №01</title>
+<meta name="description" content="Shiar Fooad Haweez, software and automation engineer from Erbil. The magazine of one engineer who ships: C#, Python, SQL, machine learning, lithium packs, hydraulics.">
+<meta property="og:title" content="Shiar Haweez — Issue №01">
+<meta property="og:description" content="The magazine of one engineer who ships. Feature well, six builds, tear-out CV.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f7f3ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f7f3ea'/%3E%3Crect x='5' y='6' width='22' height='2.2' fill='%231a1712'/%3E%3Crect x='5' y='13.5' width='22' height='5' fill='%2320513f'/%3E%3Crect x='5' y='24' width='22' height='2.2' fill='%231a1712'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Archivo:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f3ea;
+  --paper-2:#efe9db;
+  --ink:#1a1712;
+  --ink-70:rgba(26,23,18,.72);
+  --ink-40:rgba(26,23,18,.42);
+  --hair:rgba(26,23,18,.22);
+  --hair-soft:rgba(26,23,18,.12);
+  --green:#20513f;
+  --green-deep:#153628;
+  --serif:'Instrument Serif',Georgia,serif;
+  --body:'Spectral',Georgia,serif;
+  --sans:'Archivo',sans-serif;
+  --ku:'Noto Kufi Arabic',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:17px;line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body.ku{font-family:var(--ku)}
+body.ku .en-only{display:none}
+a{color:inherit}
+::selection{background:var(--green);color:var(--paper)}
+p{-webkit-hyphens:auto;hyphens:auto}
+
+/* ============ shared editorial atoms ============ */
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(18px,4.5vw,56px)}
+.kicker{
+  font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--green);display:inline-flex;align-items:center;gap:14px;
+}
+.kicker::before{content:"";width:34px;height:1.5px;background:var(--green)}
+.rule{border:none;border-top:1px solid var(--hair);margin:0}
+.rule.dbl{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);height:5px}
+.page-folio{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-40);padding:22px 0 6px;
+}
+.page-folio b{color:var(--ink)}
+.sec{padding:clamp(56px,8vw,110px) 0 0}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* progress hairline */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--green);z-index:80;transition:width .15s linear}
+
+/* ============ cover ============ */
+.cover{padding-top:clamp(18px,3vw,34px)}
+.cover .dateline{
+  display:flex;justify-content:space-between;gap:12px;
+  font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  padding-bottom:14px;border-bottom:2.5px solid var(--ink);
+}
+.cover .dateline .mid{color:var(--ink-40)}
+.masthead{
+  text-align:center;padding:clamp(26px,4vw,54px) 0 clamp(18px,2.5vw,30px);
+  font-family:var(--serif);font-weight:400;
+}
+.masthead .m1{
+  font-size:clamp(58px,12.5vw,168px);line-height:.94;letter-spacing:-.015em;display:block;
+}
+.masthead .m1 em{font-style:italic;color:var(--green)}
+.masthead .m-ku{display:none;font-family:var(--ku);font-weight:700;font-size:clamp(40px,8.6vw,112px);line-height:1.25}
+body.ku .masthead .m1{display:none}
+body.ku .masthead .m-ku{display:block}
+.masthead .issue{
+  display:flex;justify-content:center;gap:18px;align-items:center;margin-top:clamp(14px,2vw,24px);
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+}
+.masthead .issue i{font-style:normal;color:var(--green)}
+.cover-grid{
+  display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(26px,4vw,64px);
+  border-top:1px solid var(--hair);padding-top:clamp(24px,3vw,40px);align-items:start;
+}
+.cover-story .hl{
+  font-family:var(--serif);font-size:clamp(34px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;
+  margin:14px 0 16px;
+}
+.cover-story .hl em{font-style:italic;color:var(--green)}
+.cover-story .deck{color:var(--ink-70);font-size:18px;max-width:44ch}
+body.ku .cover-story .deck{line-height:2}
+.cover-story .cta{margin-top:26px}
+.link-btn{
+  font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;border-bottom:2px solid var(--green);padding-bottom:5px;display:inline-block;
+  transition:.25s;
+}
+.link-btn:hover{color:var(--green);letter-spacing:.22em}
+.cover-side{border-inline-start:1px solid var(--hair);padding-inline-start:clamp(20px,2.6vw,36px)}
+.cover-side .spec-h{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-40);margin-bottom:14px}
+.cover-side .spec-l{margin-bottom:18px}
+.cover-side .spec-l b{font-family:var(--serif);font-weight:400;font-size:22px;display:block;line-height:1.15}
+.cover-side .spec-l span{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+.cover-foot{
+  display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:clamp(14px,2vw,28px);align-items:end;
+  border-top:2.5px solid var(--ink);margin-top:clamp(30px,4vw,56px);padding-top:16px;
+}
+.cline{display:flex;flex-direction:column;gap:5px}
+.cline .cl-k{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green)}
+.cline .cl-v{font-size:13.5px;color:var(--ink-70);font-family:var(--body);line-height:1.5}
+.barcode{display:flex;flex-direction:column;align-items:center;gap:4px}
+.barcode .bars{
+  width:104px;height:44px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 7px,transparent 7px 9px,var(--ink) 9px 10px,transparent 10px 13px,var(--ink) 13px 16px,transparent 16px 18px);
+}
+.barcode span{font-family:var(--sans);font-size:9.5px;font-weight:600;letter-spacing:.3em}
+
+/* ============ contents ============ */
+.toc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.toc-head h2,.sec-h{
+  font-family:var(--serif);font-weight:400;font-size:clamp(30px,4vw,46px);letter-spacing:-.01em;line-height:1;
+}
+.toc-head .note{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.toc{border-top:2.5px solid var(--ink)}
+.toc-row{
+  display:grid;grid-template-columns:64px 1fr auto;gap:clamp(14px,2.5vw,30px);align-items:baseline;
+  padding:17px 4px;border-bottom:1px solid var(--hair);text-decoration:none;transition:.2s;
+}
+.toc-row:hover{background:var(--paper-2)}
+.toc-row:hover .t-title{color:var(--green)}
+.toc-row .t-no{font-family:var(--serif);font-size:24px;color:var(--green)}
+.toc-row .t-title{font-family:var(--serif);font-size:clamp(21px,2.6vw,28px);line-height:1.2;transition:color .2s}
+.toc-row .t-desc{grid-column:2;font-size:13.5px;color:var(--ink-70);margin-top:2px}
+.toc-row .t-pg{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--ink-40)}
+
+/* ============ feature ============ */
+.feature .lede{
+  font-family:var(--serif);font-size:clamp(21px,2.4vw,27px);line-height:1.5;color:var(--ink);
+  max-width:58ch;margin:18px 0 30px;
+}
+.feature .lede em{font-style:italic;color:var(--green)}
+.feat-grid{display:grid;grid-template-columns:1.9fr 1fr;gap:clamp(28px,4vw,64px);align-items:start}
+.feat-cols{columns:2;column-gap:clamp(26px,3vw,44px);column-rule:1px solid var(--hair-soft)}
+.feat-cols p{font-size:16px;line-height:1.75;color:var(--ink-70);margin-bottom:16px;break-inside:avoid}
+.feat-cols p b{color:var(--ink);font-weight:600}
+.feat-cols p.first::first-letter{
+  font-family:var(--serif);font-size:64px;line-height:.83;float:left;padding:4px 8px 0 0;color:var(--green);
+}
+body.ku .feat-cols{columns:1}
+body.ku .feat-cols p{line-height:2.05}
+body.ku .feat-cols p.first::first-letter{font-size:inherit;float:none;padding:0;color:inherit;font-family:var(--ku)}
+.pull{
+  font-family:var(--serif);font-style:italic;font-size:clamp(23px,2.8vw,32px);line-height:1.35;
+  border-block:1px solid var(--ink);padding:22px 6px;margin:30px 0;color:var(--ink);break-inside:avoid;
+}
+.notes{border:1px solid var(--hair);padding:24px;background:var(--paper-2);position:sticky;top:26px}
+.notes h4{
+  font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--green);margin-bottom:16px;
+}
+.notes .n-row{padding:13px 0;border-bottom:1px solid var(--hair-soft)}
+.notes .n-row:last-child{border-bottom:none;padding-bottom:0}
+.notes .n-k{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);display:block;margin-bottom:3px}
+.notes .n-v{font-family:var(--serif);font-size:19px;line-height:1.3}
+.notes .n-s{font-size:12.5px;color:var(--ink-70)}
+body.ku .notes .n-v{font-family:var(--ku);font-size:15px}
+
+/* ============ toolbox ============ */
+.tools{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(14px,2vw,26px);margin-top:30px}
+.tool{border-top:2.5px solid var(--ink);padding-top:16px}
+.tool.wide{grid-column:span 2}
+.tool.t-name{font-family:var(--serif);font-size:26px;line-height:1.1;margin-bottom:10px}
+body.ku .tool .t-name{font-family:var(--ku);font-size:19px;line-height:1.6}
+.tool ul{list-style:none}
+.tool li{
+  font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.04em;
+  padding:7px 0;border-bottom:1px solid var(--hair-soft);color:var(--ink-70);
+}
+.tool li:last-child{border-bottom:none}
+.tool li::before{content:"·";color:var(--green);margin-inline-end:9px;font-weight:700}
+body.ku .tool li{font-family:var(--ku);font-size:13px;letter-spacing:0}
+
+/* ============ portfolio spreads ============ */
+.spread{
+  display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,3.4vw,56px);align-items:start;
+  padding:clamp(28px,3.6vw,48px) 0;border-top:1px solid var(--hair);cursor:pointer;
+  transition:background .25s;position:relative;
+}
+.spread:hover{background:var(--paper-2)}
+.spread:first-of-type{border-top:2.5px solid var(--ink)}
+.spread .s-no{
+  font-family:var(--serif);font-size:clamp(64px,8.5vw,120px);line-height:.85;
+  color:transparent;-webkit-text-stroke:1.5px var(--ink-40);transition:.3s;min-width:1.4em;
+}
+.spread:hover .s-no{-webkit-text-stroke:1.5px var(--green);color:rgba(32,81,63,.08)}
+.spread .s-k{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:10px}
+.spread h3{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.05;letter-spacing:-.01em;margin-bottom:12px;transition:color .2s}
+.spread:hover h3{color:var(--green)}
+.spread .s-deck{color:var(--ink-70);font-size:15.5px;max-width:56ch}
+.spread .s-tags{font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);margin-top:14px}
+.spread .s-tags i{font-style:normal;color:var(--green);margin:0 7px}
+.spread .s-go{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--green);margin-top:16px;display:inline-block;
+}
+.spread .s-go::after{content:" →";transition:.2s}
+.spread:hover .s-go::after{content:" →";letter-spacing:.28em}
+.spread:nth-child(even) .s-body{text-align:end}
+.spread:nth-child(even) .s-tags i{display:inline-block}
+.spread:nth-child(even){text-align:end}
+body.ku .spread h3{font-family:var(--ku);font-size:clamp(20px,2.6vw,32px);line-height:1.6}
+body.ku .spread .s-deck{line-height:2}
+
+/* ============ chronology ============ */
+.chron{margin-top:30px;border-top:2.5px solid var(--ink)}
+.chron-row{display:grid;grid-template-columns:170px 1fr;gap:clamp(18px,3vw,44px);padding:24px 4px;border-bottom:1px solid var(--hair)}
+.chron-row .c-when{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green);padding-top:5px}
+.chron-row .c-where{font-family:var(--serif);font-size:clamp(21px,2.4vw,27px);line-height:1.2}
+.chron-row .c-role{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-40);display:block;margin:6px 0 8px}
+.chron-row p{font-size:14.5px;color:var(--ink-70);max-width:64ch}
+body.ku .chron-row .c-where{font-family:var(--ku);font-size:18px;line-height:1.7}
+body.ku .chron-row p{line-height:2}
+
+/* ============ numbers ============ */
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink)}
+.num{padding:clamp(24px,3vw,40px) clamp(14px,2vw,28px);border-inline-start:1px solid var(--hair)}
+.num:first-child{border-inline-start:none}
+.num .n-big{font-family:var(--serif);font-size:clamp(56px,7vw,96px);line-height:.9;display:block}
+.num .n-big i{font-style:italic;color:var(--green)}
+.num .n-cap{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-70);display:block;margin-top:12px}
+body.ku .num .n-cap{font-family:var(--ku);letter-spacing:0;font-size:12px;line-height:1.8}
+
+/* ============ tear-out CVs ============ */
+.tears{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,32px);margin-top:30px}
+.tear{
+  position:relative;text-decoration:none;background:var(--paper);
+  border:1px dashed var(--ink-40);padding:26px 24px 22px;transition:.25s;
+}
+.tear::before{
+  content:"✂";position:absolute;top:-12px;inset-inline-start:18px;font-size:14px;color:var(--green);
+  background:var(--paper);padding:0 6px;
+}
+.tear:hover{transform:translateY(-4px);box-shadow:0 18px 36px -18px rgba(26,23,18,.4);border-color:var(--green)}
+.tear .t-flag{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.3em;color:var(--green);display:block;margin-bottom:12px}
+.tear .t-lang{font-family:var(--serif);font-size:30px;display:block;margin-bottom:8px;line-height:1.1}
+.tear .t-desc{font-size:13.5px;color:var(--ink-70);display:block;margin-bottom:18px}
+.tear .t-dl{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border-top:1px solid var(--hair);padding-top:14px;display:block;transition:color .2s}
+.tear:hover .t-dl{color:var(--green)}
+body.ku .tear .t-desc{font-family:var(--ku);line-height:2}
+body.ku .tear .t-dl{font-family:var(--ku);letter-spacing:0;font-size:12px}
+
+/* ============ letters ============ */
+.letters{text-align:center;padding-bottom:clamp(30px,4vw,56px)}
+.letters .l-big{
+  font-family:var(--serif);font-size:clamp(36px,5.4vw,72px);line-height:1.04;letter-spacing:-.015em;
+  margin:18px auto 20px;max-width:22ch;
+}
+.letters .l-big em{font-style:italic;color:var(--green)}
+.letters p{color:var(--ink-70);max-width:52ch;margin:0 auto 30px}
+body.ku .letters .l-big{font-family:var(--ku);font-size:clamp(26px,4vw,44px);line-height:1.6}
+body.ku .letters p{font-family:var(--ku);line-height:2.1}
+.letters .l-mail{
+  font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;background:var(--ink);color:var(--paper);padding:16px 34px;display:inline-block;
+  transition:.25s;
+}
+.letters .l-mail:hover{background:var(--green);letter-spacing:.2em}
+.socs{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin-top:44px;
+  font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+}
+.socs a{text-decoration:none;padding:10px 22px;border-inline-end:1px solid var(--hair);transition:.2s}
+.socs a:last-child{border-inline-end:none}
+.socs a:hover{color:var(--green)}
+.socs a i{font-style:normal;color:var(--green)}
+
+/* ============ colophon ============ */
+.colophon{
+  border-top:2.5px solid var(--ink);padding:26px 0 40px;
+  display:grid;grid-template-columns:auto 1fr auto;gap:clamp(18px,3vw,44px);align-items:baseline;
+}
+.colophon .c-brand{font-family:var(--serif);font-size:22px}
+.colophon .c-brand em{font-style:italic;color:var(--green)}
+.colophon .c-text{font-family:var(--sans);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-40);line-height:2}
+.colophon .c-copy{font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+
+/* ============ article overlay ============ */
+.ovl{
+  position:fixed;inset:0;z-index:90;background:rgba(26,23,18,.45);backdrop-filter:blur(2px);
+  display:none;overflow-y:auto;padding:clamp(16px,4vh,64px) 18px;
+}
+.ovl.open{display:block}
+.article{
+  background:var(--paper);max-width:720px;margin:0 auto;border:1px solid var(--hair);
+  padding:clamp(28px,4vw,56px);position:relative;animation:pagein .5s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes pagein{from{transform:translateY(34px) ;opacity:0}to{transform:none;opacity:1}}
+.article .a-close{
+  position:absolute;top:16px;inset-inline-end:16px;width:34px;height:34px;border:1px solid var(--ink);
+  background:var(--paper);font-family:var(--sans);font-size:15px;cursor:pointer;line-height:1;transition:.2s;
+}
+.article .a-close:hover{background:var(--ink);color:var(--paper)}
+.article .a-k{margin-bottom:14px}
+.article h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.4vw,50px);line-height:1.04;letter-spacing:-.01em;margin-bottom:14px}
+body.ku .article h2{font-family:var(--ku);font-size:clamp(24px,3vw,34px);line-height:1.6}
+.article .a-deck{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink-70);margin-bottom:22px}
+.article .a-tags{font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green);border-block:1px solid var(--hair);padding:12px 0;margin-bottom:24px}
+.article .a-body{font-size:16px;line-height:1.85;color:var(--ink-70)}
+body.ku .article .a-body{font-family:var(--ku);line-height:2.1;font-size:14.5px}
+.article .a-src{margin-top:28px}
+
+/* ============ responsive ============ */
+@media(max-width:900px){
+  .cover-grid{grid-template-columns:1fr}
+  .cover-side{border-inline-start:none;border-top:1px solid var(--hair);padding-inline-start:0;padding-top:24px}
+  .feat-grid{grid-template-columns:1fr}
+  .feat-cols{columns:1}
+  .tools{grid-template-columns:repeat(2,1fr)}
+  .tool.wide{grid-column:span 1}
+  .numbers{grid-template-columns:repeat(2,1fr)}
+  .num:nth-child(3){border-inline-start:none}
+  .num{border-top:1px solid var(--hair)}
+  .num:nth-child(-n+2){border-top:none}
+  .tears{grid-template-columns:1fr;max-width:440px}
+  .chron-row{grid-template-columns:1fr;gap:6px}
+  .cover-foot{grid-template-columns:1fr 1fr}
+  .barcode{display:none}
+}
+@media(max-width:600px){
+  .letters .l-mail{font-size:11px;letter-spacing:.06em;padding:14px 20px;white-space:normal;word-break:break-all;line-height:1.7}
+  .spread{grid-template-columns:1fr;gap:10px}
+  .spread .s-no{font-size:52px}
+  .spread:nth-child(even){text-align:start}
+  .tools{grid-template-columns:1fr}
+  .numbers{grid-template-columns:1fr}
+  .num{border-top:1px solid var(--hair)}
+  .num:first-child{border-top:none}
+  .colophon{grid-template-columns:1fr;gap:10px}
+  .dateline .mid{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<div class="wrap">
+
+  <!-- ============ COVER ============ -->
+  <header class="cover">
+    <div class="dateline en-num">
+      <span>VOL. 01 — NO. 1</span>
+      <span class="mid">ERBIL · KURDISTAN</span>
+      <span>AUTUMN 2026</span>
+    </div>
+    <div class="masthead">
+      <span class="m1">SHIAR <em>HAWEEZ</em></span>
+      <span class="m-ku">شیار هاوێز</span>
+      <div class="issue en-num">
+        <span>THE MAGAZINE OF ONE ENGINEER</span><i>◆</i><span>SOFTWARE &amp; AUTOMATION</span>
+      </div>
+    </div>
+    <div class="cover-grid">
+      <div class="cover-story">
+        <span class="kicker" data-i18n="cv_k">COVER STORY</span>
+        <h1 class="hl" data-i18n="cover_hl">The engineer who <em>ships.</em></h1>
+        <p class="deck" data-i18n="cover_deck">Software, machines, and momentum, built between a keyboard and a soldering iron. From Erbil, Kurdistan: four working languages, six finished builds, one rule. It has to actually work.</p>
+        <div class="cta">
+          <a class="link-btn" href="#toc" data-i18n="cta_open">Open the issue</a>
+          &nbsp;&nbsp;<a class="link-btn" href="#letters" data-i18n="cta_write">Write to the editor</a>
+        </div>
+      </div>
+      <aside class="cover-side">
+        <div class="spec-h" data-i18n="spec_h">THE SPECIFICATIONS</div>
+        <div class="spec-l"><span data-i18n="spec_l1">NAME</span><b>Shiar Fooad Haweez</b></div>
+        <div class="spec-l"><span data-i18n="spec_l2">DISCIPLINE</span><b data-i18n="spec_v2">Software &amp; Automation Engineering</b></div>
+        <div class="spec-l"><span data-i18n="spec_l3">BASE</span><b>Erbil, Kurdistan</b></div>
+        <div class="spec-l"><span data-i18n="spec_l4">STATUS</span><b data-i18n="spec_v4">Open to work</b></div>
+        <div class="spec-l en-num"><span>LANGUAGES</span><b>KU · EN · SV · NO</b></div>
+      </aside>
+    </div>
+    <div class="cover-foot">
+      <div class="cline"><span class="cl-k" data-i18n="cl1k">FEATURE</span><span class="cl-v" data-i18n="cl1v">Between a keyboard and a soldering iron, one engineer, two worlds</span></div>
+      <div class="cline"><span class="cl-k" data-i18n="cl2k">PORTFOLIO</span><span class="cl-v" data-i18n="cl2v">Six builds, no prototypes: code, databases, batteries, steel</span></div>
+      <div class="cline"><span class="cl-k" data-i18n="cl3k">READER SERVICE</span><span class="cl-v" data-i18n="cl3v">The CV as a tear-out card, in three languages</span></div>
+      <div class="barcode en-num"><div class="bars"></div><span>SJ-2005-26</span></div>
+    </div>
+  </header>
+
+  <hr class="rule dbl" style="margin-top:clamp(34px,5vw,60px)">
+
+  <!-- ============ CONTENTS ============ -->
+  <section class="sec" id="toc">
+    <div class="page-folio en-num"><span>02 · 03</span><b>IN THIS ISSUE</b><span>SHIAR HAWEEZ — №01</span></div>
+    <div class="toc-head rv">
+      <h2 data-i18n="toc_h">In this issue</h2>
+      <span class="note en-num">EST. READING: 6 MIN</span>
+    </div>
+    <nav class="toc rv">
+      <a class="toc-row" href="#feature">
+        <span class="t-no en-num">04</span>
+        <span class="t-title" data-i18n="toc1">My story</span>
+        <span class="t-pg en-num">FEATURE</span>
+        <span class="t-desc" data-i18n="toc1d">A keyboard, a soldering iron, and everything built in between.</span>
+      </a>
+      <a class="toc-row" href="#toolbox">
+        <span class="t-no en-num">11</span>
+        <span class="t-title" data-i18n="toc2">The toolbox</span>
+        <span class="t-pg en-num">DEPARTMENT</span>
+        <span class="t-desc" data-i18n="toc2d">The complete inventory: code, data, hardware, operations.</span>
+      </a>
+      <a class="toc-row" href="#portfolio">
+        <span class="t-no en-num">16</span>
+        <span class="t-title" data-i18n="toc3">Things I've built</span>
+        <span class="t-pg en-num">PORTFOLIO</span>
+        <span class="t-desc" data-i18n="toc3d">Six real builds, from machine-learning pipelines to hydraulic presses.</span>
+      </a>
+      <a class="toc-row" href="#record">
+        <span class="t-no en-num">24</span>
+        <span class="t-title" data-i18n="toc4">The record</span>
+        <span class="t-pg en-num">CHRONOLOGY</span>
+        <span class="t-desc" data-i18n="toc4d">Erbil, Sweden, Khabat, NORDO: where the signal came from.</span>
+      </a>
+      <a class="toc-row" href="#tearout">
+        <span class="t-no en-num">30</span>
+        <span class="t-title" data-i18n="toc5">The tear-out CV</span>
+        <span class="t-pg en-num">SERVICE</span>
+        <span class="t-desc" data-i18n="toc5d">One page, three languages, ready to take home.</span>
+      </a>
+      <a class="toc-row" href="#letters">
+        <span class="t-no en-num">34</span>
+        <span class="t-title" data-i18n="toc6">Letters</span>
+        <span class="t-pg en-num">CONTACT</span>
+        <span class="t-desc" data-i18n="toc6d">Write to the editor. He answers fast.</span>
+      </a>
+    </nav>
+  </section>
+
+  <!-- ============ FEATURE ============ -->
+  <section class="sec feature" id="feature">
+    <div class="page-folio en-num"><span>04 · 10</span><b>FEATURE</b><span>AUTUMN 2026</span></div>
+    <span class="kicker rv" data-i18n="f_k">THE FEATURE</span>
+    <h2 class="sec-h rv" data-i18n="f_h">Between a keyboard and a <em style="font-style:italic;color:var(--green)">soldering iron.</em></h2>
+    <p class="lede rv" data-i18n="f_lede">Most engineers pick a lane. Shiar Haweez runs both: shipping software in the morning, soldering battery packs by afternoon, and automating whatever repeats.</p>
+    <div class="feat-grid">
+      <div class="feat-cols rv">
+        <p class="first" data-i18n="story_p1">I'm Shiar, a software and automation engineer from Erbil, and I've always lived between two worlds: <b>a keyboard and a soldering iron.</b> One week I'm writing C# against a SQL Server database, the next I'm assembling lithium battery packs or building a hydraulic press from raw parts.</p>
+        <div class="pull" data-i18n="f_pull">"If something can be done in one command instead of ten, I've already scripted it."</div>
+        <p data-i18n="story_p2">I studied Information Technology at Khabat Technical Institute, where my graduation project was a full SQL Server database: complex queries, views, maintenance procedures, evaluated by real assessors. Before that I finished secondary school in <b>Sweden</b>, which is where my four working languages come from: Kurdish, English, Swedish, and Norwegian.</p>
+        <p data-i18n="story_p3">Right now I run operations and marketing at <b>NORDO restaurant</b> in Erbil. The launch, the branding, the Stripe payments, even the financial templates are mine. And in my spare hours? I train machine-learning pipelines on Kaggle data and automate everything I touch.</p>
+      </div>
+      <aside class="notes rv">
+        <h4 data-i18n="notes_h">EDITOR'S NOTES</h4>
+        <div class="n-row"><span class="n-k" data-i18n="fact_from">FROM</span><span class="n-v" data-i18n="fact_from_v">Erbil, Kurdistan</span><span class="n-s" data-i18n="fact_from_s">born and based</span></div>
+        <div class="n-row"><span class="n-k" data-i18n="fact_edu">STUDIED</span><span class="n-v" data-i18n="fact_edu_v">IT Diploma</span><span class="n-s" data-i18n="fact_edu_s">Khabat Technical Institute</span></div>
+        <div class="n-row"><span class="n-k" data-i18n="fact_now">NOW</span><span class="n-v" data-i18n="fact_now_v">NORDO, Erbil</span><span class="n-s" data-i18n="fact_now_s">operations &amp; marketing</span></div>
+        <div class="n-row"><span class="n-k" data-i18n="fact_langs">LANGUAGES</span><span class="n-v en-num">KU · EN · SV · NO</span><span class="n-s" data-i18n="fact_langs_s">all working languages</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ TOOLBOX ============ -->
+  <section class="sec" id="toolbox">
+    <div class="page-folio en-num"><span>11 · 15</span><b>DEPARTMENT</b><span>THE TOOLBOX</span></div>
+    <span class="kicker rv" data-i18n="tb_k">THE DEPARTMENT</span>
+    <h2 class="sec-h rv" data-i18n="tb_h">The toolbox.</h2>
+    <div class="tools rv">
+      <div class="tool wide"><div class="t-name" data-i18n="sk1">Software</div><ul class="en-num"><li>C# · WinForms</li><li>Python</li><li>PHP</li><li>HTML · CSS · SQL</li></ul></div>
+      <div class="tool wide"><div class="t-name" data-i18n="sk2">Data &amp; ML</div><ul class="en-num"><li>SQL Server · SSMS</li><li>Schema design</li><li>XGBoost · scikit-learn</li><li>Pandas</li></ul></div>
+      <div class="tool wide"><div class="t-name" data-i18n="sk3">Hardware</div><ul><li>Lithium packs</li><li>BMS · TP4056</li><li>Circuit protection</li><li>Hydraulics</li></ul></div>
+      <div class="tool"><div class="t-name" data-i18n="sk4">Automation</div><ul><li>CMD scripting</li><li>Workflow automation</li></ul></div>
+      <div class="tool"><div class="t-name" data-i18n="sk5">Operations</div><ul><li>Brand management</li><li>E-commerce · Stripe</li><li>Financial tracking</li><li>Customer support</li></ul></div>
+      <div class="tool"><div class="t-name" data-i18n="sk6">Languages</div><ul><li>Kurdish — native</li><li>English — fluent</li><li>Swedish — fluent</li><li>Norwegian — fluent</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ PORTFOLIO ============ -->
+  <section class="sec" id="portfolio">
+    <div class="page-folio en-num"><span>16 · 23</span><b>PORTFOLIO</b><span>SIX BUILDS</span></div>
+    <span class="kicker rv" data-i18n="pf_k">THE PORTFOLIO</span>
+    <h2 class="sec-h rv" data-i18n="pf_h">Six builds, no prototypes.</h2>
+    <p class="rv" style="color:var(--ink-70);max-width:56ch;font-size:15.5px" data-i18n="pf_lead">Everything below is real work, designed, built, and tested by me. Open any spread for the full story.</p>
+    <div id="spreads" class="rv"></div>
+  </section>
+
+  <!-- ============ RECORD ============ -->
+  <section class="sec" id="record">
+    <div class="page-folio en-num"><span>24 · 27</span><b>CHRONOLOGY</b><span>THE RECORD</span></div>
+    <span class="kicker rv" data-i18n="rc_k">THE RECORD</span>
+    <h2 class="sec-h rv" data-i18n="rc_h">Where the signal came from.</h2>
+    <div class="chron rv" id="chron"></div>
+  </section>
+
+  <!-- ============ NUMBERS ============ -->
+  <section class="sec" id="numbers">
+    <div class="page-folio en-num"><span>28 · 29</span><b>BY THE NUMBERS</b><span>№01</span></div>
+    <div class="numbers rv">
+      <div class="num"><span class="n-big"><span class="cnt" data-n="6">0</span></span><span class="n-cap" data-i18n="stat_projects">Shipped projects</span></div>
+      <div class="num"><span class="n-big"><span class="cnt" data-n="3">0</span></span><span class="n-cap" data-i18n="stat_apps">Desktop apps</span></div>
+      <div class="num"><span class="n-big"><span class="cnt" data-n="4">0</span></span><span class="n-cap" data-i18n="stat_langs">Working languages</span></div>
+      <div class="num"><span class="n-big"><span class="cnt" data-n="1">0</span><i>×</i></span><span class="n-cap" data-i18n="stat_ml">End-to-end ML pipeline</span></div>
+    </div>
+  </section>
+
+  <!-- ============ TEAR-OUT ============ -->
+  <section class="sec" id="tearout">
+    <div class="page-folio en-num"><span>30 · 33</span><b>READER SERVICE</b><span>TEAR-OUT</span></div>
+    <span class="kicker rv" data-i18n="te_k">READER SERVICE</span>
+    <h2 class="sec-h rv" data-i18n="te_h">The tear-out CV.</h2>
+    <p class="rv" style="color:var(--ink-70);max-width:56ch;font-size:15.5px" data-i18n="te_lead">One page, three languages, always current. Cut along the dotted line.</p>
+    <div class="tears rv">
+      <a class="tear" href="cv/cv-english.pdf" download>
+        <span class="t-flag en-num">DOC-01 · EN</span>
+        <span class="t-lang">English</span>
+        <span class="t-desc" data-i18n="te_d1">The standard edition.</span>
+        <span class="t-dl" data-i18n="cv_dl">Download PDF ↓</span>
+      </a>
+      <a class="tear" href="cv/cv-kurdish.pdf" download>
+        <span class="t-flag en-num">DOC-02 · KU</span>
+        <span class="t-lang">کوردی</span>
+        <span class="t-desc" data-i18n="te_d2">وەرگێڕانی کوردی، هەمان ناوەڕۆک.</span>
+        <span class="t-dl" data-i18n="cv_dl">Download PDF ↓</span>
+      </a>
+      <a class="tear" href="cv/cv-arabic.pdf" download>
+        <span class="t-flag en-num">DOC-03 · AR</span>
+        <span class="t-lang">العربية</span>
+        <span class="t-desc" data-i18n="te_d3">النسخة العربية من السيرة الذاتية.</span>
+        <span class="t-dl" data-i18n="cv_dl">Download PDF ↓</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ LETTERS ============ -->
+  <section class="sec letters" id="letters">
+    <div class="page-folio en-num"><span>34 · 35</span><b>LETTERS</b><span>THE EDITOR READS EVERYTHING</span></div>
+    <span class="kicker rv" style="justify-content:center" data-i18n="lt_k">LETTERS</span>
+    <h2 class="l-big rv" data-i18n="lt_h">Write to the editor. He <em>ships.</em></h2>
+    <p class="rv" data-i18n="lt_p">I'm looking for my next team in Kurdistan. If you need someone who finishes what he starts, one letter is enough.</p>
+    <div class="rv">
+      <a class="l-mail en-num" href="mailto:shiar.mohammad.2005@gmail.com">shiar.mohammad.2005@gmail.com</a>
+    </div>
+    <div class="socs en-num">
+      <a href="https://instagram.com/shiar_m" target="_blank" rel="noopener">Instagram <i>@shiar_m</i></a>
+      <a href="https://t.me/Shiar_m" target="_blank" rel="noopener">Telegram <i>@Shiar_m</i></a>
+      <a href="https://snapchat.com/add/sj_mhh1233" target="_blank" rel="noopener">Snapchat <i>sj_mhh1233</i></a>
+      <a href="https://github.com/SJ2005-code" target="_blank" rel="noopener">GitHub <i>SJ2005-code</i></a>
+    </div>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <footer class="colophon">
+    <span class="c-brand">SHIAR <em>HAWEEZ</em> · №01</span>
+    <span class="c-text en-num">TYPESET IN INSTRUMENT SERIF, SPECTRAL &amp; ARCHIVO. PRINTED NIGHTLY IN ERBIL BY GITHUB ACTIONS. SOURCES PROTECTED BY LICENSE.</span>
+    <span class="c-copy">© 2026 SHIAR FOOAD HAWEEZ</span>
+  </footer>
+</div>
+
+<!-- ============ ARTICLE OVERLAY ============ -->
+<div class="ovl" id="ovl" onclick="if(event.target===this)closeArt()">
+  <article class="article" role="dialog" aria-modal="true">
+    <button class="a-close" onclick="closeArt()" aria-label="close">✕</button>
+    <span class="kicker a-k en-num" id="aKicker">PORTFOLIO</span>
+    <h2 id="aTitle"></h2>
+    <p class="a-deck" id="aDeck"></p>
+    <div class="a-tags en-num" id="aTags"></div>
+    <div class="a-body" id="aBody"></div>
+    <div class="a-src" id="aSrc"></div>
+  </article>
+</div>
+
+<script>
+const PROJECTS = [
+{ link:"https://github.com/SJ2005-code/rossmann_sales_forecast",
+  tags:["Python","XGBoost","scikit-learn","Pandas"],
+  en:{title:"Rossmann Sales Forecasting", blurb:"An end-to-end machine-learning pipeline that predicts daily store sales.",
+      detail:"Built in Python on the Kaggle Rossmann Store Sales dataset. I engineered features from promotions, holidays and store metadata, compared Random Forest against XGBoost, and tuned hyperparameters systematically to push predictive accuracy. The full pipeline, from cleaning and modeling to evaluation and visualization, is public on GitHub."},
+  ku:{title:"پێشبینی فرۆشتنی Rossmann", blurb:"پایپڵاینی تەواوی ماشین لێرنینگ بۆ پێشبینی فرۆشتنی ڕۆژانە.",
+      detail:"بە Python و لەسەر داتاکانی Kaggle دروستمکردووە. فیچەرەکانم لە پرۆمۆشن و پشووەکان و زانیاری فرۆشگاکانەوە دروستکردووە، Random Forest و XGBoostم بەراوردکردووە، و پارامەیتەرەکانم بە سیستەماتیکی ڕێکخستووە. تەواوی پڕۆسەکە لە GitHub بەردەستە."} },
+{ link:"",
+  tags:["C#","WinForms","SQL Server"],
+  en:{title:"Windows Forms Suite", blurb:"Admin system, accounting software, and a flight management app: full C# desktop builds.",
+      detail:"Three complete desktop applications written in C#: a custom administrative system, accounting software, and a flight management app. Each sits on a normalized SQL Server database with tuned queries, data validation, and maintenance routines, designed, built, and tested end to end by me."},
+  ku:{title:"کۆمەڵەی Windows Forms", blurb:"سیستەمی کارگێڕی، ژمێریاری، و ئەپی فڕۆکە — بە C#.",
+      detail:"سێ ئەپی تەواوی دێسکتۆپ بە C#: سیستەمی کارگێڕی، پرۆگرامی ژمێریاری، و ئەپی بەڕێوەبردنی فڕۆکە. هەریەکەیان لەسەر داتابەیسی SQL Serverە، لە دیزاینەوە تا تاقیکردنەوە، بە دەستی خۆم."} },
+{ link:"",
+  tags:["Electronics","BMS","TP4056"],
+  en:{title:"Lithium Battery Pack + BMS", blurb:"Custom lithium packs with TP4056 charging and real circuit protection.",
+      detail:"Custom lithium battery packs assembled by hand: TP4056 charging modules, battery management systems, and flyback-diode protection so nothing fries. Designed, soldered, tested with a multimeter, and put to work powering real devices."},
+  ku:{title:"پاکی باتری لیتیۆم + BMS", blurb:"پاکی باتری بە چارجکردنی TP4056 و پاراستنی ڕاستەقینە.",
+      detail:"پاکی باتری لیتیۆم کە خۆم کۆمکردووەتەوە: مۆدیلی چارجکردنی TP4056، سیستەمی بەڕێوەبردنی باتری، و پاراستنی فڵایباک. دیزاین و لووتکە و تاقیکردنەوە بە مۆلتی مەیتەر، هەموو بە دەستی خۆم."} },
+{ link:"",
+  tags:["Mechanical","Build"],
+  en:{title:"Hydraulic Press & Pump", blurb:"A working hydraulic pump and press, designed and built from scratch.",
+      detail:"A working hydraulic pump and press designed and built independently. The engineering instinct doesn't stop at the keyboard. Precision structural woodworking too. Photos and video documentation coming with the portfolio media."},
+  ku:{title:"مەکینەی هایدرۆلیکی", blurb:"مەکینەیەکی کارا، دیزاین و دروستکردن لە سفرەوە.",
+      detail:"مەکینەی هایدرۆلیکی کارا کە بە تەواوی خۆم دروستمکردووە. هەستێکی ئەندازیاری تەنها لە کۆمپیوتەر کۆتایی نایێت. وێنە و ڤیدیۆ بەدەم دێت."} },
+{ link:"",
+  tags:["CMD","Scripting","Automation"],
+  en:{title:"CMD Workflow Automation", blurb:"Scripts that turn multi-step manual work into one command.",
+      detail:"Custom Command Prompt scripts that compress repetitive multi-step tasks into single commands: file routines, cleanup, and automated system reset protocols. Small tools, big hours saved."},
+  ku:{title:"ئۆتۆمەیشنی CMD", blurb:"سکریپتێک کارە هەنگاوینەکان دەکات بە یەک فەرمان.",
+      detail:"سکریپتی CMD کە کارە دووبارەبووەوەکان دەکات بە فەرمانێکی یەکلاکەرەوە. ئامرزێکی بچووک، کاتێکی زۆری پارێزراو."} },
+{ link:"",
+  tags:["Branding","Marketing","Stripe"],
+  en:{title:"NORDO Restaurant Launch", blurb:"Brand, marketing, and operations for a restaurant launch in Erbil.",
+      detail:"Coordinated the grand launch of NORDO restaurant in Erbil: promotional design and visual branding, social media campaigns, verified Google Business management, e-commerce setup with Stripe, and internal financial tracking templates I designed myself."},
+  ku:{title:"کردنەوەی NORDO", blurb:"براند، مارکێتینگ، و کارپێکردنی کردنەوەیەک لە هەولێر.",
+      detail:"کردنەوەی خواردنگەی NORDO لە هەولێرم ڕێکخست: دیزاینی پرۆمۆ و براندینگ، کەمپینی سۆشیال میدیا، Google Business، ئی-کۆمەرس بە Stripe، و تێمپلێتی دارایی کە خۆم دیزاینمکردووە."} }
+];
+
+const HISTORY = [
+{en:{when:"2026 — NOW", where:"NORDO Restaurant, Erbil", role:"Operations & Marketing Specialist", txt:"Running the launch: promo design, branding assets, social campaigns, verified business listings, and digital financial workflows."},
+ ku:{when:"٢٠٢٦ — ئێستا", where:"خواردنگەی NORDO، هەولێر", role:"سەپەکیالیستی کارپێکردن و مارکێتینگ", txt:"کردنەوەکەم ڕێکخست: دیزاینی پرۆمۆ، براندینگ، کەمپینی سۆشیال میدیا، و وۆرکفلۆوی دارایی دیجیتاڵی."}},
+{en:{when:"2026 · JUN — AUG", where:"Al Najar Company, Erbil", role:"Practical Training Intern", txt:"Applied core IT principles in a commercial environment, documenting procedures and supporting daily system operations."},
+ ku:{when:"٢٠٢٦ · حوزەیران — ئاب", where:"کۆمپانیای النەجار، هەولێر", role:"فێرخوازی ڕاهێنانی پراکتیکی", txt:"بنەماکانی ITم لە ژینگەیەکی بازرگانیدا بەکارهێنا، بەڵگەنامەکردنی ڕووتینەکان و پاڵپشتیی کارە ڕۆژانەکان."}},
+{en:{when:"2026 · GRADUATED", where:"Khabat Technical Institute", role:"Diploma in Information Technology", txt:"Completed with a full database graduation project: complex SQL queries, views, and maintenance procedures for official evaluation."},
+ ku:{when:"٢٠٢٦ · دەرچووم", where:"پەیمانگای تەکنیکی خەبات", role:"دیپلۆمی تەکنەلۆژیای زانیاری", txt:"بە پڕۆژەی دەرچوونی داتابەیس تەواومکرد، پرسیاری ئاڵۆز، ڤیو، و پرۆسەی چاککردن بۆ هەڵسەنگاندنی فەرمی."}},
+{en:{when:"EARLIER", where:"Front-line Ops · IES Länna, Stockholm", role:"Customer service · Swedish secondary education", txt:"Fast-paced retail and hospitality work across Kurdistan, and secondary education completed in Sweden, the origin of my four working languages."},
+ ku:{when:"پێشتر", where:"کارە ڕاستەوخۆکان و IES Länna، ستۆکهۆڵم", role:"خدمەی کڕیار · خوێندنی سوێدی", txt:"کاری خێرا لە فرۆشگا و میوانداری لە کوردستان، و خوێندنی ناوەندی لە سوید، سەرچاوەی چوار زمانی کارکردنم."}}
+];
+
+const I18N = {
+en:{
+  cv_k:"COVER STORY", cover_hl:"The engineer who <em>ships.</em>",
+  cover_deck:"Software, machines, and momentum, built between a keyboard and a soldering iron. From Erbil, Kurdistan: four working languages, six finished builds, one rule. It has to actually work.",
+  cta_open:"Open the issue", cta_write:"Write to the editor",
+  spec_h:"THE SPECIFICATIONS",
+  spec_l1:"NAME", spec_l2:"DISCIPLINE", spec_v2:"Software & Automation Engineering",
+  spec_l3:"BASE", spec_l4:"STATUS", spec_v4:"Open to work",
+  cl1k:"FEATURE", cl1v:"Between a keyboard and a soldering iron, one engineer, two worlds",
+  cl2k:"PORTFOLIO", cl2v:"Six builds, no prototypes: code, databases, batteries, steel",
+  cl3k:"READER SERVICE", cl3v:"The CV as a tear-out card, in three languages",
+  toc_h:"In this issue",
+  toc1:"My story", toc1d:"A keyboard, a soldering iron, and everything built in between.",
+  toc2:"The toolbox", toc2d:"The complete inventory: code, data, hardware, operations.",
+  toc3:"Things I've built", toc3d:"Six real builds, from machine-learning pipelines to hydraulic presses.",
+  toc4:"The record", toc4d:"Erbil, Sweden, Khabat, NORDO: where the signal came from.",
+  toc5:"The tear-out CV", toc5d:"One page, three languages, ready to take home.",
+  toc6:"Letters", toc6d:"Write to the editor. He answers fast.",
+  f_k:"THE FEATURE", f_h:"Between a keyboard and a <em>soldering iron.</em>",
+  f_lede:"Most engineers pick a lane. Shiar Haweez runs both: shipping software in the morning, soldering battery packs by afternoon, and automating whatever repeats.",
+  f_pull:"\u201cIf something can be done in one command instead of ten, I've already scripted it.\u201d",
+  story_p1:"I'm Shiar, a software and automation engineer from Erbil, and I've always lived between two worlds: <b>a keyboard and a soldering iron.</b> One week I'm writing C# against a SQL Server database, the next I'm assembling lithium battery packs or building a hydraulic press from raw parts.",
+  story_p2:"I studied Information Technology at Khabat Technical Institute, where my graduation project was a full SQL Server database: complex queries, views, maintenance procedures, evaluated by real assessors. Before that I finished secondary school in <b>Sweden</b>, which is where my four working languages come from: Kurdish, English, Swedish, and Norwegian.",
+  story_p3:"Right now I run operations and marketing at <b>NORDO restaurant</b> in Erbil. The launch, the branding, the Stripe payments, even the financial templates are mine. And in my spare hours? I train machine-learning pipelines on Kaggle data and automate everything I touch.",
+  notes_h:"EDITOR'S NOTES",
+  fact_from:"FROM", fact_from_v:"Erbil, Kurdistan", fact_from_s:"born and based",
+  fact_edu:"STUDIED", fact_edu_v:"IT Diploma", fact_edu_s:"Khabat Technical Institute",
+  fact_now:"NOW", fact_now_v:"NORDO, Erbil", fact_now_s:"operations & marketing",
+  fact_langs:"LANGUAGES", fact_langs_s:"all working languages",
+  tb_k:"THE DEPARTMENT", tb_h:"The toolbox.",
+  sk1:"Software", sk2:"Data & ML", sk3:"Hardware", sk4:"Automation", sk5:"Operations", sk6:"Languages",
+  pf_k:"THE PORTFOLIO", pf_h:"Six builds, no prototypes.",
+  pf_lead:"Everything below is real work, designed, built, and tested by me. Open any spread for the full story.",
+  read:"Read the story", src:"View source on GitHub",
+  rc_k:"THE RECORD", rc_h:"Where the signal came from.",
+  stat_projects:"Shipped projects", stat_apps:"Desktop apps", stat_langs:"Working languages", stat_ml:"End-to-end ML pipeline",
+  te_k:"READER SERVICE", te_h:"The tear-out CV.",
+  te_lead:"One page, three languages, always current. Cut along the dotted line.",
+  te_d1:"The standard edition.", te_d2:"وەرگێڕانی کوردی، هەمان ناوەڕۆک.", te_d3:"النسخة العربية من السيرة الذاتية.",
+  cv_dl:"Download PDF ↓",
+  lt_k:"LETTERS", lt_h:"Write to the editor. He <em>ships.</em>",
+  lt_p:"I'm looking for my next team in Kurdistan. If you need someone who finishes what he starts, one letter is enough.",
+},
+ku:{
+  cv_k:"چیرۆکی بەرگ", cover_hl:"ئەندازیارێک کە <em>کارەکەی تەواو دەکات.</em>",
+  cover_deck:"سۆفتوێر و مەکینە و خێرایی، لە نێوان کیبۆرد و لووتکە. لە هەولێری کوردستان: چوار زمان، شەش پڕۆژەی تەواوکراو، یەک ڕێسا: دەبێت بەڕاستی کار بکات.",
+  cta_open:"ژمارەکە بکەرەوە", cta_write:"بۆ ئێدیتۆر بنێرە",
+  spec_h:"تایبەتمەندییەکان",
+  spec_l1:"ناو", spec_l2:"بواری کار", spec_v2:"ئەندازیاری سۆفتوێر و ئۆتۆمەیشن",
+  spec_l3:"بنکە", spec_l4:"دۆخ", spec_v4:"ئامادەم بۆ کار",
+  cl1k:"تیکۆ", cl1v:"لە نێوان کیبۆرد و لووتکە، یەک ئەندازیار، دوو جیهان",
+  cl2k:"پۆرتفۆلیۆ", cl2v:"شەش دروستکراو، بێ پرۆتۆتایپ: کۆد، داتابەیس، باتری، پۆڵا",
+  cl3k:"خزمەتگوزاری", cl3v:"CV بە شێوەی کارتی دڵنیاو، بە سێ زمان",
+  toc_h:"لە ئەم ژمارەیەدا",
+  toc1:"چیرۆکم", toc1d:"کیبۆردێک، لووتکەیەک، و هەموو ئەوەی نێوانیان دروستکراوە.",
+  toc2:"ئامرزەکان", toc2d:"تەواوی لیستەکە: کۆد، داتا، هاردوێر، کارپێکردن.",
+  toc3:"ئەوەی دروستمکردووە", toc3d:"شەش دروستکراوی ڕاستەقینە، لە ماشین لێرنینگەوە تا مەکینەی هایدرۆلیکی.",
+  toc4:"تۆمار", toc4d:"هەولێر، سوید، خەبات، NORDO: سیگناڵەکە لە کوێوە هات.",
+  toc5:"CV دڵنیاوەکە", toc5d:"یەک لاپەڕە، سێ زمان، ئامادە بۆ بردن.",
+  toc6:"نامەکان", toc6d:"بۆ ئێدیتۆر بنێرە. زۆر خێرا وەڵام دەداتەوە.",
+  f_k:"تیکۆ", f_h:"لە نێوان کیبۆرد و <em>لووتکە.</em>",
+  f_lede:"زۆربەی ئەندازیارەکان یەک ڕێگا هەڵدەبژێرن. شيار هەردووکیان دەبەستێت: بەیانی سۆفتوێر، دوانیە لووتکە، و ئەوەی دووبارە بێت دەئۆتۆمەیتکات.",
+  f_pull:"«ئەگەر شتێک بە یەک فەرمان بکرێت لە جیاتی دە، ئەوا پێشتر سکریپتیم بۆ نووسیوە.»",
+  story_p1:"من شيارم، ئەندازیاری سۆفتوێر و ئۆتۆمەیشن لە هەولێر، و هەمیشە لە نێوان دوو جیهاندا ژیاوم: <b>کیبۆرد و لووتکە.</b> هەفتەیەک بە C# و SQL Server دەنووسم، هەفتەیەکی تر پاکی باتری لیتیۆم کۆدەکەمەوە یان مەکینەی هایدرۆلیکی لە پارچە سەرەتاییەکانەوە دروستدەکەم.",
+  story_p2:"تەکنەلۆژیای زانیاریم لە پەیمانگای تەکنیکی خەبات خوێندووە، کە پڕۆژەی دەرچوونم داتابەیسی تەواوی SQL Server بوو: پرسیاری ئاڵۆز، ڤیو، و پرۆسەی چاککردن، بە هەڵسەنگاندنی ڕاستەقینە. پێش ئەوەش خوێندنی ناوەندیم لە <b>سوید</b> تەواوکردووە، کە سەرچاوەی چوار زمانە کارکردنەکەمە: کوردی، ئینگلیزی، سوێدی، و نەرویژی.",
+  story_p3:"ئێستا کارپێکردن و مارکێتینگی خواردنگەی <b>NORDO</b> لە هەولێر بەڕێوە دەبەم. کردنەوەکە، براندینگ، پارەدان بە Stripe، هەتا تێمپلێتە داراییەکانیش هی منن. و لە کاتە بێکارییەکانم؟ پایپڵاینی ماشین لێرنینگ ڕادەهێنم و هەموو شتێک دەئۆتۆمەیتکەم.",
+  notes_h:"تێبینییەکان",
+  fact_from:"لە", fact_from_v:"هەولێر، کوردستان", fact_from_s:"لەدایکبوو و ژیان",
+  fact_edu:"خوێندن", fact_edu_v:"دیپلۆمی IT", fact_edu_s:"پەیمانگای تەکنیکی خەبات",
+  fact_now:"ئێستا", fact_now_v:"NORDO، هەولێر", fact_now_s:"کارپێکردن و مارکێتینگ",
+  fact_langs:"زمانەکان", fact_langs_s:"هەموو زمانەکانی کارکردن",
+  tb_k:"بەشەکان", tb_h:"ئامرزەکان.",
+  sk1:"سۆفتوێر", sk2:"داتا و ML", sk3:"هاردوێر", sk4:"ئۆتۆمەیشن", sk5:"کارپێکردن", sk6:"زمانەکان",
+  pf_k:"پۆرتفۆلیۆ", pf_h:"شەش دروستکراو، بێ پرۆتۆتایپ.",
+  pf_lead:"هەموویان کارێکی ڕاستەقینەن، دیزاین و دروستکردن و تاقیکردنەوە بە دەستی خۆم. هەر بەشێک بکەرەوە بۆ چیرۆکی تەواو.",
+  read:"چیرۆکەکە بخوێنەوە", src:"بینین لە GitHub",
+  rc_k:"تۆمار", rc_h:"سیگناڵەکە لە کوێوە هات.",
+  stat_projects:"پڕۆژەی تەواوکراو", stat_apps:"ئەپی دێسکتۆپ", stat_langs:"زمانی کارکردن", stat_ml:"پایپڵاینی ML تەواو",
+  te_k:"خزمەتگوزاری", te_h:"CV دڵنیاوەکە.",
+  te_lead:"یەک لاپەڕە، سێ زمان، هەمیشە نوێ. لە هێڵی خاڵاو ببڕە.",
+  te_d1:"", te_d2:"وەرگێڕانی کوردی، هەمان ناوەڕۆک.", te_d3:"النسخة العربية من السيرة الذاتية.",
+  cv_dl:"دابەزاندنی PDF ↓",
+  lt_k:"نامەکان", lt_h:"بۆ ئێدیتۆر بنێرە. ئەو <em>کار تەواو دەکات.</em>",
+  lt_p:"بەدوای تیمی داهاتووم دەگەڕێم لە کوردستان. ئەگەر کەسێکت دەوێت کە دەست پێکردنی تەواو دەکات، یەک نامە بەسە.",
+}
+};
+
+let LANG = "en";
+
+function applyLang(){
+  document.body.classList.toggle("ku", LANG==="ku");
+  document.documentElement.dir = LANG==="ku" ? "rtl" : "ltr";
+  document.documentElement.lang = LANG==="ku" ? "ku" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(I18N[LANG][k] !== undefined && I18N[LANG][k] !== "") el.innerHTML = I18N[LANG][k];
+  });
+  renderSpreads(); renderChron();
+}
+function toggleLang(){ LANG = LANG==="en" ? "ku" : "en"; applyLang(); }
+
+/* floating lang switch */
+const sw = document.createElement("button");
+sw.className = "lang-sw";
+sw.setAttribute("aria-label","switch language");
+sw.textContent = "کوردی";
+document.body.appendChild(sw);
+const st = document.createElement("style");
+st.textContent = `
+.lang-sw{position:fixed;bottom:20px;inset-inline-end:20px;z-index:70;cursor:pointer;
+  font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;
+  background:var(--ink);color:var(--paper);border:none;border-radius:999px;padding:11px 20px;
+  box-shadow:0 10px 26px -10px rgba(26,23,18,.5);transition:.25s}
+.lang-sw:hover{background:var(--green);letter-spacing:.24em}
+body.ku .lang-sw{font-family:'Noto Kufi Arabic',sans-serif;letter-spacing:0;font-size:12px}
+`;
+document.head.appendChild(st);
+sw.addEventListener("click", toggleLang);
+
+/* spreads */
+function renderSpreads(){
+  document.getElementById("spreads").innerHTML = PROJECTS.map((p,i)=>`
+    <div class="spread" onclick="openArt(${i})" role="button" tabindex="0" aria-label="${p.en.title}">
+      <span class="s-no en-num">${String(i+1).padStart(2,"0")}</span>
+      <div class="s-body">
+        <span class="s-k">${p.tags.join(" · ")}</span>
+        <h3>${p[LANG].title}</h3>
+        <p class="s-deck">${p[LANG].blurb}</p>
+        <span class="s-go">${I18N[LANG].read}</span>
+      </div>
+    </div>`).join("");
+}
+function renderChron(){
+  document.getElementById("chron").innerHTML = HISTORY.map(h=>`
+    <div class="chron-row">
+      <span class="c-when">${h[LANG].when}</span>
+      <div>
+        <span class="c-where">${h[LANG].where}</span>
+        <span class="c-role">${h[LANG].role}</span>
+        <p>${h[LANG].txt}</p>
+      </div>
+    </div>`).join("");
+}
+
+/* article overlay */
+function openArt(i){
+  const p = PROJECTS[i];
+  document.getElementById("aKicker").textContent = "PORTFOLIO — №" + String(i+1).padStart(2,"0");
+  document.getElementById("aTitle").textContent = p[LANG].title;
+  document.getElementById("aDeck").textContent = p[LANG].blurb;
+  document.getElementById("aTags").textContent = p.tags.join(" · ");
+  document.getElementById("aBody").textContent = p[LANG].detail;
+  document.getElementById("aSrc").innerHTML = p.link
+    ? `<a class="link-btn" href="${p.link}" target="_blank" rel="noopener">${I18N[LANG].src}</a>` : "";
+  const ovl = document.getElementById("ovl");
+  ovl.classList.add("open");
+  ovl.scrollTop = 0;
+  document.body.style.overflow = "hidden";
+}
+function closeArt(){
+  document.getElementById("ovl").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeArt(); });
+
+/* reveals */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+/* numbers count-up */
+document.querySelectorAll(".cnt").forEach(c=>{
+  const cio = new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const n = +c.dataset.n, t0 = performance.now(), dur = 1100;
+        (function tick(t){
+          const p = Math.min((t-t0)/dur,1);
+          c.textContent = Math.round(n*(1-Math.pow(1-p,3)));
+          if(p<1) requestAnimationFrame(tick);
+        })(t0);
+        cio.unobserve(e.target);
+      }
+    });
+  },{threshold:.5});
+  cio.observe(c);
+});
+
+/* progress hairline */
+window.addEventListener("scroll", ()=>{
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  document.getElementById("prog").style.width = (p*100)+"%";
+},{passive:true});
+
+/* init */
+applyLang();
+</script>
+</body>
+</html>
