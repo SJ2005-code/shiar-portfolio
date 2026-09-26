@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<!--
+  © 2026 Shiar Fooad Haweez — All rights reserved.
+  This garden and its design are the exclusive property of the author.
+  Hosted at github.com/SJ2005-code/shiar-portfolio (source protected by license).
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I grew you a garden 🌸</title>
+<meta name="description" content="A living garden. Tap the grass and flowers grow, bloom forever, and never need watering. Send it to someone you love.">
+<meta property="og:title" content="I grew you a garden 🌸">
+<meta property="og:description" content="Tap the grass. Every flower blooms forever.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 28 Q10 20 10 14 A6 6 0 0 1 22 14 Q22 20 16 28' fill='%23e56b8c'/%3E%3Ccircle cx='16' cy='12' r='3' fill='%23ffd6e3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Karla:wght@400;500;700&family=Noto+Kufi+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky-1:#fdeee2; --sky-2:#fdf7ee; --ground:#6aa86b;
+  --ink:#3a2f28; --ink-60:rgba(58,47,40,.66);
+  --rose:#e56b8c; --rose-deep:#d94f77;
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Karla',sans-serif;
+  --ku:'Noto Kufi Arabic',sans-serif;
+}
+body.night{
+  --sky-1:#171d35; --sky-2:#252b49; --ink:#f2ecff; --ink-60:rgba(242,236,255,.72);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);color:var(--ink);overflow-x:hidden;min-height:100vh;
+  background:linear-gradient(180deg,var(--sky-1) 0%,var(--sky-2) 55%,var(--sky-2) 100%);
+  transition:background 1.6s ease,color 1.6s ease;
+}
+body.ku{font-family:var(--ku)}
+a{color:inherit}
+::selection{background:var(--rose);color:#fff}
+
+/* ============ sky texture ============ */
+#stars{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s}
+body.night #stars{opacity:1}
+#stars i{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s infinite}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+#sunmoon{
+  position:fixed;top:7vh;inset-inline-end:9vw;width:74px;height:74px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#ffe9b0,#f5c96e 70%);
+  box-shadow:0 0 60px 18px rgba(245,201,110,.45);transition:1.6s;pointer-events:none;
+}
+body.night #sunmoon{
+  background:radial-gradient(circle at 38% 32%,#ffffff,#d9d6ff 60%,#b9b4e8);
+  box-shadow:0 0 70px 22px rgba(214,209,255,.35);
+}
+/* fireflies */
+.fly{position:absolute;width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,244,163,.95),rgba(255,244,163,0) 70%);
+  animation:floatfly 7s ease-in-out infinite, glowpulse 2.3s infinite;pointer-events:none;
+  display:none}
+body.night .fly{display:block}
+@keyframes floatfly{0%,100%{transform:translate(0,0)}25%{transform:translate(34px,-22px)}50%{transform:translate(-18px,-44px)}75%{transform:translate(-40px,-10px)}}
+@keyframes glowpulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* ============ falling petals ============ */
+.petal-fall{position:fixed;top:-40px;pointer-events:none;z-index:5;animation:fall linear forwards}
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0)}
+  100%{transform:translateY(115vh) rotate(680deg)}
+}
+.petal-fall span{display:block;animation:swayx 2.4s ease-in-out infinite}
+@keyframes swayx{0%,100%{transform:translateX(-22px)}50%{transform:translateX(22px)}}
+
+/* ============ layout ============ */
+.wrap{max-width:1000px;margin:0 auto;padding:0 clamp(18px,4vw,44px)}
+.kicker{
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--rose-deep);display:inline-flex;align-items:center;gap:12px;
+}
+body.night .kicker{color:#cbb6ff}
+.kicker::before{content:"";width:30px;height:1.5px;background:currentColor}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ============ hero ============ */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:4}
+.hero h1{
+  font-weight:560;font-size:clamp(46px,9vw,110px);line-height:1.02;letter-spacing:-.02em;
+  margin:18px 0 22px;font-variation-settings:"opsz" 144;
+}
+.hero h1 em{font-style:italic;color:var(--rose-deep)}
+body.night .hero h1 em{color:#cbb6ff}
+body.ku .hero h1{line-height:1.5;font-weight:700;letter-spacing:0}
+.hero .sub{font-size:clamp(17px,2vw,21px);color:var(--ink-60);max-width:52ch;line-height:1.6}
+body.ku .hero .sub{line-height:2.1}
+.hero .cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.btn{
+  font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.06em;text-decoration:none;
+  padding:15px 30px;border-radius:999px;border:2px solid var(--ink);cursor:pointer;
+  transition:transform .2s,box-shadow .2s,background .2s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn.rose{background:var(--rose);border-color:var(--rose);color:#fff}
+.btn.rose:hover{box-shadow:0 14px 30px -10px rgba(229,107,140,.6)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--sky-2)}
+.letter{
+  margin:0 0 34px;padding:24px 28px;border-radius:18px;display:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.75),rgba(255,248,240,.55));
+  border:1.5px solid rgba(229,107,140,.4);backdrop-filter:blur(6px);
+}
+body.night .letter{background:rgba(40,46,84,.6);border-color:rgba(203,182,255,.4)}
+.letter .l-to{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-deep)}
+body.night .letter .l-to{color:#cbb6ff}
+.letter .l-msg{font-size:clamp(20px,2.6vw,27px);font-style:italic;line-height:1.5;margin:10px 0 12px}
+body.ku .letter .l-msg{font-style:normal;font-family:var(--ku);line-height:2}
+.letter .l-from{font-size:14px;color:var(--ink-60)}
+.letter .l-cta{font-size:13px;color:var(--ink-60);border-top:1px solid rgba(58,47,40,.18);margin-top:16px;padding-top:14px}
+body.night .letter .l-cta{border-top-color:rgba(242,236,255,.2)}
+
+/* ============ meadow ============ */
+.meadow-sec{position:relative;z-index:4;padding:clamp(40px,6vw,80px) 0 0}
+.meadow-head{text-align:center;margin-bottom:8px}
+.meadow-head h2{font-size:clamp(30px,4.6vw,52px);font-weight:560;letter-spacing:-.015em}
+.meadow-head h2 em{font-style:italic;color:var(--rose-deep)}
+body.night .meadow-head h2 em{color:#cbb6ff}
+.meadow-head p{color:var(--ink-60);margin-top:10px;font-size:17px}
+body.ku .meadow-head h2{line-height:1.7}
+.counter{
+  text-align:center;font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-60);margin-bottom:6px;
+}
+.counter b{color:var(--rose-deep);font-size:16px}
+body.night .counter b{color:#cbb6ff}
+#meadow{
+  position:relative;height:clamp(300px,46vh,420px);cursor:pointer;border-radius:26px 26px 0 0;overflow:hidden;
+  background:linear-gradient(180deg,#8fc27f 0%,#6aa86b 34%,#4d8a5f 100%);
+  box-shadow:0 -10px 40px -18px rgba(29,66,41,.35);touch-action:manipulation;
+}
+#meadow .tap-hint{
+  position:absolute;inset-inline-start:50%;top:44%;transform:translateX(-50%);
+  font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);white-space:nowrap;pointer-events:none;
+  animation:hintpulse 2.6s ease-in-out infinite;transition:opacity .6s;
+}
+#meadow.planted .tap-hint{opacity:0}
+@keyframes hintpulse{0%,100%{opacity:.5}50%{opacity:1}}
+/* grass silhouettes */
+.grass{position:absolute;inset-inline:0;bottom:0;pointer-events:none}
+.grass svg{position:absolute;bottom:-2px;inset-inline:0;width:100%;height:auto;display:block}
+/* flowers */
+.flower{position:absolute;bottom:0;transform-origin:bottom center;animation:sway var(--sway-d,4.2s) ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(calc(var(--sway,1.4deg)*1))}50%{transform:rotate(calc(var(--sway,1.4deg)*-1))}}
+.flower svg{display:block;overflow:visible}
+.flower .stem-anim{stroke-dasharray:var(--stem-len,300);stroke-dashoffset:var(--stem-len,300);animation:stemgrow 1.2s cubic-bezier(.3,.7,.3,1) forwards}
+@keyframes stemgrow{to{stroke-dashoffset:0}}
+.flower .bloom-anim{transform-origin:0 0;transform:scale(0);animation:bloomopen 1.5s cubic-bezier(.2,1.4,.35,1) .7s forwards}
+@keyframes bloomopen{to{transform:scale(1)}}
+.flower .leaf-anim{transform-origin:0 0;transform:scale(0);animation:bloomopen 1s cubic-bezier(.2,1.5,.4,1) forwards}
+.flower .pl-anim{transform-origin:0 0;transform:scale(0);animation:bloomopen 1.2s cubic-bezier(.2,1.4,.35,1) forwards}
+/* click ripple */
+.ripple{position:absolute;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.9);
+  pointer-events:none;animation:rip .8s ease-out forwards}
+@keyframes rip{from{transform:scale(.4);opacity:1}to{transform:scale(4.5);opacity:0}}
+
+/* ============ reasons ============ */
+.reasons{padding:clamp(64px,9vw,130px) 0}
+.reasons h2{font-size:clamp(32px,4.8vw,56px);font-weight:560;letter-spacing:-.015em;max-width:16ch;line-height:1.08}
+.reasons h2 em{font-style:italic;color:var(--rose-deep)}
+body.night .reasons h2 em{color:#cbb6ff}
+.reason-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,44px);margin-top:44px}
+.reason{border-top:2px solid var(--ink);padding-top:18px}
+.reason .r-ico{font-size:30px;display:block;margin-bottom:12px}
+.reason h3{font-size:22px;font-weight:600;margin-bottom:8px}
+.reason p{color:var(--ink-60);font-size:15.5px;font-family:var(--sans);line-height:1.65}
+body.ku .reason p{line-height:2}
+
+/* ============ share ============ */
+.share{padding:0 0 clamp(70px,10vw,140px)}
+.share h2{font-size:clamp(32px,4.8vw,56px);font-weight:560;letter-spacing:-.015em;max-width:20ch;line-height:1.08}
+.share h2 em{font-style:italic;color:var(--rose-deep)}
+body.night .share h2 em{color:#cbb6ff}
+.share p.lead{color:var(--ink-60);margin:16px 0 34px;max-width:52ch;font-size:17px}
+body.ku .share p.lead{line-height:2.1}
+.fbox{
+  background:rgba(255,255,255,.55);border:1.5px solid rgba(58,47,40,.16);border-radius:22px;
+  padding:clamp(22px,3.4vw,40px);backdrop-filter:blur(4px);max-width:640px;
+}
+body.night .fbox{background:rgba(40,46,84,.55);border-color:rgba(242,236,255,.16)}
+.fbox label{display:block;font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-60);margin-bottom:7px}
+.fbox .field{margin-bottom:18px}
+.fbox input,.fbox textarea{
+  width:100%;border:none;background:transparent;border-bottom:2px solid rgba(58,47,40,.28);
+  font-family:var(--serif);font-size:19px;color:var(--ink);padding:8px 2px;outline:none;transition:border-color .2s;
+}
+body.night .fbox input,body.night .fbox textarea{border-bottom-color:rgba(242,236,255,.3)}
+.fbox input:focus,.fbox textarea:focus{border-bottom-color:var(--rose-deep)}
+.fbox textarea{resize:none;font-style:italic}
+#linkout{display:none;margin-top:6px}
+#linkout .lo-url{
+  font-family:var(--sans);font-size:12.5px;word-break:break-all;
+  background:rgba(58,47,40,.07);border-radius:10px;padding:12px 14px;margin-bottom:14px;
+}
+body.night #linkout .lo-url{background:rgba(242,236,255,.08)}
+#linkout .row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ============ footer ============ */
+footer{
+  padding:34px 0 44px;border-top:1.5px solid rgba(58,47,40,.2);
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
+  font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.06em;color:var(--ink-60);
+}
+footer b{color:var(--ink)}
+#night-sw{
+  position:fixed;bottom:20px;inset-inline-start:20px;z-index:60;cursor:pointer;border:none;border-radius:999px;
+  font-size:19px;background:rgba(255,255,255,.6);backdrop-filter:blur(6px);padding:10px 16px;
+  box-shadow:0 8px 22px -8px rgba(29,66,41,.3);transition:.25s;
+}
+body.night #night-sw{background:rgba(40,46,84,.75)}
+#night-sw:hover{transform:translateY(-2px)}
+#lang-sw{
+  position:fixed;bottom:20px;inset-inline-end:20px;z-index:60;cursor:pointer;border:none;border-radius:999px;
+  font-family:var(--ku);font-size:12px;font-weight:700;
+  background:var(--ink);color:var(--sky-2);padding:11px 20px;transition:.25s;
+}
+body.night #lang-sw{background:#cbb6ff;color:#1d2440}
+#lang-sw:hover{transform:translateY(-2px)}
+
+/* butterflies */
+.butterfly{position:absolute;pointer-events:none;z-index:6;animation:bfly var(--bd,26s) linear infinite}
+.butterfly .b-wing{animation:flap .35s ease-in-out infinite alternate;transform-origin:6px 6px}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.35)}}
+@keyframes bfly{
+  0%{transform:translate(0,0) rotate(0)}
+  20%{transform:translate(9vw,-8vh) rotate(8deg)}
+  40%{transform:translate(18vw,4vh) rotate(-6deg)}
+  60%{transform:translate(8vw,10vh) rotate(10deg)}
+  80%{transform:translate(-6vw,2vh) rotate(-8deg)}
+  100%{transform:translate(0,0) rotate(0)}
+}
+
+/* responsive + motion */
+@media(max-width:760px){
+  .reason-grid{grid-template-columns:1fr}
+  #sunmoon{width:54px;height:54px;inset-inline-end:6vw}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01s!important;animation-iteration-count:1!important}
+  .flower .stem-anim,.flower .bloom-anim,.flower .leaf-anim,.flower .pl-anim{animation:none;transform:none;stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="sunmoon"></div>
+
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="letter" id="letter">
+      <span class="l-to" id="lTo"></span>
+      <p class="l-msg" id="lMsg"></p>
+      <p class="l-from" id="lFrom"></p>
+      <p class="l-cta" data-i18n="letter_cta">Now add your own flowers to it — tap the meadow below.</p>
+    </div>
+    <span class="kicker" data-i18n="kicker">A living gift</span>
+    <h1 data-i18n="h1">I grew you a <em>garden.</em></h1>
+    <p class="sub" data-i18n="sub">Every flower here was planted by hand, blooms forever, and never needs watering. Tap the grass and watch it grow. Then send the whole garden to someone who deserves it.</p>
+    <div class="cta">
+      <button class="btn rose" onclick="plantOne(true)" data-i18n="cta_plant">Plant a flower</button>
+      <a class="btn ghost" href="#share" data-i18n="cta_send">Send this garden</a>
+    </div>
+  </section>
+
+  <!-- ============ MEADOW ============ -->
+  <section class="meadow-sec" id="meadowSec">
+    <div class="meadow-head rv">
+      <h2 data-i18n="mh_h">The <em>meadow</em></h2>
+      <p data-i18n="mh_p">Tap anywhere on the grass. Really, anywhere.</p>
+    </div>
+    <p class="counter"><b id="cnt">0</b> <span data-i18n="grown">flowers grown</span></p>
+    <div id="meadow" onclick="tap(event)">
+      <span class="tap-hint" data-i18n="hint">✿ tap me ✿</span>
+      <div class="grass">
+        <svg viewBox="0 0 1200 90" preserveAspectRatio="none" style="height:90px;opacity:.55">
+          <path fill="#4d8a5f" d="M0,90 L0,60 Q60,40 120,58 T240,50 T360,62 T480,48 T600,60 T720,46 T840,58 T960,50 T1080,60 T1200,52 L1200,90 Z"/>
+        </svg>
+        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="height:60px;opacity:.35">
+          <path fill="#2e5c3f" d="M0,60 L0,40 Q80,26 160,40 T320,34 T480,44 T640,30 T800,42 T960,36 T1200,44 L1200,60 Z"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REASONS ============ -->
+  <section class="reasons">
+    <h2 class="rv" data-i18n="r_h">Flowers that never <em>wilt.</em></h2>
+    <div class="reason-grid">
+      <div class="reason rv"><span class="r-ico">💧</span><h3 data-i18n="r1_h">No water</h3><p data-i18n="r1_p">These blossoms run on nothing but attention. Perfect for people who love plants but keep killing them.</p></div>
+      <div class="reason rv d1"><span class="r-ico">🧺</span><h3 data-i18n="r2_h">No wilting</h3><p data-i18n="r2_p">Cut flowers last a week. This garden blooms on loop, for as long as the person keeps the link.</p></div>
+      <div class="reason rv d2"><span class="r-ico">💌</span><h3 data-i18n="r3_h">No forgetting</h3><p data-i18n="r3_p">Attach your own words and it stops being a website and becomes a letter that keeps blooming.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ SHARE ============ -->
+  <section class="share" id="share">
+    <h2 class="rv" data-i18n="s_h">Send a bouquet <em>with words.</em></h2>
+    <p class="lead rv" data-i18n="s_p">Write a short message and I'll wrap it into the garden. The link you send opens with your words at the top, then they can plant flowers of their own.</p>
+    <div class="fbox rv">
+      <div class="field"><label for="inTo" data-i18n="s_to">For (their name)</label><input id="inTo" maxlength="40" autocomplete="off"></div>
+      <div class="field"><label for="inMsg" data-i18n="s_msg">Your message</label><textarea id="inMsg" rows="2" maxlength="300"></textarea></div>
+      <div class="field"><label for="inFrom" data-i18n="s_from">From (your name)</label><input id="inFrom" maxlength="40" autocomplete="off" value="Shiar"></div>
+      <button class="btn rose" onclick="makeLink()" data-i18n="s_btn">Wrap it up 🎁</button>
+      <div id="linkout">
+        <div class="lo-url" id="loUrl"></div>
+        <div class="row">
+          <a class="btn rose" id="loWa" target="_blank" rel="noopener" data-i18n="s_wa">Send on WhatsApp</a>
+          <button class="btn ghost" onclick="copyLink()" data-i18n="s_copy">Copy link</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span data-i18n="f1">Grown in Erbil by</span> <b>&nbsp;Shiar Haweez</b>
+    <span class="en-only">SJ2005 · watered with zero liters of water</span>
+  </footer>
+</div>
+
+<button id="night-sw" onclick="toggleNight()" aria-label="day night">🌙</button>
+<button id="lang-sw" onclick="toggleLang()">کوردی</button>
+
+<script>
+/* ================= i18n ================= */
+const I18N = {
+en:{
+  kicker:"A living gift", h1:"I grew you a <em>garden.</em>",
+  sub:"Every flower here was planted by hand, blooms forever, and never needs watering. Tap the grass and watch it grow. Then send the whole garden to someone who deserves it.",
+  cta_plant:"Plant a flower", cta_send:"Send this garden",
+  mh_h:"The <em>meadow</em>", mh_p:"Tap anywhere on the grass. Really, anywhere.",
+  hint:"✿ tap me ✿", grown:"flowers grown",
+  r_h:"Flowers that never <em>wilt.</em>",
+  r1_h:"No water", r1_p:"These blossoms run on nothing but attention. Perfect for people who love plants but keep killing them.",
+  r2_h:"No wilting", r2_p:"Cut flowers last a week. This garden blooms on loop, for as long as the person keeps the link.",
+  r3_h:"No forgetting", r3_p:"Attach your own words and it stops being a website and becomes a letter that keeps blooming.",
+  s_h:"Send a bouquet <em>with words.</em>",
+  s_p:"Write a short message and I'll wrap it into the garden. The link you send opens with your words at the top, then they can plant flowers of their own.",
+  s_to:"For (their name)", s_msg:"Your message", s_from:"From (your name)",
+  s_btn:"Wrap it up 🎁", s_wa:"Send on WhatsApp", s_copy:"Copy link",
+  f1:"Grown in Erbil by",
+  letter_cta:"Now add your own flowers to it — tap the meadow below.",
+  wa_text:(to,msg,url)=>`🌸 I picked these flowers for you${to?", "+to:""}: "${msg}" — open the garden: ${url}`,
+  copied:"Link copied 💐",
+},
+ku:{
+  kicker:"بەخششێکی زیندوو", h1:"بۆ تۆ باخچەیەکم <em>چاند.</em>",
+  sub:"هەموو گوڵێک لێرە بە دەست چێنراوە، هەتا هەتایە دەبڕێتەوە و هەرگیز ئاوی ناوێت. کرتە لە گژەکە بکە و سەیری گەشەکردنەکەی بکە. پاشان تەواوی باخچەکە بۆ کەسێک بنێرە کە شایستەیەتی.",
+  cta_plant:"گوڵێک بانێ", cta_send:"ئەم باخچەیە بنێرە",
+  mh_h:"<em>دەشتەکە</em>", mh_p:"کرتە لە هەر شوێنێکی گژەکە بکە. بەڕاستی، هەر شوێنێک.",
+  hint:"✿ کرتە لێرە بکە ✿", grown:"گوڵی چێنراو",
+  r_h:"گوڵانی هەرگیز <em>شێوان.</em>",
+  r1_h:"بێ ئاو", r1_p:"ئەم گوڵانە بە هیچەوە دەڕۆن تەنها بە سەیرکردن. باشە بۆ ئەو کەسانەی خۆشەویستی ڕوەکن بەڵام هەمیشە دەی مردێنن.",
+  r2_h:"بێ شێوان", r2_p:"گوڵی بڕینێک تەنها هەفتەیەک دەژی. ئەم باخچەیە بەردەوام دەبڕێتەوە، هەتا ئەو کاتەی بەستەرەکە لای ئەوە.",
+  r3_h:"بێ لەبیرکردن", r3_p:"وشەکانی خۆت زیادبکە و لە وێبسایتێکەوە دەبێت بە نامەیەک کە هەمیشە دەبڕێتەوە.",
+  s_h:"دەستەگوڵێک <em>بە وشەکان بنێرە.</em>",
+  s_p:"نامەیەکی کورت بنێرە و بۆت دەخەمە ناو باخچەکە. ئەو بەستەرەی دەینێریت بە وشەکانی تۆوە دەبێتەوە، پاشان ئەوان دەتوانن خۆیان گوڵ چێنن.",
+  s_to:"بۆ (ناوی ئەو)", s_msg:"نامەکەت", s_from:"لە (ناوی تۆ)",
+  s_btn:"پێکەی بکە 🎁", s_wa:"ناردن بە واتساپ", s_copy:"کۆپی بەستەر",
+  f1:"لە هەولێر گەشەی پێدرا لەلایەن",
+  letter_cta:"ئێستا گوڵی خۆت زیادبکە — کرتە لە دەشتەکەی خوارەوە بکە.",
+  wa_text:(to,msg,url)=>`🌸 ئەم گوڵانەم بۆ تۆ هەڵبژارد${to?"، "+to:""}: «${msg}» — باخچەکە بکەرەوە: ${url}`,
+  copied:"بەستەرەکە کۆپی کرا 💐",
+}
+};
+let LANG = "en";
+function applyLang(){
+  document.body.classList.toggle("ku", LANG==="ku");
+  document.documentElement.dir = LANG==="ku" ? "rtl" : "ltr";
+  document.documentElement.lang = LANG==="ku" ? "ku" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    const v = I18N[LANG][k];
+    if(typeof v === "string") el.innerHTML = v;
+  });
+  document.getElementById("lang-sw").textContent = LANG==="en" ? "کوردی" : "English";
+}
+function toggleLang(){ LANG = LANG==="en" ? "ku" : "en"; applyLang(); }
+
+/* ================= night / day ================= */
+let night = false;
+function toggleNight(){
+  night = !night;
+  document.body.classList.toggle("night", night);
+  document.getElementById("night-sw").textContent = night ? "☀️" : "🌙";
+}
+
+/* ================= stars ================= */
+(function(){
+  const s = document.getElementById("stars");
+  let html = "";
+  for(let i=0;i<70;i++){
+    const x=Math.random()*100, y=Math.random()*60, sz=(Math.random()*1.8+0.6).toFixed(1), d=(Math.random()*3+1).toFixed(1);
+    html += `<i style="left:${x}vw;top:${y}vh;width:${sz}px;height:${sz}px;animation-duration:${d}s;animation-delay:${(Math.random()*3).toFixed(1)}s"></i>`;
+  }
+  s.innerHTML = html;
+})();
+
+/* ================= flower generator ================= */
+const SPECIES = [
+  { // rose
+    n:[7,9], pl:(c)=>`M0,0 C ${-11},${-8} ${-13},${-26} 0,${-30} C ${13},${-26} ${11},${-8} 0,0`,
+    layers:[
+      {fill:"#f291ad", scale:1.18, op:.95},
+      {fill:"#e56b8c", scale:.92, op:1},
+      {fill:"#d94f77", scale:.6, op:1},
+    ],
+    center:{fill:"#ffd6e3", r:5}
+  },
+  { // daisy
+    n:[10,14], pl:(c)=>`M0,0 C ${-4},${-9} ${-5},${-27} 0,${-31} C ${5},${-27} ${4},${-9} 0,0`,
+    layers:[
+      {fill:"#fff8f0", scale:1, op:1},
+      {fill:"#fdeee2", scale:.62, op:.9},
+    ],
+    center:{fill:"#f2b950", r:6.5}
+  },
+  { // tulip
+    n:[5,6], pl:(c)=>`M0,0 C ${-12},${-6} ${-14},${-22} ${-5},${-27} C ${-1},${-24} ${-2},${-12} 0,0`,
+    layers:[
+      {fill:"#f27a5e", scale:1.05, op:1},
+      {fill:"#e85d43", scale:.7, op:1},
+    ],
+    center:{fill:"#ffd0a1", r:4}
+  },
+  { // lavender — special: buds
+    buds:true, bud:{fill:"#9b7fd4", r:3.6, count:12}, center:{fill:"#8a6cc9", r:0}
+  },
+  { // poppy
+    n:[4,5], pl:(c)=>`M0,0 C ${-16},${-6} ${-18},${-22} 0,${-26} C ${18},${-22} ${16},${-6} 0,0`,
+    layers:[
+      {fill:"#ff8a5c", scale:1.12, op:.96},
+      {fill:"#f0653a", scale:.75, op:1},
+    ],
+    center:{fill:"#3a2b20", r:5.5}
+  },
+  { // bluebell
+    n:[6,8], pl:(c)=>`M0,0 C ${-6},${-8} ${-7},${-22} 0,${-26} C ${7},${-22} ${6},${-8} 0,0`,
+    layers:[
+      {fill:"#a8c1f0", scale:1.08, op:.95},
+      {fill:"#7fa3e8", scale:.72, op:1},
+    ],
+    center:{fill:"#eef4ff", r:4}
+  },
+];
+const SWAYS=[1,1.2,1.4,1.6,1.8,2.1];
+
+function rand(a,b){return a+Math.random()*(b-a)}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+function flowerSVG(){
+  const sp = pick(SPECIES);
+  const h = Math.round(rand(120,230));            // stem height
+  const bend = rand(-26,26);                      // stem curve
+  const scale = rand(.72,1.15);                   // overall size
+  const cW = Math.max(42, Math.round(h*scale));  // viewBox width
+  const cH = Math.round((h+70)*scale);
+  const cx = cW/2;
+  const stemCol = night ? "#3f6b4c" : "#4d8a5f";
+  // stem path
+  const sx = cx + bend;
+  const stem = `M${cx},${cH} Q${(cx+bend*0.2).toFixed(1)},${(cH-h*0.5).toFixed(1)} ${sx.toFixed(1)},${(cH-h).toFixed(1)}`;
+  let leaves = "";
+  for(let i=0;i<2;i++){
+    const ly = cH - h*rand(.3,.65);
+    const lx = cx + bend*(1-ly/cH)*0.5 + bend*0.2;
+    const side = i===0?-1:1;
+    const ls = rand(14,20);
+    leaves += `<path class="leaf-anim" style="animation-delay:${(0.5+i*0.25).toFixed(2)}s" d="M${lx.toFixed(1)},${ly.toFixed(1)} q ${side*ls},${-ls*0.55} ${side*ls*1.5},${-ls*0.1} q ${-side*ls*0.6},${ls*0.5} ${-side*ls*1.5},${ls*0.1} Z" fill="${night?"#35604133":"#3f7a50"}" fill-opacity=".85"/>`;
+  }
+  let bloom = "";
+  if(sp.buds){ // lavender
+    let buds = "";
+    for(let i=0;i<sp.bud.count;i++){
+      const t = i/(sp.bud.count-1);
+      const bx = sx + Math.sin(t*3)*7*(t<0.5?1:-1)*-1 + (t<.5?-7:7)*0;
+      const by = cH - h - 22 + i*4.2;
+      buds += `<circle class="pl-anim" style="animation-delay:${(0.75+i*0.08).toFixed(2)}s" cx="${(sx + (i%2?4:-4)).toFixed(1)}" cy="${by.toFixed(1)}" r="${sp.bud.r}" fill="${i%2? sp.bud.fill : sp.center.fill}"/>`;
+    }
+    bloom = `<g class="bloom-anim">${buds}</g>`;
+  } else {
+    const n = Math.round(rand(sp.n[0],sp.n[1]));
+    let petals = "";
+    sp.layers.forEach((L,li)=>{
+      for(let i=0;i<n;i++){
+        const rot = (360/n)*i + li*rand(8,26);
+        const dur = (0.7 + li*0.15).toFixed(2);
+        petals += `<path class="pl-anim" style="animation-delay:${dur}s" transform="rotate(${rot.toFixed(1)}) scale(${L.scale})" d="${sp.pl()}" fill="${L.fill}" fill-opacity="${L.op}"/>`;
+      }
+    });
+    petals += `<circle class="pl-anim" style="animation-delay:1.1s" cx="0" cy="0" r="${sp.center.r}" fill="${sp.center.fill}"/>`;
+    bloom = `<g class="bloom-anim"><g transform="translate(${sx.toFixed(1)},${(cH-h).toFixed(1)})">${petals}</g></g>`;
+  }
+  return `<svg width="${cW}" height="${cH}" viewBox="0 0 ${cW} ${cH}">
+    <path class="stem-anim" style="--stem-len:${cH+40}" d="${stem}" fill="none" stroke="${stemCol}" stroke-width="${rand(3.2,4.6).toFixed(1)}" stroke-linecap="round"/>
+    ${leaves}${bloom}
+  </svg>`;
+}
+
+function plantFlower(xPct){
+  const meadow = document.getElementById("meadow");
+  const f = document.createElement("div");
+  f.className = "flower";
+  f.style.left = xPct + "%";
+  f.style.transform = "translateX(-50%)";
+  f.style.setProperty("--sway", pick(SWAYS)+"deg");
+  f.style.setProperty("--sway-d", rand(3.4,5.6).toFixed(1)+"s");
+  f.style.zIndex = Math.round(rand(2,4));
+  f.innerHTML = flowerSVG();
+  meadow.appendChild(f);
+  meadow.classList.add("planted");
+  count++;
+  try{
+    localStorage.setItem("garden_count", count);
+  }catch(e){}
+  document.getElementById("cnt").textContent = count;
+}
+function tap(e){
+  const meadow = document.getElementById("meadow");
+  const r = meadow.getBoundingClientRect();
+  const x = ((e.clientX - r.left)/r.width)*100;
+  plantFlower(Math.min(96, Math.max(4,x)));
+  const rip = document.createElement("div");
+  rip.className = "ripple";
+  rip.style.left = (e.clientX - r.left - 7) + "px";
+  rip.style.top = (e.clientY - r.top - 7) + "px";
+  meadow.appendChild(rip);
+  setTimeout(()=>rip.remove(), 850);
+}
+function plantOne(scroll){
+  if(scroll) document.getElementById("meadowSec").scrollIntoView({behavior:"smooth"});
+  setTimeout(()=>plantFlower(rand(8,92)), scroll?600:0);
+}
+
+let count = 0;
+try{ count = parseInt(localStorage.getItem("garden_count")||"0"); }catch(e){}
+document.getElementById("cnt").textContent = count;
+/* initial garden */
+window.addEventListener("load", ()=>{
+  const xs=[14,26,38,50,62,74,86];
+  xs.forEach((x,i)=>setTimeout(()=>plantFlower(x + rand(-4,4)), 400+i*260));
+});
+
+/* ================= falling petals ================= */
+const PETAL_COLORS = ["#f291ad","#e56b8c","#fff8f0","#f27a5e","#a8c1f0","#ffd6e3"];
+setInterval(()=>{
+  if(document.hidden) return;
+  const p = document.createElement("div");
+  p.className = "petal-fall";
+  const size = rand(9,17);
+  p.style.left = rand(0,100)+"vw";
+  p.style.animationDuration = rand(7,13)+"s";
+  const col = pick(PETAL_COLORS);
+  p.innerHTML = `<span><svg width="${size}" height="${size}" viewBox="0 0 20 20"><path d="M10 0 C17 4 18 13 10 20 C2 13 3 4 10 0" fill="${col}" fill-opacity=".9"/></svg></span>`;
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(), 14000);
+}, 2600);
+
+/* ================= fireflies ================= */
+(function(){
+  const host = document.getElementById("meadow");
+  for(let i=0;i<12;i++){
+    const f = document.createElement("div");
+    f.className = "fly";
+    f.style.left = rand(2,96)+"%";
+    f.style.top = rand(10,85)+"%";
+    f.style.animationDelay = (rand(0,6)).toFixed(1)+"s, "+(rand(0,2)).toFixed(1)+"s";
+    host.appendChild(f);
+  }
+})();
+
+/* ================= butterflies ================= */
+(function(){
+  const host = document.getElementById("meadow");
+  for(let i=0;i<2;i++){
+    const b = document.createElement("div");
+    b.className = "butterfly";
+    b.style.left = rand(5,60)+"%";
+    b.style.top = rand(8,40)+"%";
+    b.style.setProperty("--bd", rand(22,32).toFixed(0)+"s");
+    b.style.animationDelay = (rand(0,8)).toFixed(1)+"s";
+    const c = pick(["#e9a23b","#8a6cc9","#e56b8c"]);
+    b.innerHTML = `<svg width="26" height="22" viewBox="0 0 26 22">
+      <g class="b-wing">
+        <ellipse cx="7" cy="6" rx="6.5" ry="6" fill="${c}" fill-opacity=".9"/>
+        <ellipse cx="7" cy="15" rx="5" ry="4.6" fill="${c}" fill-opacity=".65"/>
+      </g>
+      <g class="b-wing" style="animation-delay:.17s">
+        <ellipse cx="19" cy="6" rx="6.5" ry="6" fill="${c}" fill-opacity=".9"/>
+        <ellipse cx="19" cy="15" rx="5" ry="4.6" fill="${c}" fill-opacity=".65"/>
+      </g>
+      <rect x="12.2" y="3" width="1.8" height="16" rx="1" fill="#3a2b20"/>
+    </svg>`;
+    host.appendChild(b);
+  }
+})();
+
+/* ================= letter (URL params) ================= */
+(function(){
+  const q = new URLSearchParams(location.search);
+  const to = q.get("to"), from = q.get("from"), msg = q.get("msg");
+  if(msg){
+    document.getElementById("lTo").textContent = (to ? "For " + to : "For you") + " 🌷";
+    document.getElementById("lMsg").textContent = "\u201C" + msg + "\u201D";
+    document.getElementById("lFrom").textContent = from ? "— " + from : "";
+    document.getElementById("letter").style.display = "block";
+  }
+})();
+
+/* ================= share builder ================= */
+function makeLink(){
+  const to = document.getElementById("inTo").value.trim();
+  const from = document.getElementById("inFrom").value.trim();
+  const msg = document.getElementById("inMsg").value.trim();
+  const base = location.origin + location.pathname;
+  const url = base + "?to=" + encodeURIComponent(to) + "&from=" + encodeURIComponent(from) + "&msg=" + encodeURIComponent(msg || (I18N[LANG].sub.split(".")[0]));
+  document.getElementById("loUrl").textContent = url;
+  document.getElementById("linkout").style.display = "block";
+  document.getElementById("loWa").href = "https://wa.me/?text=" + encodeURIComponent(I18N[LANG].wa_text(to, msg, url));
+}
+function copyLink(){
+  const url = document.getElementById("loUrl").textContent;
+  const done = ()=>{};
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>toastMsg()).catch(()=>fallbackCopy(url));
+  } else fallbackCopy(url);
+  function fallbackCopy(t){
+    const ta = document.createElement("textarea");
+    ta.value=t; document.body.appendChild(ta); ta.select();
+    try{document.execCommand("copy")}catch(e){}
+    ta.remove(); toastMsg();
+  }
+  function toastMsg(){ alert(I18N[LANG].copied); }
+}
+
+/* ================= reveals ================= */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+},{threshold:.14});
+document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+applyLang();
+</script>
+</body>
+</html>
